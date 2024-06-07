@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/ms-pyp/pom.xml" />
         <option value="$PROJECT_DIR$/ms-clientes/pom.xml" />
         <option value="$PROJECT_DIR$/ms-fyv/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-config-server/pom.xml" />
       </list>
     </option>
   </component>
