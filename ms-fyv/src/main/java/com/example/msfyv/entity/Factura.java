@@ -1,9 +1,13 @@
 package com.example.msfyv.entity;
 
+import com.example.msfyv.dto.ClientesDto;
+import com.example.msfyv.dto.ProductoDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -13,11 +17,33 @@ public class Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Date fecha_hora;
+    private Double cantidad;
+    private Double igv;
+    private Double total;
+    private Integer productoId;
+    private Integer clienteId;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "factura_id")
+    private List<RegistroVentas> detalle;
 
-    public Factura() {
-    }
+
+
+
     @PrePersist
     protected void onCreate() {
         fecha_hora = new Date();
     }
+
+    public Factura() {
+        this.cantidad = (double) 0;
+        this.igv = (double) 0;
+        this.total = (double) 0;
+    }
+
+
+    @Transient
+    private ProductoDto productoDto;
+    @Transient
+    private ClientesDto clientesDto;
 }

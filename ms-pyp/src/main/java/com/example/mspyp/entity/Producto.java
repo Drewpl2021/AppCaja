@@ -13,7 +13,7 @@ public class Producto {
     private Integer id;
     private String nombre;
     private String descripcion;
-    private String precio;
+    private Double precio;
     private String stock;
     @ManyToOne
     @JoinColumn(name = "id_proveedor")
@@ -22,5 +22,6 @@ public class Producto {
 
 
     public Producto() {
+        this.precio = (double) 0;
     }
 }
