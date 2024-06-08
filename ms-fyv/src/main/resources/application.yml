@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ms-fyv
+    name: ms-fyv-service
   profiles:
     active: development
   config:
