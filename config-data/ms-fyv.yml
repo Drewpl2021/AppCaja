@@ -1,7 +1,6 @@
 server:
   port: 8084
   #port: ${PORT:${SERVER_PORT:0}}
-
 springdoc:
   api-docs:
     enabled: true
@@ -21,7 +20,7 @@ spring:
             non_contextual_creation: true
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fyv
+    url: jdbc:mysql://localhost:3306/ms-fyv
     username: root
     password:
 

@@ -49,9 +49,6 @@ public class FacturaServiceimpl implements FacturaService {
     }
 
 
-
-
-
     public void setProductoId(Factura factura, Integer productoId) {
         factura.setProductoId(productoId);
         ResponseEntity<Double> response = productoFeign.getPrecio(productoId);
@@ -61,5 +58,4 @@ public class FacturaServiceimpl implements FacturaService {
             factura.setIgv(factura.getPrecioBaseTotal() * 0.18);
         }
     }
-
 }

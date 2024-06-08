@@ -24,6 +24,7 @@ public class Factura {
     private Double precioBaseTotal;
     private Double igv;
     private Double total;
+    private String estado;
     private Integer productoId;
     private Integer clienteId;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
