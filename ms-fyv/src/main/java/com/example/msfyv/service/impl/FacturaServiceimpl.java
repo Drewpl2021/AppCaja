@@ -16,6 +16,7 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Autowired
     private FacturaRepository facturaRepository;
+    private ProductoFeign productoFeign;
 
     @Override
     public List<Factura> listar(){
@@ -48,8 +49,7 @@ public class FacturaServiceimpl implements FacturaService {
     }
 
 
-    @Autowired
-    private ProductoFeign productoFeign;
+
 
 
     public void setProductoId(Factura factura, Integer productoId) {

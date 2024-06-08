@@ -37,6 +37,10 @@ spring:
             - Path=/compras/** , /producto/** , /proveedor/**
           #filters:
             #- AuthFilter
+        - id: ms-fyv
+          uri: lb://ms-fyv
+          predicates:
+            - Path=/factura/**
         # id: ms-auth-service
         # uri: lb://ms-auth-service
         #  predicates:
