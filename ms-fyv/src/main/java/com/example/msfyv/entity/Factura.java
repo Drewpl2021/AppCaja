@@ -33,8 +33,6 @@ public class Factura {
     private List<RegistroVentas> detalle;
 
 
-
-
     @PrePersist
     protected void onCreate() {
         fecha_hora = new Date();
@@ -45,9 +43,6 @@ public class Factura {
         this.igv = (double) 0;
         this.total = (double) 0;
     }
-
-
-
 
 
     @Transient
