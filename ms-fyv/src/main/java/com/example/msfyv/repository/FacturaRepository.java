@@ -1,4 +1,7 @@
 package com.example.msfyv.repository;
 
-public interface FacturaRepository {
+import com.example.msfyv.entity.Factura;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FacturaRepository extends JpaRepository<Factura, Double> {
 }

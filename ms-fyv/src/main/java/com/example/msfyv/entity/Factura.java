@@ -32,8 +32,7 @@ public class Factura {
     private List<RegistroVentas> detalle;
 
 
-    @Autowired
-    private ProductoFeign productoFeign;
+
 
     @PrePersist
     protected void onCreate() {
@@ -47,15 +46,7 @@ public class Factura {
     }
 
 
-public void setProductoId(Integer productoId) {
-    this.productoId = productoId;
-    ResponseEntity<Double> response = productoFeign.getPrecio(productoId);
-    if (response.getStatusCode().is2xxSuccessful()) {
-        Double precio = response.getBody();
-        this.precioBaseTotal = precio * this.cantidad;
-        this.igv = this.precioBaseTotal * 0.18;
-    }
-}
+
 
 
     @Transient
