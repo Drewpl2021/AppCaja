@@ -1,7 +1,10 @@
 package com.example.msfyv.dto;
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class PersonalDto {
 
     private Integer id;

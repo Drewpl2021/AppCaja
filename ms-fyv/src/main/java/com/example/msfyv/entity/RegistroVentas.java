@@ -16,9 +16,6 @@ public class RegistroVentas {
     private Integer id;
     private String nombre;
     private Date fecha_hora;
-    @ManyToOne
-    @JoinColumn(name = "id_factura")
-    private Factura factura;
     private Integer personalId;
 
     public RegistroVentas() {

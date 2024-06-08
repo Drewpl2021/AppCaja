@@ -2,9 +2,12 @@ package com.example.msfyv.entity;
 
 import com.example.msfyv.dto.ClientesDto;
 import com.example.msfyv.dto.ProductoDto;
+import com.example.msfyv.feign.ProductoFeign;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Date;
 import java.util.List;
@@ -18,6 +21,7 @@ public class Factura {
     private Integer id;
     private Date fecha_hora;
     private Double cantidad;
+    private Double precioBaseTotal;
     private Double igv;
     private Double total;
     private Integer productoId;
@@ -28,7 +32,8 @@ public class Factura {
     private List<RegistroVentas> detalle;
 
 
-
+    @Autowired
+    private ProductoFeign productoFeign;
 
     @PrePersist
     protected void onCreate() {
@@ -40,6 +45,17 @@ public class Factura {
         this.igv = (double) 0;
         this.total = (double) 0;
     }
+
+
+public void setProductoId(Integer productoId) {
+    this.productoId = productoId;
+    ResponseEntity<Double> response = productoFeign.getPrecio(productoId);
+    if (response.getStatusCode().is2xxSuccessful()) {
+        Double precio = response.getBody();
+        this.precioBaseTotal = precio * this.cantidad;
+        this.igv = this.precioBaseTotal * 0.18;
+    }
+}
 
 
     @Transient

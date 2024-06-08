@@ -1,5 +1,8 @@
 package com.example.msfyv.dto;
 
+import lombok.Data;
+
+@Data
 public class ClientesDto {
 
     private Integer id;
