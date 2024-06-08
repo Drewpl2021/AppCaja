@@ -13,7 +13,7 @@ spring:
           search-paths: config-data
           #username:
           #password:
-          default-label: main
+          default-label: pastor
   security:
     user:
       name: root
