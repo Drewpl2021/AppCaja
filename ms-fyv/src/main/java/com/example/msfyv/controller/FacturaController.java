@@ -32,12 +32,12 @@ public class FacturaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Factura> listById(@PathVariable(required = true) Integer id){
+    public ResponseEntity<Factura> listById(@PathVariable(required = true) Double id){
         return ResponseEntity.ok().body(facturaService.listarPorId(id).get());
     }
 
     @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable(required = true) Integer id){ facturaService.eliminarPorId(id);
+    public String deleteById(@PathVariable(required = true) Double id){ facturaService.eliminarPorId(id);
         return "Eliminado Correctamente :3";
     }
 
