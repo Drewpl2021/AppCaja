@@ -39,12 +39,12 @@ public class PdfUtils {
         // Write column names
         // Map<String, Object> firstRow = queryResults.get(0);
         for (Factura factura : facturas) {
-            document.add(new Paragraph("GASOLINERA INKAPACARITA ", boldFont));
+            document.add(new Paragraph("GASOLINERA INKAPACARITA ", boldFont)); document.add(singleColumnTable);
             document.add(new Paragraph("Av. Las Flores 123, Piso 8, Edificio Central, Lima, Perú", smallFont));
             document.add(new Paragraph("contacto@tecnosoluciones.com.pe", smallFont));
             document.add(new Paragraph("  ", boldFont));
             document.add(new Paragraph("  ", boldFont));
-            /*document.add(singleColumnTable);*/
+
         }
         for (Factura factura : facturas) {
             document.add(new Paragraph("CLIENTE                       :"+factura.getClienteId() +"                                                 " + "FECHA DE EMISION                      :  "+  factura.getFecha_hora(), largeFont));
