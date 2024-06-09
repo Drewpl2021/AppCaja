@@ -79,7 +79,7 @@ public class PdfUtils {
             document.add(new Paragraph("  ", boldFont));
             document.add(new Paragraph("  ", boldFont));
             document.add(new Paragraph("  ", boldFont));
-            document.add(new Paragraph("________________________________________________________________________", boldFont));
+            document.add(new Paragraph("___________________________________________________________________", boldFont));
 
 
 
