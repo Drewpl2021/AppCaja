@@ -43,8 +43,8 @@ spring:
             - Path=/factura/**
           filters:
             - AuthFilter
-        # id: ms-auth-service
-        # uri: lb://ms-auth-service
-        #  predicates:
-        #    - Path=/auth/**
+        - id: ms-auth-service
+          uri: lb://ms-auth-service
+          predicates:
+            - Path=/auth/**
 
