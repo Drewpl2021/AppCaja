@@ -18,11 +18,12 @@ public interface ProductoFeign {
 
 
     default ResponseEntity<ProductoDto>fallBackProducto(Integer id, Exception e) {
-
-        return  ResponseEntity.ok(new ProductoDto());
+        ProductoDto productoDto = new ProductoDto();
+        productoDto.setId(9000000);
+        return  ResponseEntity.ok(productoDto);
     }
 
-    default ResponseEntity<Double> fallBackPrecio(Integer id, Exception e) {
-    return ResponseEntity.ok(0.0);
-    }
+    //default ResponseEntity<Double> fallBackPrecio(Integer id, Exception e) {
+    //return ResponseEntity.ok(0.0);
+    //}
 }

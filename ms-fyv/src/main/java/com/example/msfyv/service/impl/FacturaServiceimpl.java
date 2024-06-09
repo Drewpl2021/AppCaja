@@ -1,7 +1,9 @@
 package com.example.msfyv.service.impl;
 
 import com.example.msfyv.dto.ClientesDto;
+import com.example.msfyv.dto.ProductoDto;
 import com.example.msfyv.entity.Factura;
+import com.example.msfyv.entity.RegistroVentas;
 import com.example.msfyv.feign.ClientesFeign;
 import com.example.msfyv.feign.ProductoFeign;
 import com.example.msfyv.repository.FacturaRepository;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FacturaServiceimpl implements FacturaService {
@@ -50,9 +53,18 @@ public class FacturaServiceimpl implements FacturaService {
         /*for (PedidoDetalle pedidoDetalle : pedido.get().getDetalle()){
             pedidoDetalle.setProductoDto(productoFeign.buscarlistarPorld(pedidoDetalle.getProductoId()).getBody());
         }*/
+        List<RegistroVentas> facturasdetalles = factura.get().getDetalle().stream().map(facturadetalle -> {
+            ProductoDto productoDto = productoFeign.listById(facturadetalle.getProductoId()).getBody();
+            if (productoDto != null) {
+                facturadetalle.setProductoDto(productoDto);
+            }
+            return facturadetalle;
+        }).toList();
         /*--Captura Cliente-*/
         factura.get().setClientesDto(clientesDto);
+        factura.get().setDetalle(facturasdetalles);
         return facturaRepository.findById(id);
+
     }
 
     @Override
@@ -62,13 +74,5 @@ public class FacturaServiceimpl implements FacturaService {
     }
 
 
-    public void setProductoId(Factura factura, Integer productoId) {
-        factura.setProductoId(productoId);
-        ResponseEntity<Double> response = productoFeign.getPrecio(productoId);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            Double precio = response.getBody();
-            factura.setPrecioBaseTotal(precio * factura.getCantidad());
-            factura.setIgv(factura.getPrecioBaseTotal() * 0.18);
-        }
-    }
+
 }

@@ -17,6 +17,7 @@ public class RegistroVentas {
     private String nombre;
     private Date fecha_hora;
     private Integer personalId;
+    private Integer productoId;
 
     public RegistroVentas() {
     }
@@ -26,4 +27,6 @@ public class RegistroVentas {
     }
     @Transient
     private PersonalDto personalDto;
+    @Transient
+    private ProductoDto productoDto;
 }
