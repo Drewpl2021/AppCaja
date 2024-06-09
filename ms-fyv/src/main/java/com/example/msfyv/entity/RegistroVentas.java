@@ -21,12 +21,15 @@ public class RegistroVentas {
 
     public RegistroVentas() {
     }
+
     @PrePersist
     protected void onCreate() {
         fecha_hora = new Date();
     }
+
     @Transient
     private PersonalDto personalDto;
+
     @Transient
     private ProductoDto productoDto;
 }

@@ -1,6 +1,7 @@
 package com.example.msfyv.controller;
 
 import com.example.msfyv.entity.Factura;
+import com.example.msfyv.feign.ProductoFeign;
 import com.example.msfyv.service.FacturaService;
 import com.example.msfyv.util.PdfUtils;
 import com.example.msfyv.util.UserExcelExporter;

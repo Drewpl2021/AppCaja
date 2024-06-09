@@ -25,7 +25,6 @@ public class Factura {
     private Double igv;
     private Double total;
     private String estado;
-    private Integer productoId;
     private Integer clienteId;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -44,9 +43,6 @@ public class Factura {
         this.total = (double) 0;
     }
 
-
-    @Transient
-    private ProductoDto productoDto;
     @Transient
     private ClientesDto clientesDto;
 }

@@ -54,12 +54,21 @@ public class FacturaServiceimpl implements FacturaService {
             pedidoDetalle.setProductoDto(productoFeign.buscarlistarPorld(pedidoDetalle.getProductoId()).getBody());
         }*/
         List<RegistroVentas> facturasdetalles = factura.get().getDetalle().stream().map(facturadetalle -> {
-            ProductoDto productoDto = productoFeign.listById(facturadetalle.getProductoId()).getBody();
-            if (productoDto != null) {
-                facturadetalle.setProductoDto(productoDto);
+            ResponseEntity<ProductoDto> response = productoFeign.listById(facturadetalle.getProductoId());
+            if (response.getStatusCode().is2xxSuccessful()) {
+                ProductoDto productoDto = response.getBody();
+                if (productoDto != null) {
+                    facturadetalle.setProductoDto(productoDto);
+                } else {
+                    // Manejar el caso en el que el cuerpo de la respuesta es null
+                    System.out.println("El cuerpo de la respuesta es null para el productoId: " + facturadetalle.getProductoId());
+                }
+            } else {
+                // Manejar el caso en el que el estado de la respuesta no es 2xx
+                System.out.println("El estado de la respuesta no es 2xx para el productoId: " + facturadetalle.getProductoId());
             }
             return facturadetalle;
-        }).toList();
+        }).collect(Collectors.toList());
         /*--Captura Cliente-*/
         factura.get().setClientesDto(clientesDto);
         factura.get().setDetalle(facturasdetalles);
@@ -72,6 +81,8 @@ public class FacturaServiceimpl implements FacturaService {
 
         facturaRepository.deleteById(id);
     }
+
+
 
 
 
