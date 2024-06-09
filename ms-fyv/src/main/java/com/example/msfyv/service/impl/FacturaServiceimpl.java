@@ -1,6 +1,8 @@
 package com.example.msfyv.service.impl;
 
+import com.example.msfyv.dto.ClientesDto;
 import com.example.msfyv.entity.Factura;
+import com.example.msfyv.feign.ClientesFeign;
 import com.example.msfyv.feign.ProductoFeign;
 import com.example.msfyv.repository.FacturaRepository;
 import com.example.msfyv.service.FacturaService;
@@ -16,6 +18,8 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Autowired
     private FacturaRepository facturaRepository;
+    @Autowired
+    private ClientesFeign clientesFeign;
     private ProductoFeign productoFeign;
 
     @Override
@@ -37,13 +41,20 @@ public class FacturaServiceimpl implements FacturaService {
     }
 
     @Override
-    public Optional<Factura> listarPorId(Double id){
+    public Optional<Factura> listarPorId(Integer id){
 
+        Optional<Factura> factura= facturaRepository.findById(id);
+        ClientesDto clientesDto = clientesFeign.listById(factura.get().getClienteId()).getBody();
+        /*for (PedidoDetalle pedidoDetalle : pedido.get().getDetalle()){
+            pedidoDetalle.setProductoDto(productoFeign.buscarlistarPorld(pedidoDetalle.getProductoId()).getBody());
+        }*/
+        /*--Captura Cliente-*/
+        factura.get().setClientesDto(clientesDto);
         return facturaRepository.findById(id);
     }
 
     @Override
-    public void eliminarPorId(Double id) {
+    public void eliminarPorId(Integer id) {
 
         facturaRepository.deleteById(id);
     }
