@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/ms-config-server/pom.xml" />
         <option value="$PROJECT_DIR$/ms-registry-server/pom.xml" />
         <option value="$PROJECT_DIR$/ms-gateway-server/pom.xml" />
+        <option value="$PROJECT_DIR$/demo/pom.xml" />
       </list>
     </option>
   </component>
