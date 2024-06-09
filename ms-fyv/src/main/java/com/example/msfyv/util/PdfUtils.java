@@ -44,7 +44,7 @@ public class PdfUtils {
             document.add(new Paragraph("contacto@tecnosoluciones.com.pe", smallFont));
             document.add(new Paragraph("  ", boldFont));
             document.add(new Paragraph("  ", boldFont));
-            document.add(singleColumnTable);
+            /*document.add(singleColumnTable);*/
         }
         for (Factura factura : facturas) {
             document.add(new Paragraph("CLIENTE                       :"+factura.getClienteId() +"                                                 " + "FECHA DE EMISION                      :  "+  factura.getFecha_hora(), largeFont));
