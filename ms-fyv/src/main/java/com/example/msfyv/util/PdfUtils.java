@@ -17,11 +17,12 @@ public class PdfUtils {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, outputStream);
         document.open();
+
         // Write column names
         // Map<String, Object> firstRow = queryResults.get(0);
         for (Factura factura : facturas) {
             Font boldFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
-            document.add(new Paragraph("ID: " + factura.getId(), boldFont));
+            document.add(new Paragraph("IDasd: " + factura.getId(), boldFont));
             document.add(new Paragraph("Fecha y hora: " + factura.getFecha_hora(), boldFont));
             document.add(new Paragraph("Cantidad: " + factura.getCantidad(), boldFont));
             document.add(new Paragraph("Precio base total: " + factura.getPrecioBaseTotal(), boldFont));
@@ -29,7 +30,10 @@ public class PdfUtils {
             document.add(new Paragraph("Total: " + factura.getTotal(), boldFont));
             document.add(new Paragraph("Producto ID: " + factura.getProductoId(), boldFont));
             document.add(new Paragraph("Cliente ID: " + factura.getClienteId(), boldFont));
+
+
         }
+
         document.add(new Paragraph("\n"));
         // Write data rows
         /*for (Map<String, Object> row : queryResults) {
