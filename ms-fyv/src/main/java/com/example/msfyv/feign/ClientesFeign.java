@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "ms-pyp", path = "/clientes")
+@FeignClient(name = "clientes-service", path = "/clientes")
 public interface ClientesFeign {
 
     @GetMapping("/{id}")
