@@ -9,7 +9,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/Drewpl2021/AppCaja.git # ruta del repositorio git
+          uri: https://github.com/Drewpl2021/AppCaja/tree/main/AppBackendCAJA.git # ruta del repositorio git
           searchPaths: config-data
           #username:
           #password:
