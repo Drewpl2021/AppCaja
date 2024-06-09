@@ -35,7 +35,14 @@ public class FacturaController {
 
     @PostMapping()
     public ResponseEntity<Factura> save(@RequestBody Factura factura){
-        return ResponseEntity.ok(facturaService.guardar(factura ));
+        if (factura.getClienteId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        // Llamar al servicio para guardar el pedido
+        Factura nuevafactura = facturaService.guardar(factura);
+
+        // Devolver el pedido guardado en la respuesta
+        return ResponseEntity.ok(facturaService.guardar(factura));
     }
 
     @PutMapping()

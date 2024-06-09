@@ -20,6 +20,8 @@ public class FacturaServiceimpl implements FacturaService {
     private FacturaRepository facturaRepository;
     @Autowired
     private ClientesFeign clientesFeign;
+
+    @Autowired
     private ProductoFeign productoFeign;
 
     @Override
