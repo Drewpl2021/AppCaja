@@ -18,4 +18,7 @@ public class Movimiento {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inventario_id")
     private Inventario inventario;
+    public Double calcularCambioStock() {
+        return entrada - salida;
+    }
 }

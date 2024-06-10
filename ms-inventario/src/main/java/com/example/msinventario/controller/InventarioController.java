@@ -1,6 +1,7 @@
 package com.example.msinventario.controller;
 
 import com.example.msinventario.entity.Inventario;
+import com.example.msinventario.entity.Movimiento;
 import com.example.msinventario.service.InventarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,12 @@ public class InventarioController {
     private InventarioService inventarioService;
     @GetMapping()
     public ResponseEntity<List<Inventario>> list(){
+
         return ResponseEntity.ok().body(inventarioService.listar());
     }
     @PostMapping()
-    public ResponseEntity<Inventario> save(@RequestBody Inventario inventario){
-        return ResponseEntity.ok(inventarioService.guardar(inventario));
+    public ResponseEntity<Inventario> save(@RequestBody Inventario inventario, @RequestBody Movimiento movimiento){
+        return ResponseEntity.ok(inventarioService.guardar(inventario, movimiento));
     }
     @PutMapping()
     public ResponseEntity<Inventario> update(@RequestBody Inventario inventario){
