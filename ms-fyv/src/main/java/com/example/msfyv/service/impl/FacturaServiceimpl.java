@@ -64,14 +64,6 @@ public class FacturaServiceimpl implements FacturaService {
 
 
 
-    public void setProductoId(Factura factura, Integer productoId) {
-        factura.setProductoId(productoId);
-        ResponseEntity<Double> response = productoFeign.getPrecio(productoId);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            Double precio = response.getBody();
-            factura.setPrecioBaseTotal(precio * factura.getCantidad());
-            factura.setIgv(factura.getPrecioBaseTotal() * 0.18);
-        }
-    }
+
 
 }

@@ -21,7 +21,7 @@ public class Factura {
     private Integer id;
     private Date fecha_hora;
     private Double cantidad;
-    private Double precioBaseTotal;
+    private Double precioUnitario;
     private Double igv;
     private Double total;
     private Integer productoId;
@@ -39,17 +39,27 @@ public class Factura {
         fecha_hora = new Date();
     }
 
-    public Factura() {
-        this.cantidad = (double) 0;
-        this.igv = (double) 0;
-        this.total = (double) 0;
+    public void calcularTotal() {
+        if (this.precioUnitario != null && this.cantidad != null) {
+            this.total = this.precioUnitario * this.cantidad;
+        }
+    }
+
+    public void setPrecioUnitario(Double precioUnitario) {
+        this.precioUnitario = precioUnitario;
+        calcularTotal();
+    }
+
+    public void setCantidad(Double cantidad) {
+        this.cantidad = cantidad;
+        calcularTotal();
     }
 
 
 
 
 
-    @Transient
+        @Transient
     private ProductoDto productoDto;
     @Transient
     private ClientesDto clientesDto;
