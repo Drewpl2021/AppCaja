@@ -1,22 +1,29 @@
 package com.example.msfyv.util;
 
+import com.example.msfyv.dto.ClientesDto;
 import com.example.msfyv.entity.Factura;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
+import com.example.msfyv.feign.ClientesFeign;
+
 
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 public class PdfUtils {
+
+
+
     public static ByteArrayOutputStream generatePdfStream(List<Factura> facturas
     ) throws DocumentException {
         Document document = new Document();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, outputStream);
         document.open();
-
         PdfPTable table = new PdfPTable(7);
         table.setWidthPercentage(100);
         Font smallFont = new Font(Font.FontFamily.HELVETICA, 8, Font.NORMAL);
@@ -36,6 +43,7 @@ public class PdfUtils {
         }
 
 
+
         // Write column names
         // Map<String, Object> firstRow = queryResults.get(0);
         for (Factura factura : facturas) {
@@ -47,9 +55,11 @@ public class PdfUtils {
 
         }
         for (Factura factura : facturas) {
-            document.add(new Paragraph("CLIENTE                       :"+factura.getClienteId() +"                                                 " + "FECHA DE EMISION                      :  "+  factura.getFecha_hora(), largeFont));
-            document.add(new Paragraph("DOC: IDENTIDAD         :"+factura.getClienteId() + "                                                 " +"ORAGANIZACION DE VENTAS    : GRIFO INKAPACARITA", largeFont));
-            document.add(new Paragraph("DIRECCION                  :"+factura.getClienteId() + "                                                 "+"TIPO DE MODENA                         : SOL", largeFont));
+            document.add(new Paragraph("CLIENTE                       : "+factura.getClientesDto() +"                                                 " +"TIPO DE MODENA                         : SOL", largeFont));
+            document.add(new Paragraph("DOC: IDENTIDAD         : "+ factura.getClientesDto()     + "                                                 " +"ORAGANIZACION DE VENTAS    : GRIFO INKAPACARITA", largeFont));
+            document.add(new Paragraph("DIRECCION                  : "+factura.getClienteId() + "                                                 " , largeFont));
+            document.add(new Paragraph( "FECHA DE EMISION    :  "+  factura.getFecha_hora(), largeFont));
+
 
             document.add(new Paragraph("  ", boldFont));
             document.add(table);
@@ -57,9 +67,9 @@ public class PdfUtils {
                     "                                                    "+factura.getProductoId()+
                     "                        "+"NIU"+
                     "              "+factura.getCantidad()+
-                    "                  "+factura.getProductoId()+
-                    "                 "+factura.getIgv()+
-                    "                "+factura.getTotal(), largeFont));
+                    "               "+factura.getPrecioUnitario()+
+                    "               "+factura.getIgv()+
+                    "            "+factura.getTotal(), largeFont));
             document.add(new Paragraph("  ", boldFont));
             document.add(new Paragraph("  ", boldFont));
             document.add(new Paragraph("  ", boldFont));

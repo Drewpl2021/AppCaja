@@ -26,40 +26,24 @@ public class Factura {
     private Double total;
     private Integer productoId;
     private Integer clienteId;
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "factura_id")
-    private List<RegistroVentas> detalle;
-
-
-
-
-    @PrePersist
-    protected void onCreate() {
-        fecha_hora = new Date();
-    }
-
-    public void calcularTotal() {
-        if (this.precioUnitario != null && this.cantidad != null) {
-            this.total = this.precioUnitario * this.cantidad;
-        }
-    }
-
-    public void setPrecioUnitario(Double precioUnitario) {
-        this.precioUnitario = precioUnitario;
-        calcularTotal();
-    }
-
-    public void setCantidad(Double cantidad) {
-        this.cantidad = cantidad;
-        calcularTotal();
-    }
 
 
 
 
 
-        @Transient
+
+
+    public Factura() {
+    this.cantidad = 0.0;
+    this.igv = 0.0;
+    this.precioUnitario = 0.0;
+}
+
+
+
+
+
+    @Transient
     private ProductoDto productoDto;
     @Transient
     private ClientesDto clientesDto;

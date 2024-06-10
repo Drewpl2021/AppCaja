@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,16 +33,33 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Override
     public Factura guardar(Factura factura) {
-        factura.setPrecioUnitario(factura.getPrecioUnitario());
-        factura.setCantidad(factura.getCantidad());
-        return facturaRepository.save(factura );
+        // Obtener los detalles del cliente
+        ClientesDto cliente = clientesFeign.listById(factura.getClienteId()).getBody();
+        // Calcular el total
+        double total = factura.getPrecioUnitario() * factura.getCantidad();
+        total = Math.round(total * 100.0) / 100.0;
+        factura.setTotal(total);
+        // Calcular el igv
+        double igv = total * 0.18;
+        igv = Math.round(igv * 100.0) / 100.0;
+        factura.setIgv(igv);
+        // Establecer la fecha y hora actuales
+        factura.setFecha_hora(new Date());
+        // Guardar la factura
+        Factura savedFactura = facturaRepository.save(factura);
+        // Establecer los detalles del cliente en la factura guardada
+        savedFactura.setClientesDto(cliente);
+        return facturaRepository.save(factura);
     }
 
     @Override
     public Factura actualizar(Factura factura) {
-        factura.setPrecioUnitario(factura.getPrecioUnitario());
-        factura.setCantidad(factura.getCantidad());
+
         return facturaRepository.save(factura);
+    }
+
+    public ClientesDto getClienteById(Integer id) {
+        return clientesFeign.listById(id).getBody();
     }
 
     @Override

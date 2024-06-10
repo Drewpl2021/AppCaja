@@ -1,6 +1,7 @@
 package com.example.msfyv.controller;
 
 import com.example.msfyv.entity.Factura;
+import com.example.msfyv.feign.ClientesFeign;
 import com.example.msfyv.service.FacturaService;
 import com.example.msfyv.util.PdfUtils;
 import com.itextpdf.text.DocumentException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/factura")
@@ -21,6 +23,8 @@ public class FacturaController {
 
     @Autowired
     private FacturaService facturaService;
+    @Autowired
+    private ClientesFeign clientesFeign;
 
     @GetMapping()
     public ResponseEntity<List<Factura>> list(){
@@ -48,17 +52,21 @@ public class FacturaController {
         return "Eliminado Correctamente :3";
     }
 
-    @GetMapping("/pdf")
-    public ResponseEntity<byte[]> exportPdf() throws IOException, DocumentException {
-        // List<Map<String, Object>> queryResults = myService.executeQuery(request);
-        ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(facturaService.listar()
-        );
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=query_results.pdf");
-        headers.setContentLength(pdfStream.size());
+    @GetMapping("/pdf/{id}")
+public ResponseEntity<byte[]> exportPdf(@PathVariable Integer id) throws IOException, DocumentException {
+    // Filtrar las facturas por id
+    List<Factura> facturas = facturaService.listar().stream()
+        .filter(factura -> factura.getId().equals(id))
+        .collect(Collectors.toList());
+    // Generar el PDF
+    ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(facturas);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_PDF);
+    headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=query_results.pdf");
+    headers.setContentLength(pdfStream.size());
+
         return new ResponseEntity<>(pdfStream.toByteArray(), headers, HttpStatus.OK);
-    }
+}
     /*@GetMapping("/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
