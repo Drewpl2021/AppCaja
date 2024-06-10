@@ -58,10 +58,6 @@ public class FacturaServiceimpl implements FacturaService {
         return facturaRepository.save(factura);
     }
 
-    public ClientesDto getClienteById(Integer id) {
-        return clientesFeign.listById(id).getBody();
-    }
-
     @Override
     public Optional<Factura> listarPorId(Double id){
         Optional<Factura> factura= facturaRepository.findById(id);

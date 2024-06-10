@@ -50,19 +50,19 @@ public class FacturaController {
     }
 
     @GetMapping("/pdf/{id}")
-public ResponseEntity<byte[]> exportPdf(@PathVariable Integer id) throws IOException, DocumentException {
-    // Filtrar las facturas por id
-    List<Factura> facturas = facturaService.listar().stream()
-        .filter(factura -> factura.getClienteId().equals(id))
-        .collect(Collectors.toList());
-    // Generar el PDF
-    ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(facturas);
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_PDF);
-    headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=query_results.pdf");
-    headers.setContentLength(pdfStream.size());
-    return new ResponseEntity<>(pdfStream.toByteArray(), headers, HttpStatus.OK);
-}
+    public ResponseEntity<byte[]> exportPdf(@PathVariable Integer id) throws IOException, DocumentException {
+        // Filtrar las facturas por clienteId
+        List<Factura> facturas = facturaService.listar().stream()
+                .filter(factura -> factura.getId().equals(id))
+                .collect(Collectors.toList());
+        // Generar el PDF
+        ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(facturas);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=query_results.pdf");
+        headers.setContentLength(pdfStream.size());
+        return new ResponseEntity<>(pdfStream.toByteArray(), headers, HttpStatus.OK);
+    }
     /*@GetMapping("/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
