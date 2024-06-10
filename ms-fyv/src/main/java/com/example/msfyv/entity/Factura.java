@@ -30,7 +30,7 @@ public class Factura {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "factura_id")
     private List<RegistroVentas> detalle;
-    
+
     @PrePersist
     protected void onCreate() {
         fecha_hora = new Date();
