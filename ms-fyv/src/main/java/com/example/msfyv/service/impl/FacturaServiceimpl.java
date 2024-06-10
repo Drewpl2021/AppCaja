@@ -32,13 +32,15 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Override
     public Factura guardar(Factura factura) {
-
+        factura.setPrecioUnitario(factura.getPrecioUnitario());
+        factura.setCantidad(factura.getCantidad());
         return facturaRepository.save(factura );
     }
 
     @Override
     public Factura actualizar(Factura factura) {
-
+        factura.setPrecioUnitario(factura.getPrecioUnitario());
+        factura.setCantidad(factura.getCantidad());
         return facturaRepository.save(factura);
     }
 
@@ -59,6 +61,9 @@ public class FacturaServiceimpl implements FacturaService {
 
         facturaRepository.deleteById(id);
     }
+
+
+
 
 
 
