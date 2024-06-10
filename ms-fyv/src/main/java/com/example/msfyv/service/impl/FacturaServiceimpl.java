@@ -8,9 +8,9 @@ import com.example.msfyv.feign.ProductoFeign;
 import com.example.msfyv.repository.FacturaRepository;
 import com.example.msfyv.service.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -81,13 +81,20 @@ public class FacturaServiceimpl implements FacturaService {
         facturaRepository.deleteById(id);
     }
 
+    @Override
+    public List<ClientesDto> listarClientesDto() {
+    List<Factura> facturas = facturaRepository.findAll();
+    List<ClientesDto> clientesDtos = new ArrayList<>();
 
+    for (Factura factura : facturas) {
+        ClientesDto clientesDto = clientesFeign.listById(factura.getClienteId()).getBody();
+        if (clientesDto != null) {
+            clientesDtos.add(clientesDto);
+        }
+    }
 
-
-
-
-
-
+    return clientesDtos;
+}
 
 
 }

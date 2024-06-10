@@ -50,7 +50,7 @@ public class PdfUtils {
 
         for (Factura factura : facturas) {
 
-            document.add(new Paragraph("CLIENTE                       : "+factura.getClienteId()+factura.getClientesDto() +"                                                 " +"TIPO DE MODENA                         : SOL", largeFont));
+            document.add(new Paragraph("CLIENTE                       : "+factura.getClienteId() +"                                                 " +"TIPO DE MODENA                         : SOL", largeFont));
             document.add(new Paragraph("DOC: IDENTIDAD         : "+factura.getClienteId() + "                                                 " +"ORAGANIZACION DE VENTAS    : GRIFO INKAPACARITA", largeFont));
             document.add(new Paragraph("DIRECCION                  : "+factura.getClienteId() + "                                                 " , largeFont));
             document.add(new Paragraph( "FECHA DE EMISION    :  "+  factura.getFecha_hora(), largeFont));
