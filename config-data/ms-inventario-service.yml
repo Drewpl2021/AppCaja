@@ -1,5 +1,5 @@
 server:
-  #port: 8082
+  #port: 8081
   port: ${PORT:${SERVER_PORT:0}}
   #Aletorio
   #Swagger
@@ -16,9 +16,14 @@ spring:
     hibernate.ddl-auto: update
     generate-ddl: true
     show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/personal
+    url: jdbc:mysql://localhost:3306/ms-inventario
     username: root
     password:
 

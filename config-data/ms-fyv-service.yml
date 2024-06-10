@@ -1,6 +1,8 @@
 server:
-  port: 8084
-  #port: ${PORT:${SERVER_PORT:0}}
+  #port: 8084
+  port: ${PORT:${SERVER_PORT:0}}
+  #Aletorio
+  #Swagger
 springdoc:
   api-docs:
     enabled: true
@@ -38,7 +40,7 @@ eureka:
 resilience4j.circuitbreaker:
   instances:
 
-    clienteListarPorIdCB:
+    clientesListarPorIdCB:
       registerHealthIndicator: true
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3

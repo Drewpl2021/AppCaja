@@ -15,6 +15,7 @@
         <module name="ms-pyp" />
         <module name="ms-clientes" />
         <module name="ms-registry-server" />
+        <module name="ms-inventario" />
       </profile>
     </annotationProcessing>
   </component>
@@ -25,6 +26,7 @@
       <module name="ms-config-server" options="-parameters" />
       <module name="ms-fyv" options="-parameters" />
       <module name="ms-gateway-server" options="-parameters" />
+      <module name="ms-inventario" options="-parameters" />
       <module name="ms-personal" options="-parameters" />
       <module name="ms-pyp" options="-parameters" />
       <module name="ms-registry-server" options="-parameters" />
