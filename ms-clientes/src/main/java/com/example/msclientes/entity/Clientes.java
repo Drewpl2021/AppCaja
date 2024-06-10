@@ -11,9 +11,9 @@ public class Clientes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nombre;
+    private String nombre_razonSocial;
     private String apellidos;
-    private String dni;
+    private String dni_ruc;
 
 
     public Clientes() {
