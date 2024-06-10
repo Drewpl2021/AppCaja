@@ -14,9 +14,11 @@ public class RegistroVentas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String nombre;
     private Date fecha_hora;
     private Integer personalId;
+    @ManyToOne
+    @JoinColumn(name = "id_factura")
+    private Factura factura;
 
     public RegistroVentas() {
     }

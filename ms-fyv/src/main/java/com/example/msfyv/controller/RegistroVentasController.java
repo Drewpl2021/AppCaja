@@ -1,5 +1,6 @@
 package com.example.msfyv.controller;
 
+import com.example.msfyv.entity.Factura;
 import com.example.msfyv.entity.RegistroVentas;
 import com.example.msfyv.service.RegistroVentasService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class RegistroVentasController {
     }
 
     @PostMapping()
-    public ResponseEntity<RegistroVentas> save(@RequestBody RegistroVentas registroVentas ){
+    public ResponseEntity<RegistroVentas> save(@RequestBody RegistroVentas registroVentas){
         return ResponseEntity.ok(registroVentasService.guardar(registroVentas));
     }
 
