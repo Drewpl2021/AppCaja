@@ -1,5 +1,6 @@
 package com.example.msfyv.util;
 
+import com.example.msfyv.dto.ClientesDto;
 import com.example.msfyv.entity.Factura;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -46,8 +47,10 @@ public class PdfUtils {
             document.add(new Paragraph("  ", boldFont));
 
         }
+
         for (Factura factura : facturas) {
-            document.add(new Paragraph("CLIENTE                       : "+factura.getClienteId() +"                                                 " +"TIPO DE MODENA                         : SOL", largeFont));
+
+            document.add(new Paragraph("CLIENTE                       : "+factura.getClienteId()+factura.getClientesDto() +"                                                 " +"TIPO DE MODENA                         : SOL", largeFont));
             document.add(new Paragraph("DOC: IDENTIDAD         : "+factura.getClienteId() + "                                                 " +"ORAGANIZACION DE VENTAS    : GRIFO INKAPACARITA", largeFont));
             document.add(new Paragraph("DIRECCION                  : "+factura.getClienteId() + "                                                 " , largeFont));
             document.add(new Paragraph( "FECHA DE EMISION    :  "+  factura.getFecha_hora(), largeFont));

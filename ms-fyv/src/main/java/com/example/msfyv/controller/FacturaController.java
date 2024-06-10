@@ -51,7 +51,7 @@ public class FacturaController {
 
     @GetMapping("/pdf/{id}")
     public ResponseEntity<byte[]> exportPdf(@PathVariable Integer id) throws IOException, DocumentException {
-        // Filtrar las facturas por clienteId
+        // Filtrar las facturas por id
         List<Factura> facturas = facturaService.listar().stream()
                 .filter(factura -> factura.getId().equals(id))
                 .collect(Collectors.toList());

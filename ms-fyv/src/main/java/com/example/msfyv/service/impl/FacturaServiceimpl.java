@@ -1,6 +1,7 @@
 package com.example.msfyv.service.impl;
 
 import com.example.msfyv.dto.ClientesDto;
+import com.example.msfyv.dto.ProductoDto;
 import com.example.msfyv.entity.Factura;
 import com.example.msfyv.feign.ClientesFeign;
 import com.example.msfyv.feign.ProductoFeign;
@@ -19,10 +20,13 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Autowired
     private FacturaRepository facturaRepository;
+
+    @Autowired
     private ProductoFeign productoFeign;
 
     @Autowired
     private ClientesFeign clientesFeign;
+
 
     @Override
     public List<Factura> listar(){
@@ -58,16 +62,17 @@ public class FacturaServiceimpl implements FacturaService {
         return facturaRepository.save(factura);
     }
 
+
+
     @Override
     public Optional<Factura> listarPorId(Double id){
-        Optional<Factura> factura= facturaRepository.findById(id);
-        ClientesDto clientesDto = clientesFeign.listById(factura.get().getClienteId()).getBody();
-        /*for (PedidoDetalle pedidoDetalle : pedido.get().getDetalle()){
-            pedidoDetalle.setProductoDto(productoFeign.buscarlistarPorld(pedidoDetalle.getProductoId()).getBody());
-        }*/
-        factura.get().setClientesDto(clientesDto);
-        return facturaRepository.findById(id);
-    }
+    Optional<Factura> factura= facturaRepository.findById(id);
+    ClientesDto clientesDto = clientesFeign.listById(factura.get().getClienteId()).getBody();
+    ProductoDto productoDto = productoFeign.listById(factura.get().getProductoId()).getBody();
+    factura.get().setClientesDto(clientesDto);
+    factura.get().setProductoDto(productoDto);
+    return facturaRepository.findById(id);
+}
 
 
     @Override
