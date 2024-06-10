@@ -16,7 +16,7 @@ public class Personal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
-    private String apellidos;
+    private String apellido;
     private String dni;
     private String telefono;
     private String email;
