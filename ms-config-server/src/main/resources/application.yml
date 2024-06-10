@@ -1,7 +1,5 @@
 server:
   port: 7070
-
-
 spring:
   application:
     name: config-server
@@ -14,10 +12,6 @@ spring:
           #username:
           #password:
           default-label: main
-
-
-
-
   security:
     user:
       name: root
