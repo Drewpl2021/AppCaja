@@ -12,8 +12,10 @@ public interface ClientesFeign {
 
     @GetMapping("/{id}")
     @CircuitBreaker(name = "clientesListarPorIdCB", fallbackMethod = "fallBackClientes")
-    public ResponseEntity<String> listById(@PathVariable(required = true) Integer id);
-    default ResponseEntity<String> fallBackClientes(Integer id, Exception e) {
-        return  ResponseEntity.ok("Unknown");
+    public ResponseEntity<ClientesDto> listById(@PathVariable(required = true) Integer id);
+    default ResponseEntity<ClientesDto>fallBackClientes(Integer id, Exception e) {
+
+        return  ResponseEntity.ok(new ClientesDto());
     }
+
 }

@@ -1,7 +1,6 @@
 package com.example.msfyv.controller;
 
 import com.example.msfyv.entity.Factura;
-import com.example.msfyv.feign.ClientesFeign;
 import com.example.msfyv.service.FacturaService;
 import com.example.msfyv.util.PdfUtils;
 import com.itextpdf.text.DocumentException;
@@ -23,8 +22,6 @@ public class FacturaController {
 
     @Autowired
     private FacturaService facturaService;
-    @Autowired
-    private ClientesFeign clientesFeign;
 
     @GetMapping()
     public ResponseEntity<List<Factura>> list(){
@@ -56,7 +53,7 @@ public class FacturaController {
 public ResponseEntity<byte[]> exportPdf(@PathVariable Integer id) throws IOException, DocumentException {
     // Filtrar las facturas por id
     List<Factura> facturas = facturaService.listar().stream()
-        .filter(factura -> factura.getId().equals(id))
+        .filter(factura -> factura.getClienteId().equals(id))
         .collect(Collectors.toList());
     // Generar el PDF
     ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(facturas);
@@ -64,8 +61,7 @@ public ResponseEntity<byte[]> exportPdf(@PathVariable Integer id) throws IOExcep
     headers.setContentType(MediaType.APPLICATION_PDF);
     headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=query_results.pdf");
     headers.setContentLength(pdfStream.size());
-
-        return new ResponseEntity<>(pdfStream.toByteArray(), headers, HttpStatus.OK);
+    return new ResponseEntity<>(pdfStream.toByteArray(), headers, HttpStatus.OK);
 }
     /*@GetMapping("/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
