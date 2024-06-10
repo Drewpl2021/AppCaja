@@ -25,8 +25,6 @@ public class Personal {
     private Cargo cargo;
     @CreationTimestamp
     private LocalDateTime fechaAñadido;
-
-
     public Personal() {
     }
     public enum Cargo {
