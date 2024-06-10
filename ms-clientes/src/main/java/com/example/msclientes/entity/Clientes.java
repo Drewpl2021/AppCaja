@@ -12,7 +12,7 @@ public class Clientes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre_razonSocial;
-    private String apellidos;
+    private String direccion;
     private String dni_ruc;
 
 
