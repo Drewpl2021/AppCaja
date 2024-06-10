@@ -1,5 +1,6 @@
 package com.example.msfyv.util;
 
+import com.example.msfyv.dto.ClientesDto;
 import com.example.msfyv.entity.Factura;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -29,6 +30,9 @@ public class PdfUtils {
             document.add(new Paragraph("Total: " + factura.getTotal(), boldFont));
             document.add(new Paragraph("Estado: " + factura.getEstado(), boldFont));
             document.add(new Paragraph("Cliente ID: " + factura.getClienteId(), boldFont));
+            ClientesDto cliente = factura.getClientesDto();
+            String nombreCliente = (cliente != null) ? cliente.getNombre() : "Nombre no disponible";
+            document.add(new Paragraph("Nombre Cliente: " + nombreCliente, boldFont));
         }
         document.add(new Paragraph("\n"));
         // Write data rows

@@ -47,4 +47,8 @@ spring:
           uri: lb://ms-auth-service
           predicates:
             - Path=/auth/**
+        - id: ms-inventario-service
+          uri: lb://ms-inventario-service
+          predicates:
+            - Path=/inventario/**
 
