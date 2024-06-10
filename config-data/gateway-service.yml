@@ -41,8 +41,8 @@ spring:
           uri: lb://ms-fyv-service
           predicates:
             - Path=/factura/**
-          filters:
-            - AuthFilter
+          #filters:
+            #- AuthFilter
         - id: ms-auth-service
           uri: lb://ms-auth-service
           predicates:
