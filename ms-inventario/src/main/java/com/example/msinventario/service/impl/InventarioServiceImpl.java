@@ -5,6 +5,7 @@ import com.example.msinventario.entity.Movimiento;
 import com.example.msinventario.repository.InventarioRepository;
 import com.example.msinventario.repository.MovimientoRepository;
 import com.example.msinventario.service.InventarioService;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +28,26 @@ public class InventarioServiceImpl implements InventarioService {
     }
     @Override
     @Transactional
-    public Inventario guardar(Inventario inventario, Movimiento movimiento) {
-        Double cambioStock = movimiento.calcularCambioStock();
-        logger.info("Cambio de stock calculado: {}", cambioStock);
+    public Inventario guardar(@NotNull Inventario inventario, Movimiento movimiento) {
 
-        inventario.setStock(inventario.getStock() + cambioStock);
-        logger.info("Stock actualizado: {}", inventario.getStock());
+    // Calcular el cambio de stock
+    Double cambioStock = movimiento.calcularCambioStock();
+    logger.info("Cambio de stock calculado: {}", cambioStock);
 
-        inventario = inventarioRepository.save(inventario);
-        logger.info("Inventario guardado: {}", inventario);
+    // Actualizar el stock del inventario
+    inventario.setStock(inventario.getStock() + cambioStock);
+    logger.info("Stock actualizado: {}", inventario.getStock());
 
-        movimiento.setInventario(inventario);
-        movimientoRepository.save(movimiento);
-        logger.info("Movimiento guardado: {}", movimiento);
+    // Guardar el inventario actualizado
+    inventario = inventarioRepository.save(inventario);
+    logger.info("Inventario guardado: {}", inventario);
 
-        return inventario;
+    // Guardar el movimiento
+    movimiento.setInventario(inventario);
+    movimientoRepository.save(movimiento);
+
+    logger.info("Movimiento guardado: {}", movimiento);
+    return inventario;
     }
     @Override
     public Inventario actualizar(Inventario inventario) {
@@ -55,9 +61,5 @@ public class InventarioServiceImpl implements InventarioService {
     public void eliminarPorId(Integer id) {
         inventarioRepository.deleteById(id);
     }
-
-
-
-
 
 }

@@ -16,7 +16,6 @@ public class InventarioController {
     private InventarioService inventarioService;
     @GetMapping()
     public ResponseEntity<List<Inventario>> list(){
-
         return ResponseEntity.ok().body(inventarioService.listar());
     }
     @PostMapping()
