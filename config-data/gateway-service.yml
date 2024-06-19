@@ -13,6 +13,16 @@ eureka:
 spring:
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
       discovery:
         locator:
           enable: true
@@ -21,8 +31,8 @@ spring:
           uri: lb://ms-personal
           predicates:
             - Path=/personal/**
-          #filters:
-            #- AuthFilter
+          filters:
+            - AuthFilter
 
         - id: clientes-service
           uri: lb://clientes-service
@@ -35,14 +45,14 @@ spring:
           uri: lb://ms-pyp
           predicates:
             - Path=/compras/** , /producto/** , /proveedor/**
-          #filters:
-            #- AuthFilter
+          filters:
+            - AuthFilter
         - id: ms-fyv
           uri: lb://ms-fyv
           predicates:
             - Path=/factura/**
-        # id: ms-auth-service
-        # uri: lb://ms-auth-service
-        #  predicates:
-        #    - Path=/auth/**
+        - id: ms-auth-service
+          uri: lb://ms-auth-service
+          predicates:
+            - Path=/auth/**
 
