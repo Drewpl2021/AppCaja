@@ -38,8 +38,8 @@ spring:
           uri: lb://clientes-service
           predicates:
             - Path=/clientes/**
-          #filters:
-            #- AuthFilter
+          filters:
+            - AuthFilter
 
         - id: ms-pyp
           uri: lb://ms-pyp
