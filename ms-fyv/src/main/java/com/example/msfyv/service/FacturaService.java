@@ -13,8 +13,9 @@ public interface FacturaService {
 
     public Factura actualizar(Factura factura);
 
-    public Optional<Factura> listarPorId(Integer id);
+    public Optional<Factura> listarPorId(Double id);
 
-    public void eliminarPorId(Integer id);
+    public void eliminarPorId(Double id);
+
 
 }

@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/factura")
@@ -52,20 +53,23 @@ public class FacturaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Factura> listById(@PathVariable(required = true) Integer id){
+    public ResponseEntity<Factura> listById(@PathVariable(required = true) Double id){
         return ResponseEntity.ok().body(facturaService.listarPorId(id).get());
     }
 
     @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable(required = true) Integer id){ facturaService.eliminarPorId(id);
+    public String deleteById(@PathVariable(required = true) Double id){ facturaService.eliminarPorId(id);
         return "Eliminado Correctamente :3";
     }
 
-    @GetMapping("/pdf")
-    public ResponseEntity<byte[]> exportPdf() throws IOException, DocumentException {
-        // List<Map<String, Object>> queryResults = myService.executeQuery(request);
-        ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(facturaService.listar()
-        );
+    @GetMapping("/pdf/{id}")
+    public ResponseEntity<byte[]> exportPdf(@PathVariable Integer id) throws IOException, DocumentException {
+        // Filtrar las facturas por id
+        List<Factura> facturas = facturaService.listar().stream()
+                .filter(factura -> factura.getId().equals(id))
+                .collect(Collectors.toList());
+        // Generar el PDF
+        ByteArrayOutputStream pdfStream = PdfUtils.generatePdfStream(facturas);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=query_results.pdf");

@@ -27,21 +27,11 @@ public class Factura {
     private Integer productoId;
     private Integer clienteId;
 
-
-
-
-
-
-
     public Factura() {
         this.cantidad = 0.0;
         this.igv = 0.0;
         this.precioUnitario = 0.0;
     }
-
-
-
-
 
     @Transient
     private ProductoDto productoDto;

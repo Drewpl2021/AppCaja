@@ -67,7 +67,6 @@ public class UserExcelExporter {
             int columnCount = 0;
 
             createCell(row, columnCount++, factura.getId(), style);
-            createCell(row, columnCount++, factura.getEstado(), style);
 
 
         }

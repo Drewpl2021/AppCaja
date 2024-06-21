@@ -30,24 +30,24 @@ public class InventarioServiceImpl implements InventarioService {
     @Transactional
     public Inventario guardar(@NotNull Inventario inventario, Movimiento movimiento) {
 
-    // Calcular el cambio de stock
-    Double cambioStock = movimiento.calcularCambioStock();
-    logger.info("Cambio de stock calculado: {}", cambioStock);
+        // Calcular el cambio de stock
+        Double cambioStock = movimiento.calcularCambioStock();
+        logger.info("Cambio de stock calculado: {}", cambioStock);
 
-    // Actualizar el stock del inventario
-    inventario.setStock(inventario.getStock() + cambioStock);
-    logger.info("Stock actualizado: {}", inventario.getStock());
+        // Actualizar el stock del inventario
+        inventario.setStock(inventario.getStock() + cambioStock);
+        logger.info("Stock actualizado: {}", inventario.getStock());
 
-    // Guardar el inventario actualizado
-    inventario = inventarioRepository.save(inventario);
-    logger.info("Inventario guardado: {}", inventario);
+        // Guardar el inventario actualizado
+        inventario = inventarioRepository.save(inventario);
+        logger.info("Inventario guardado: {}", inventario);
 
-    // Guardar el movimiento
-    movimiento.setInventario(inventario);
-    movimientoRepository.save(movimiento);
+        // Guardar el movimiento
+        movimiento.setInventario(inventario);
+        movimientoRepository.save(movimiento);
 
-    logger.info("Movimiento guardado: {}", movimiento);
-    return inventario;
+        logger.info("Movimiento guardado: {}", movimiento);
+        return inventario;
     }
     @Override
     public Inventario actualizar(Inventario inventario) {
