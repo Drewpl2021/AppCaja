@@ -21,7 +21,7 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
     @Autowired
     private InventarioDetalleRepository inventarioDetalleRepository;
     @Autowired
-    private InventarioRepository inventarioRepository;
+    private InventarioService inventarioService;
 
     @Override
     public List<InventarioDetalle> listar(){
@@ -31,7 +31,9 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
 
     @Override
     public InventarioDetalle guardar(InventarioDetalle inventarioDetalle) {
-        return inventarioDetalleRepository.save(inventarioDetalle);
+        InventarioDetalle savedDetalle = inventarioDetalleRepository.save(inventarioDetalle);
+        inventarioService.actualizarStock(savedDetalle); // Actualizar stock
+        return savedDetalle;
     }
 
     @Override
