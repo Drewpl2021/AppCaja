@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/inventario-detalle")
+@RequestMapping("/detalle")
 public class InventarioDetalleController {
     @Autowired
     private InventarioDetalleService inventarioDetalleService;

@@ -50,5 +50,5 @@ spring:
         - id: ms-inventario-service
           uri: lb://ms-inventario-service
           predicates:
-            - Path=/inventario/** , /inventario-detalle/**
+            - Path=/inventario/** , /detalle/**
 
