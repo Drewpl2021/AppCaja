@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/productosVendidos")
@@ -35,6 +36,17 @@ public class ProductosVentidosController {
     public ResponseEntity<ProductosVendidos> listById(@PathVariable(required = true) Double id){
         return ResponseEntity.ok().body(productosVendidosService.listarPorId(id).get());
     }
+
+    @GetMapping("/nombre/{nombreVen}")
+    public ResponseEntity<List<ProductosVendidos>> listByNombreVen(@PathVariable Integer nombreVen) {
+        List<ProductosVendidos> productos = productosVendidosService.listarPorNombreVen(nombreVen);
+        if (productos.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(productos);
+    }
+
+
 
     @DeleteMapping("/{id}")
     public String deleteById(@PathVariable(required = true) Double id){ productosVendidosService.eliminarPorId(id);

@@ -16,4 +16,6 @@ public interface ProductosVendidosService {
     public Optional<ProductosVendidos> listarPorId(Double id);
 
     public void eliminarPorId(Double id);
+
+    public List<ProductosVendidos> listarPorNombreVen(Integer nombreVen);
 }
