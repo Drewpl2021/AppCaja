@@ -1,11 +1,10 @@
 package com.example.msinventario.service.impl;
 
 import com.example.msinventario.entity.Inventario;
-import com.example.msinventario.entity.Movimiento;
+import com.example.msinventario.entity.InventarioDetalle;
+import com.example.msinventario.repository.InventarioDetalleRepository;
 import com.example.msinventario.repository.InventarioRepository;
-import com.example.msinventario.repository.MovimientoRepository;
 import com.example.msinventario.service.InventarioService;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,35 +18,17 @@ public class InventarioServiceImpl implements InventarioService {
     @Autowired
     private InventarioRepository inventarioRepository;
     @Autowired
-    private MovimientoRepository movimientoRepository;
+    private InventarioDetalleRepository inventarioDetalleRepository;
     private static final Logger logger = LoggerFactory.getLogger(InventarioServiceImpl.class);
+
 
     @Override
     public List<Inventario> listar(){
         return inventarioRepository.findAll();
     }
     @Override
-    @Transactional
-    public Inventario guardar(@NotNull Inventario inventario, Movimiento movimiento) {
-
-        // Calcular el cambio de stock
-        Double cambioStock = movimiento.calcularCambioStock();
-        logger.info("Cambio de stock calculado: {}", cambioStock);
-
-        // Actualizar el stock del inventario
-        inventario.setStock(inventario.getStock() + cambioStock);
-        logger.info("Stock actualizado: {}", inventario.getStock());
-
-        // Guardar el inventario actualizado
-        inventario = inventarioRepository.save(inventario);
-        logger.info("Inventario guardado: {}", inventario);
-
-        // Guardar el movimiento
-        movimiento.setInventario(inventario);
-        movimientoRepository.save(movimiento);
-
-        logger.info("Movimiento guardado: {}", movimiento);
-        return inventario;
+    public Inventario guardar(Inventario inventario) {
+        return inventarioRepository.save(inventario);
     }
     @Override
     public Inventario actualizar(Inventario inventario) {
@@ -62,4 +43,18 @@ public class InventarioServiceImpl implements InventarioService {
         inventarioRepository.deleteById(id);
     }
 
+    @Transactional
+    public void actualizarStock(InventarioDetalle inventarioDetalle) {
+        Optional<Inventario> optInventario = inventarioRepository.findById(inventarioDetalle.getInventario().getId());
+        if (optInventario.isPresent()) {
+            Inventario inventario = optInventario.get();
+            Double cambioStock = inventarioDetalle.calcularCambioStock();
+            inventario.setStock(inventario.getStock() + cambioStock);
+            inventarioRepository.save(inventario);
+            logger.info("Stock actualizado para el inventario ID {}: nuevo stock {}", inventario.getId(), inventario.getStock());
+        } else {
+            logger.error("Inventario no encontrado para ID {}", inventarioDetalle.getInventario().getId());
+            throw new RuntimeException("Inventario no encontrado");
+        }
+    }
 }

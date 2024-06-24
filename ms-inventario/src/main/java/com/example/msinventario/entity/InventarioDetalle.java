@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @Entity
-public class Movimiento {
+public class InventarioDetalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
