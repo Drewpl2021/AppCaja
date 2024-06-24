@@ -46,6 +46,7 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
         inventarioDetalle = inventarioDetalleRepository.save(inventarioDetalle);
         // Guardar el inventario actualizado
         inventarioService.guardar(inventario);
+
         return inventarioDetalle;
     }
     @Override
