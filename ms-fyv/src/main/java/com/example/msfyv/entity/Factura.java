@@ -21,6 +21,7 @@ public class Factura {
     private Integer id;
     private Date fecha_hora;
     private Double igv;
+    private Double subTotal;
     private String serie;
     private Double total;
     private Integer clienteId;

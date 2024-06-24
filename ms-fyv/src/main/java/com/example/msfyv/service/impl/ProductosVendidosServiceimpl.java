@@ -26,9 +26,13 @@ public class ProductosVendidosServiceimpl implements ProductosVendidosService{
     }
 
     @Override
-    public ProductosVendidos guardar(ProductosVendidos productosVendidos ) {
-
-        return productosVendidosRepository.save(productosVendidos );
+    public ProductosVendidos guardar(ProductosVendidos producto) {
+        if (producto.getPrecioUnitario() != null && producto.getCantidad() != null) {
+            producto.setTotal(producto.getPrecioUnitario() * producto.getCantidad());
+        } else {
+            producto.setTotal(0.0);
+        }
+        return productosVendidosRepository.save(producto);
     }
 
     @Override

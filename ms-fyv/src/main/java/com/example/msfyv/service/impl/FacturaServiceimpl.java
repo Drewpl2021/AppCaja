@@ -50,18 +50,27 @@ public class FacturaServiceimpl implements FacturaService {
         // Obtener los productos vendidos asociados al nombreVen de la factura
         List<ProductosVendidos> productosVendidosList = productosVendidosRepository.findByNombreVen(factura.getNombreVen());
 
-        // Calcular el total sumando el precioUnitario * cantidad de cada producto vendido
-        double total = 0.0;
+        double subtotal = 0.0;
         for (ProductosVendidos producto : productosVendidosList) {
-            total += producto.getPrecioUnitario() * producto.getCantidad();
+            if (producto.getPrecioUnitario() != null && producto.getCantidad() != null) {
+                subtotal += producto.getPrecioUnitario() * producto.getCantidad();
+            } else {
+                // Manejar el caso cuando precioUnitario o cantidad es null
+                throw new IllegalArgumentException("El precio unitario y la cantidad no pueden ser nulos");
+            }
         }
-        total = Math.round(total * 100.0) / 100.0;
-        factura.setTotal(total);
+        subtotal = Math.round(subtotal * 100.0) / 100.0;
+        factura.setSubTotal(subtotal);
 
         // Calcular el igv
-        double igv = total * 0.18;
+        double igv = subtotal * 0.18; // Suponiendo que el IGV es el 18% del subtotal
         igv = Math.round(igv * 100.0) / 100.0;
         factura.setIgv(igv);
+
+        // Calcular el total
+        double total = subtotal + igv;
+        total = Math.round(total * 100.0) / 100.0;
+        factura.setTotal(total);
 
         // Establecer la fecha y hora actuales
         factura.setFecha_hora(new Date());
