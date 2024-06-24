@@ -38,25 +38,14 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
         if (inventarioDetalle.getInventario() == null) {
             throw new RuntimeException("InventarioDetalle no contiene un Inventario");
         }
-
-        // Obtener el Inventario correspondiente desde la base de datos
         Inventario inventario = inventarioService.listarPorId(inventarioDetalle.getInventario().getId())
                 .orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
-
-        // Calcular el cambio de stock
         double cambioStock = inventarioDetalle.getEntrada() - inventarioDetalle.getSalida();
 
-        // Actualizar el stock del Inventario
         inventario.setStock(inventario.getStock() + cambioStock);
-
-        // Generar el codigo_transaccion basado en la fecha y hora actual
-
-        // Guardar el InventarioDetalle
         inventarioDetalle = inventarioDetalleRepository.save(inventarioDetalle);
-
         // Guardar el inventario actualizado
         inventarioService.guardar(inventario);
-
         return inventarioDetalle;
     }
     @Override

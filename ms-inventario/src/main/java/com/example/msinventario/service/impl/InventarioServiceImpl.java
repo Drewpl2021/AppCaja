@@ -44,7 +44,7 @@ public class InventarioServiceImpl implements InventarioService {
 public Optional<Inventario> listarPorId(Integer id){
     Optional<Inventario> inventarios = inventarioRepository.findById(id);
     if (inventarios.isPresent()) {
-        Integer productoId = inventarios.get().getProductoId(); // Ahora puedes obtener el ID del producto directamente de la entidad Inventario
+        Integer productoId = inventarios.get().getProductoId();//id
         ProductoDto productoDto = productoFeign.listById(productoId).getBody();
         inventarios.get().setProductoDto(productoDto);
     }
