@@ -20,14 +20,10 @@ public class Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Date fecha_hora;
-    private Double cantidad;
-    private Double precioUnitario;
     private Double igv;
     private Double total;
     private Integer clienteId;
-    @ManyToOne
-    @JoinColumn(name = "id_productos_vendidos")
-    private ProductosVendidos ProductosVendidos;
+    private Integer nombreVen;
 
 
 
@@ -36,9 +32,7 @@ public class Factura {
 
 
     public Factura() {
-    this.cantidad = 0.0;
-    this.igv = 0.0;
-    this.precioUnitario = 0.0;
+
 }
 
 

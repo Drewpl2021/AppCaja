@@ -13,6 +13,7 @@ public class ProductosVendidos {
     private Integer id;
     private Integer nombreVen;
     private Double cantidad;
+    private Double total;
     private Integer precioUnitario;
     private Integer productoId;
 

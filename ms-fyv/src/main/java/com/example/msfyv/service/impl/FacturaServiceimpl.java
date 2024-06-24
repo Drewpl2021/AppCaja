@@ -38,23 +38,19 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Override
     public Factura guardar(Factura factura) {
-        // Obtener los detalles del cliente
-        ClientesDto cliente = clientesFeign.listById(factura.getClienteId()).getBody();
-        // Calcular el total
-        double total = factura.getPrecioUnitario() * factura.getCantidad();
-        total = Math.round(total * 100.0) / 100.0;
-        factura.setTotal(total);
+
+        // Calculr el total sumando el precioUnitario * cantidad de cada producto vendido
+        double total = 0.0;
+
         // Calcular el igv
         double igv = total * 0.18;
         igv = Math.round(igv * 100.0) / 100.0;
         factura.setIgv(igv);
+
         // Establecer la fecha y hora actuales
         factura.setFecha_hora(new Date());
-        // Guardar la factura
-        Factura savedFactura = facturaRepository.save(factura);
-        // Establecer los detalles del cliente en la factura guardada
-        savedFactura.setClientesDto(cliente);
-        return facturaRepository.save(factura);
+
+        return facturaRepository.save(factura );
     }
 
     @Override
