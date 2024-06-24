@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface InventarioService {
     public List<Inventario> listar();
-    Inventario guardar(Inventario inventario,InventarioDetalle inventarioDetalle);
+    Inventario guardar(Inventario inventario);
     public Inventario actualizar(Inventario inventario);
     public Optional<Inventario> listarPorId(Integer id);
     public void eliminarPorId(Integer id);

@@ -10,4 +10,8 @@ public class ProductoDto {
     private Double precio;
     private String stock;
     private Integer id_proveedor;
+
+    public <T> T getBody() {
+        return null;
+    }
 }

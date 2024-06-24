@@ -16,6 +16,7 @@ public class Inventario {
     private Double stock;
     private Double stock_minimo;
     private Double stock_maximo;
+    private Integer productoId;
     @Transient
     private ProductoDto productoDto;
 }

@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "ms-pyp", path = "/producto")
 public interface ProductoFeing {
     @GetMapping("/{id}")
-    @CircuitBreaker(name = "productoListarPorIdPr", fallbackMethod = "fallBackProductos")
-    public ResponseEntity<ProductoDto> listarPorId(@PathVariable(required = true) Integer id);
+    @CircuitBreaker(name = "productoListarPorIdCB", fallbackMethod = "fallBackProducto")
+    public ResponseEntity<ProductoDto> listById(@PathVariable(required = true) Integer id);
+
+    @GetMapping("/{id}/precio")
+    @CircuitBreaker(name = "productoPrecioCB", fallbackMethod = "fallBackPrecio")
+    public ResponseEntity<Double> getPrecio(@PathVariable(required = true) Integer id);
+
+
     default ResponseEntity<ProductoDto>fallBackProducto(Integer id, Exception e) {
-        ProductoDto productoDto = new ProductoDto();
-        productoDto.setId(9000000);
-        return  ResponseEntity.ok(productoDto);
+
+        return  ResponseEntity.ok(new ProductoDto());
     }
 }

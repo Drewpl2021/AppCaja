@@ -20,9 +20,8 @@ public class InventarioController {
         return ResponseEntity.ok().body(inventarioService.listar());
     }
     @PostMapping()
-    public ResponseEntity<Inventario> save(@RequestBody InventarioDetalle inventarioDetalle){
-        Inventario inventario = inventarioDetalle.getInventario();
-        return ResponseEntity.ok(inventarioService.guardar(inventario, inventarioDetalle));
+    public ResponseEntity<Inventario> save(@RequestBody Inventario inventario){
+        return ResponseEntity.ok(inventarioService.guardar(inventario));
     }
     @PutMapping()
     public ResponseEntity<Inventario> update(@RequestBody Inventario inventario){
