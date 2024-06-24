@@ -15,8 +15,6 @@ import java.util.List;
 public class InventarioController {
     @Autowired
     private InventarioService inventarioService;
-    @Autowired
-    private InventarioDetalleRepository inventarioDetalleRepository;
     @GetMapping()
     public ResponseEntity<List<Inventario>> list(){
         return ResponseEntity.ok().body(inventarioService.listar());

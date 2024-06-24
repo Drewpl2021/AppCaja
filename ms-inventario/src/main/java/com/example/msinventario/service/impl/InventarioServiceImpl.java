@@ -43,18 +43,5 @@ public class InventarioServiceImpl implements InventarioService {
         inventarioRepository.deleteById(id);
     }
 
-    @Transactional
-    public void actualizarStock(InventarioDetalle inventarioDetalle) {
-        Optional<Inventario> optInventario = inventarioRepository.findById(inventarioDetalle.getInventario().getId());
-        if (optInventario.isPresent()) {
-            Inventario inventario = optInventario.get();
-            Double cambioStock = inventarioDetalle.calcularCambioStock();
-            inventario.setStock(inventario.getStock() + cambioStock);
-            inventarioRepository.save(inventario);
-            logger.info("Stock actualizado para el inventario ID {}: nuevo stock {}", inventario.getId(), inventario.getStock());
-        } else {
-            logger.error("Inventario no encontrado para ID {}", inventarioDetalle.getInventario().getId());
-            throw new RuntimeException("Inventario no encontrado");
-        }
-    }
+
 }

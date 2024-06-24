@@ -13,6 +13,5 @@ public interface InventarioService {
     public Inventario actualizar(Inventario inventario);
     public Optional<Inventario> listarPorId(Integer id);
     public void eliminarPorId(Integer id);
-    public void actualizarStock(InventarioDetalle inventarioDetalle);
 
 }
