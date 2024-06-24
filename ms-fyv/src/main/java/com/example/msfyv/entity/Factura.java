@@ -40,7 +40,7 @@ public class Factura {
 
 
     @Transient
-    private ProductoDto productoDto;
+    private List<ProductosVendidos> productosVendidosList;
     @Transient
     private ClientesDto clientesDto;
 }

@@ -3,9 +3,11 @@ package com.example.msfyv.service.impl;
 import com.example.msfyv.dto.ClientesDto;
 import com.example.msfyv.dto.ProductoDto;
 import com.example.msfyv.entity.Factura;
+import com.example.msfyv.entity.ProductosVendidos;
 import com.example.msfyv.feign.ClientesFeign;
 import com.example.msfyv.feign.ProductoFeign;
 import com.example.msfyv.repository.FacturaRepository;
+import com.example.msfyv.repository.ProductosVendidosRepository;
 import com.example.msfyv.service.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,8 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Autowired
     private ClientesFeign clientesFeign;
-
+    @Autowired
+    private ProductosVendidosRepository productosVendidosRepository;
 
 
     @Override
@@ -38,9 +41,19 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Override
     public Factura guardar(Factura factura) {
+        // Obtener los detalles del cliente
+        ClientesDto cliente = clientesFeign.listById(factura.getClienteId()).getBody();
 
-        // Calculr el total sumando el precioUnitario * cantidad de cada producto vendido
+        // Obtener los productos vendidos asociados al nombreVen de la factura
+        List<ProductosVendidos> productosVendidosList = productosVendidosRepository.findByNombreVen(factura.getNombreVen());
+
+        // Calcular el total sumando el precioUnitario * cantidad de cada producto vendido
         double total = 0.0;
+        for (ProductosVendidos producto : productosVendidosList) {
+            total += producto.getPrecioUnitario() * producto.getCantidad();
+        }
+        total = Math.round(total * 100.0) / 100.0;
+        factura.setTotal(total);
 
         // Calcular el igv
         double igv = total * 0.18;
@@ -50,7 +63,16 @@ public class FacturaServiceimpl implements FacturaService {
         // Establecer la fecha y hora actuales
         factura.setFecha_hora(new Date());
 
-        return facturaRepository.save(factura );
+        // Guardar la factura
+        Factura savedFactura = facturaRepository.save(factura);
+
+        // Establecer los detalles del cliente en la factura guardada
+        savedFactura.setClientesDto(cliente);
+
+        // Almacenar los productos vendidos en la respuesta
+        savedFactura.setProductosVendidosList(productosVendidosList);
+
+        return savedFactura;
     }
 
     @Override
