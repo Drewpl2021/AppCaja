@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,8 +42,13 @@ public class FacturaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Factura> listById(@PathVariable(required = true) Double id){
-        return ResponseEntity.ok().body(facturaService.listarPorId(id).get());
+    public ResponseEntity<Factura> listById(@PathVariable(required = true) Double id) {
+        Optional<Factura> facturaOpt = facturaService.listarPorId(id);
+        if (facturaOpt.isPresent()) {
+            return ResponseEntity.ok(facturaOpt.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")

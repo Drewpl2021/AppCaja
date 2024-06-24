@@ -41,8 +41,11 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Override
     public Factura guardar(Factura factura) {
+        factura.setSerie("CAJA1");
         // Obtener los detalles del cliente
         ClientesDto cliente = clientesFeign.listById(factura.getClienteId()).getBody();
+
+
 
         // Obtener los productos vendidos asociados al nombreVen de la factura
         List<ProductosVendidos> productosVendidosList = productosVendidosRepository.findByNombreVen(factura.getNombreVen());
@@ -84,12 +87,23 @@ public class FacturaServiceimpl implements FacturaService {
 
 
     @Override
-    public Optional<Factura> listarPorId(Double id){
-    Optional<Factura> factura= facturaRepository.findById(id);
-    ClientesDto clientesDto = clientesFeign.listById(factura.get().getClienteId()).getBody();
-    factura.get().setClientesDto(clientesDto);
-    return facturaRepository.findById(id);
-}
+    public Optional<Factura> listarPorId(Double id) {
+        Optional<Factura> facturaOpt = facturaRepository.findById(id);
+        if (facturaOpt.isPresent()) {
+            Factura factura = facturaOpt.get();
+
+            // Obtener los detalles del cliente
+            ClientesDto cliente = clientesFeign.listById(factura.getClienteId()).getBody();
+            factura.setClientesDto(cliente);
+
+            // Obtener los productos vendidos asociados al nombreVen de la factura
+            List<ProductosVendidos> productosVendidosList = productosVendidosRepository.findByNombreVen(factura.getNombreVen());
+            factura.setProductosVendidosList(productosVendidosList);
+
+            return Optional.of(factura);
+        }
+        return facturaOpt;
+    }
 
 
     @Override
