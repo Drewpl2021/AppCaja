@@ -19,8 +19,6 @@ public class Personal {
     private String apellido;
     private String dni;
     private String telefono;
-    private String telefono1;
-    private String telefono2;
     private String email;
     private String contraseña;
     @Enumerated(EnumType.STRING)
