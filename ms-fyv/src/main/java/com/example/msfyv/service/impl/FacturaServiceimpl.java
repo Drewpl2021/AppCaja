@@ -69,9 +69,9 @@ public class FacturaServiceimpl implements FacturaService {
     public Optional<Factura> listarPorId(Double id){
     Optional<Factura> factura= facturaRepository.findById(id);
     ClientesDto clientesDto = clientesFeign.listById(factura.get().getClienteId()).getBody();
-    ProductoDto productoDto = productoFeign.listById(factura.get().getProductoId()).getBody();
+    //ProductoDto productoDto = productoFeign.listById(factura.get().getProductoId()).getBody();
     factura.get().setClientesDto(clientesDto);
-    factura.get().setProductoDto(productoDto);
+    //factura.get().setProductoDto(productoDto);
     return facturaRepository.findById(id);
 }
 

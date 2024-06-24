@@ -24,8 +24,10 @@ public class Factura {
     private Double precioUnitario;
     private Double igv;
     private Double total;
-    private Integer productoId;
     private Integer clienteId;
+    @ManyToOne
+    @JoinColumn(name = "id_productos_vendidos")
+    private ProductosVendidos ProductosVendidos;
 
 
 
