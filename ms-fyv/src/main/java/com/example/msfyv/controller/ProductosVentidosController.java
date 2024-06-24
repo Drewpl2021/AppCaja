@@ -39,11 +39,11 @@ public class ProductosVentidosController {
 
     @GetMapping("/nombre/{nombreVen}")
     public ResponseEntity<List<ProductosVendidos>> listByNombreVen(@PathVariable Integer nombreVen) {
-        List<ProductosVendidos> productos = productosVendidosService.listarPorNombreVen(nombreVen);
-        if (productos.isEmpty()) {
+        List<ProductosVendidos> productosVendidosList = productosVendidosService.listarPorNombreVen(nombreVen);
+        if (productosVendidosList.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(productos);
+        return ResponseEntity.ok(productosVendidosList);
     }
 
 

@@ -46,8 +46,12 @@ public class ProductosVendidosServiceimpl implements ProductosVendidosService{
 
     @Override
     public List<ProductosVendidos> listarPorNombreVen(Integer nombreVen) {
-
-        return productosVendidosRepository.findByNombreVen(nombreVen);
+        List<ProductosVendidos> productosVendidosList = productosVendidosRepository.findByNombreVen(nombreVen);
+        for (ProductosVendidos productosVendidos : productosVendidosList) {
+            ProductoDto productoDto = productoFeign.listById(productosVendidos.getProductoId()).getBody();
+            productosVendidos.setProductoDto(productoDto);
+        }
+        return productosVendidosList;
     }
 
 
