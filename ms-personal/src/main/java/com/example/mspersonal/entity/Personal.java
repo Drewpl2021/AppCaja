@@ -24,7 +24,7 @@ public class Personal {
     @Enumerated(EnumType.STRING)
     private Cargo cargo;
     @CreationTimestamp
-    private LocalDateTime fechaAñadido;
+    private LocalDateTime fechaAniadido;
 
 
     public Personal() {
