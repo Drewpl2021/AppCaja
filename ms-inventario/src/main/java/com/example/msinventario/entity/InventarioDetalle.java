@@ -1,5 +1,6 @@
 package com.example.msinventario.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -7,6 +8,10 @@ import java.util.Date;
 
 @Data
 @Entity
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
+
 public class InventarioDetalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
