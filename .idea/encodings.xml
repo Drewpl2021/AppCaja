@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/AppBackendCAJA/ms-clientes/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AppBackendCAJA/ms-config-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AppBackendCAJA/ms-fyv/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AppBackendCAJA/ms-gateway-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AppBackendCAJA/ms-personal/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AppBackendCAJA/ms-pyp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/AppBackendCAJA/ms-registry-server/src/main/java" charset="UTF-8" />
+  </component>
+</project>
