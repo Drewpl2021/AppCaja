@@ -20,6 +20,8 @@ import java.util.Optional;
 public class InventarioDetalleServiceImpl implements InventarioDetalleService {
     @Autowired
     private InventarioDetalleRepository inventarioDetalleRepository;
+    @Autowired
+    private InventarioService inventarioService;
 
     @Override
     public List<InventarioDetalle> listar(){
@@ -28,9 +30,18 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
     }
 
     @Override
+    @Transactional
     public InventarioDetalle guardar(InventarioDetalle inventarioDetalle) {
+        // Guardar el InventarioDetalle
+        inventarioDetalle = inventarioDetalleRepository.save(inventarioDetalle);
 
-        return inventarioDetalleRepository.save(inventarioDetalle);
+        // Obtener el Inventario correspondiente
+        Inventario inventario = inventarioDetalle.getInventario();
+
+        // Actualizar el stock del Inventario
+        inventarioService.guardar(inventario, inventarioDetalle);
+
+        return inventarioDetalle;
     }
 
     @Override

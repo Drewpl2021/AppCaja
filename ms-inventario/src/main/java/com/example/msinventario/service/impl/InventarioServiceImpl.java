@@ -27,7 +27,15 @@ public class InventarioServiceImpl implements InventarioService {
         return inventarioRepository.findAll();
     }
     @Override
-    public Inventario guardar(Inventario inventario) {
+    @Transactional
+    public Inventario guardar(Inventario inventario, InventarioDetalle inventarioDetalle) {
+        // Calcular el cambio de stock
+        Double cambioStock = inventarioDetalle.calcularCambioStock();
+
+        // Actualizar el stock del inventario
+        inventario.setStock(inventario.getStock() - cambioStock);
+
+        // Guardar el inventario actualizado
         return inventarioRepository.save(inventario);
     }
     @Override

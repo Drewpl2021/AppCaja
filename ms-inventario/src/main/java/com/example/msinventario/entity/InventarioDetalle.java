@@ -9,7 +9,6 @@ import java.util.Date;
 @Data
 @Entity
 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 
 public class InventarioDetalle {
@@ -22,6 +21,7 @@ public class InventarioDetalle {
     private Double salida;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inventario_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Inventario inventario;
     public Double calcularCambioStock() {
         return entrada - salida;
