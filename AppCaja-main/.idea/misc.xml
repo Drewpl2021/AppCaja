@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/ms-personal/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-pyp/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-clientes/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-fyv/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-config-server/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-registry-server/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-gateway-server/pom.xml" />
+        <option value="$PROJECT_DIR$/demo/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-auth/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/demo/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
