@@ -1,7 +1,9 @@
 package com.example.msinventario.service.impl;
 
+import com.example.msinventario.dto.ProductoDto;
 import com.example.msinventario.entity.Inventario;
 import com.example.msinventario.entity.InventarioDetalle;
+import com.example.msinventario.feing.ProductoFeing;
 import com.example.msinventario.repository.InventarioDetalleRepository;
 import com.example.msinventario.repository.InventarioRepository;
 import com.example.msinventario.service.InventarioDetalleService;
@@ -24,7 +26,8 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
     private InventarioDetalleRepository inventarioDetalleRepository;
     @Autowired
     private InventarioService inventarioService;
-
+    @Autowired
+    private ProductoFeing productoFeign;
     @Override
     public List<InventarioDetalle> listar(){
 
@@ -34,20 +37,28 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
     @Override
     @Transactional
     public InventarioDetalle guardar(InventarioDetalle inventarioDetalle) {
-        // Verificar que el objeto Inventario asociado con InventarioDetalle no sea nulo
-        if (inventarioDetalle.getInventario() == null) {
-            throw new RuntimeException("InventarioDetalle no contiene un Inventario");
-        }
-        Inventario inventario = inventarioService.listarPorId(inventarioDetalle.getInventario().getId())
-                .orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
-        double cambioStock = inventarioDetalle.getEntrada() - inventarioDetalle.getSalida();
+    // Verificar que el objeto Inventario asociado con InventarioDetalle no sea nulo
+    if (inventarioDetalle.getInventario() == null) {
+        throw new RuntimeException("InventarioDetalle no contiene un Inventario");
+    }
+    Inventario inventario = inventarioService.listarPorId(inventarioDetalle.getInventario().getId())
+            .orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
+    double cambioStock = inventarioDetalle.getEntrada() - inventarioDetalle.getSalida();
 
-        inventario.setStock(inventario.getStock() + cambioStock);
-        inventarioDetalle = inventarioDetalleRepository.save(inventarioDetalle);
-        // Guardar el inventario actualizado
-        inventarioService.guardar(inventario);
+    double nuevoStock = inventario.getStock() + cambioStock;
+    if (nuevoStock > inventario.getStock_maximo()) {
+        throw new IllegalArgumentException("El stock no puede ser mayor al stock máximo permitido");
+    }
+    if (nuevoStock < inventario.getStock_minimo()) {
+        throw new IllegalArgumentException("El stock no puede ser menor al stock mínimo permitido");
+    }
 
-        return inventarioDetalle;
+    inventario.setStock(nuevoStock);
+    // Guardar el inventario actualizado
+    inventarioService.guardar(inventario);
+    inventarioDetalle = inventarioDetalleRepository.save(inventarioDetalle);
+
+    return inventarioDetalle;
     }
     @Override
     public InventarioDetalle actualizar(InventarioDetalle inventarioDetalle) {
@@ -57,8 +68,13 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
 
     @Override
     public Optional<InventarioDetalle> listarPorId(Integer id){
-
-        return inventarioDetalleRepository.findById(id);
+        Optional<InventarioDetalle> inventariosdetalles = inventarioDetalleRepository.findById(id);
+        if (inventariosdetalles.isPresent()) {
+            Integer productoId = inventariosdetalles.get().getInventario().getProductoId();//id
+            ProductoDto productoDto = productoFeign.listById(productoId).getBody();
+            inventariosdetalles.get().setProductoDto(productoDto);
+        }
+        return inventariosdetalles;
     }
 
     @Override

@@ -18,7 +18,7 @@ import { Component, OnInit } from '@angular/core';
     `,
     // styleUrl: './setup.component.scss'
 })
-export class ProductComponent implements OnInit {
+export class InventarioComponent implements OnInit {
     public title: string = '';
     abcForms: any;
     constructor() {}

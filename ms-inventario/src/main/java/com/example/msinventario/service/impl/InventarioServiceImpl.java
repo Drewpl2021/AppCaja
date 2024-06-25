@@ -34,6 +34,12 @@ public class InventarioServiceImpl implements InventarioService {
     }
     @Override
     public Inventario guardar(Inventario inventario) {
+        if (inventario.getStock() > inventario.getStock_maximo()) {
+            throw new IllegalArgumentException("El stock no puede ser mayor al stock máximo permitido");
+        }
+        if (inventario.getStock() < inventario.getStock_minimo()) {
+            throw new IllegalArgumentException("El stock no puede ser menor al stock mínimo permitido");
+        }
         return inventarioRepository.save(inventario);
     }
     @Override
@@ -41,9 +47,10 @@ public class InventarioServiceImpl implements InventarioService {
         return inventarioRepository.save(inventario);
     }
     @Override
-public Optional<Inventario> listarPorId(Integer id){
-    Optional<Inventario> inventarios = inventarioRepository.findById(id);
-    if (inventarios.isPresent()) {
+    public Optional<Inventario> listarPorId(Integer id){
+
+        Optional<Inventario> inventarios = inventarioRepository.findById(id);
+        if (inventarios.isPresent()) {
         Integer productoId = inventarios.get().getProductoId();//id
         ProductoDto productoDto = productoFeign.listById(productoId).getBody();
         inventarios.get().setProductoDto(productoDto);
@@ -53,6 +60,13 @@ public Optional<Inventario> listarPorId(Integer id){
     @Override
     public void eliminarPorId(Integer id) {
         inventarioRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Double> getAllStocks() {
+    return inventarioRepository.findAll().stream()
+                               .map(Inventario::getStock)
+                               .collect(Collectors.toList());
     }
 
 

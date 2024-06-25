@@ -8,10 +8,7 @@ public class ProductoDto {
     private String nombre;
     private String descripcion;
     private Double precio;
-    private String stock;
+    private Double stock;
     private Integer id_proveedor;
 
-    public <T> T getBody() {
-        return null;
-    }
 }

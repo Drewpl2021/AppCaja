@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -41,6 +42,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     }
 
 
+
     @Override
     public TokenDto login(AuthUserDto authUserDto) {
         Optional<AuthUser> user = authRepository.findByUserName(authUserDto.getUserName());
@@ -63,5 +65,11 @@ public class AuthUserServiceImpl implements AuthUserService {
 
         return new TokenDto(token);
     }
+    @Override
+    public List<AuthUser> getAllUsers() {
+    return authRepository.findAll();
+    }
+
 }
+
 

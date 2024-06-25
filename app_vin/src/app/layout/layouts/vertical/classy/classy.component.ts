@@ -13,7 +13,7 @@ import {
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { Navigation } from 'app/core/navigation/navigation.types';
-import { UserService } from 'app/core/user/user.service';
+//import { UserAuthService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 //import {LanguagesComponent} from 'app/layout/common/languages/languages.component';
 import { MessagesComponent } from 'app/layout/common/messages/messages.component';
@@ -25,6 +25,9 @@ import { UserComponent } from 'app/layout/common/user/user.component';
 import { Subject, map, takeUntil } from 'rxjs';
 import { MenuService } from '../../../../providers/services/setup/menu.service';
 import { MenuAcceso } from './menu_accesos';
+import {UsersService} from "../../../../providers/services/setup/users.service";
+import {UserAuthService} from "../../../../providers/services/setup/userAuth.service";
+import {UserAuth} from "./models/UserAuth";
 
 @Component({
     selector: 'classy-layout',
@@ -50,8 +53,9 @@ import { MenuAcceso } from './menu_accesos';
 export class ClassyLayoutComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     navigation: FuseNavigationItem[];
+    public  userAuth: UserAuth;
+    public userAuths: UserAuth[]=[];
     menu: MenuAcceso[];
-
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     private;
@@ -63,7 +67,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _router: Router,
         // private _navigationService: NavigationService,
-        // private _userService: UserService,
+        private _userService: UserAuthService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,
         private _menuService: MenuService
@@ -130,6 +134,17 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         },
     ];
     ngOnInit(): void {
+        this._userService.getAll$().subscribe({
+            next: (data) => {
+                this.userAuths = data;
+                this.userAuth= this.userAuths[1];
+                console.log(this.user); // Opcional: Mostrar los datos del usuario en la consola para verificar
+            },
+            error: (error) => {
+                console.error('Error fetching user: ', error);
+                // Aquí puedes manejar el error, como mostrar un mensaje al usuario
+            }
+        });
         //this.showmenu();
         this.navigation = [
             {
@@ -167,7 +182,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
 
         ];
         this.user = {
-            id: 'cfaad35d-07a3-4447-a6c3-d8c3d54fd5df',
+            id: "1",
             name: 'Brian Hughes',
             email: 'hughes.brian@company.com',
             avatar: 'assets/images/avatars/brian-hughes.jpg',
