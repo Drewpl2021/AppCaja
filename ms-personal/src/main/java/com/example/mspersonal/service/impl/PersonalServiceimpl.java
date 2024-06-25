@@ -30,8 +30,22 @@ public class PersonalServiceimpl implements PersonalService {
 
     @Override
     public Personal actualizar(Personal personal) {
+        if (personal.getId() == null || !personalRepository.existsById(personal.getId())) {
+            throw new IllegalArgumentException("Personal not found for this id :: " + personal.getId());
+        }
 
-        return personalRepository.save(personal);
+        Personal existingPersonal = personalRepository.findById(personal.getId()).orElseThrow(() ->
+                new IllegalArgumentException("Personal not found for this id :: " + personal.getId()));
+
+        // Actualiza solo los campos editables
+        existingPersonal.setNombre(personal.getNombre());
+        existingPersonal.setApellidos(personal.getApellidos());
+        existingPersonal.setDni(personal.getDni());
+        existingPersonal.setTelefono(personal.getTelefono());
+        existingPersonal.setEmail(personal.getEmail());
+        // Campos "cargo", "fechaAniadido" y "contraseña" no se actualizan
+
+        return personalRepository.save(existingPersonal);
     }
 
     @Override
