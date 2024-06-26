@@ -63,7 +63,7 @@ export class ProductoEditComponent implements OnInit {
         descripcion: new FormControl('', [Validators.required]),
         precio: new FormControl('', [Validators.required]),
         stock: new FormControl('', [Validators.required]),
-        proveedor: new FormControl('', [Validators.required]),
+        //proveedor: new FormControl('', [Validators.required]),
     });
   @Input() title: string = '';
   @Input() client = new Producto();

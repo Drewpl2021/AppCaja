@@ -52,8 +52,7 @@ import { MatDialog } from '@angular/material/dialog';
                         </thead>
 
                         <tbody
-                            class="bg-white"
-                            *ngFor="let r of clients; let i = index">
+                            class="bg-white" *ngFor="let r of clients; let i = index">
                             <tr class="hover:bg-gray-100">
                                 <td class="w-1/6 p-2 text-center border-b">
                                     {{ i }}
@@ -71,7 +70,7 @@ import { MatDialog } from '@angular/material/dialog';
                                     {{ r.stock }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.proveedor }}
+                                    {{ r.proveedor.nombre }}
                                 </td>
 
 
@@ -90,6 +89,7 @@ import { MatDialog } from '@angular/material/dialog';
                                     </div>
                                 </td>
                             </tr>
+
                         </tbody>
                     </table>
                     <!--<div class="px-5 py-2 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
@@ -114,6 +114,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ClientListComponent implements OnInit {
     abcForms: any;
     @Input() clients: Producto[] = [];
+
     @Output() eventNew = new EventEmitter<boolean>();
     @Output() eventEdit = new EventEmitter<number>();
     @Output() eventDelete = new EventEmitter<number>();
@@ -123,6 +124,7 @@ export class ClientListComponent implements OnInit {
 
     ngOnInit() {
         this.abcForms = abcForms;
+
     }
 
     public goNew(): void {

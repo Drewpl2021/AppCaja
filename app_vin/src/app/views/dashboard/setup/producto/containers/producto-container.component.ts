@@ -41,7 +41,7 @@ export class ProductoContainerComponent implements OnInit {
 
     constructor(
         private _clientService: ProductoService,
-        private _confirmDialogService:ConfirmDialogService,
+        private _confirmDialogService: ConfirmDialogService,
         private _matDialog: MatDialog,
     ) {}
 
@@ -75,9 +75,9 @@ export class ProductoContainerComponent implements OnInit {
 
     saveClient(data: Object): void {
         this._clientService.add$(data).subscribe((response) => {
-        if (response) {
-            this.getClients()
-        }
+            if (response) {
+                this.getClients()
+            }
         });
     }
 
@@ -95,24 +95,23 @@ export class ProductoContainerComponent implements OnInit {
         console.log(data);
         if (data) {
             const clienteForm = this._matDialog.open(ProductoEditComponent);
-            clienteForm.componentInstance.title =`Editar <b>${data.nombre||data.id} </b>`;
+            clienteForm.componentInstance.title =`Editar <b>${data.nombre || data.id} </b>`;
             clienteForm.componentInstance.client = data;
             clienteForm.afterClosed().subscribe((result: any) => {
                 if (result) {
-                    this.editClient( data.id,result);
+                    this.editClient(data.id, result);
                 }
             });
         }
     }
 
-    editClient( idClient: number,data: Object) {
-        this._clientService.update$(idClient,data).subscribe((response) => {
+    editClient(idClient: number, data: Object) {
+        this._clientService.update$(idClient, data).subscribe((response) => {
             if (response) {
                 this.getClients()
             }
         });
     }
-
 
     public eventDelete(idClient: number) {
         this._confirmDialogService.confirmDelete(
@@ -127,6 +126,5 @@ export class ProductoContainerComponent implements OnInit {
             this.getClients();
         }).catch(() => {
         });
-
     }
 }
