@@ -1,11 +1,11 @@
-import { Client } from '../models/client';
+import { ProductoVendidos } from '../models/productoVendidos';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ClientNewComponent } from '../components/form/client-new.component';
+import { ProductoVendidosNewComponent } from '../components/form/productoVendidos-new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClientEditComponent } from '../components/form/client-edit.component';
+import { ProductoVendidosEditComponent } from '../components/form/productoVendidos-edit.component';
 import {ConfirmDialogService} from "../../../../../shared/confirm-dialog/confirm-dialog.service";
 import {ClientListComponent} from "../components";
 import {ClientService} from "../../../../../providers/services/setup/client.service";
@@ -17,8 +17,8 @@ import {ClientService} from "../../../../../providers/services/setup/client.serv
         CommonModule,
         RouterOutlet,
         ClientListComponent,
-        ClientNewComponent,
-        ClientEditComponent,
+        ProductoVendidosNewComponent,
+        ProductoVendidosEditComponent,
         FormsModule,
         ReactiveFormsModule,
     ],
@@ -33,10 +33,10 @@ import {ClientService} from "../../../../../providers/services/setup/client.serv
         ></app-clients-list>
     `,
 })
-export class ClientContainerComponent implements OnInit {
+export class ProductoVendidosContainerComponent implements OnInit {
     public error: string = '';
-    public clients: Client[] = [];
-    public client = new Client();
+    public clients: ProductoVendidos[] = [];
+    public client = new ProductoVendidos();
 
     constructor(
         private _clientService: ClientService,
@@ -62,7 +62,7 @@ export class ClientContainerComponent implements OnInit {
 
     public eventNew($event: boolean): void {
         if ($event) {
-            const clienteForm = this._matDialog.open(ClientNewComponent);
+            const clienteForm = this._matDialog.open(ProductoVendidosNewComponent);
             clienteForm.componentInstance.title = 'Nuevo Product' || null;
             clienteForm.afterClosed().subscribe((result: any) => {
                 if (result) {
@@ -90,10 +90,10 @@ export class ClientContainerComponent implements OnInit {
             });
     }
 
-    openModalEdit(data: Client) {
+    openModalEdit(data: ProductoVendidos) {
         console.log(data);
         if (data) {
-            const clienteForm = this._matDialog.open(ClientEditComponent);
+            const clienteForm = this._matDialog.open(ProductoVendidosEditComponent);
             clienteForm.componentInstance.title =`Editar <b>${data.nombre_razonSocial||data.id} </b>`;
             clienteForm.componentInstance.client = data;
             clienteForm.afterClosed().subscribe((result: any) => {

@@ -25,8 +25,9 @@ public class ClientesController {
         return ResponseEntity.ok(clientesService.guardar(clientes));
     }
 
-    @PutMapping()
-    public ResponseEntity<Clientes> update(@RequestBody Clientes clientes){
+    @PutMapping("/{id}")
+    public ResponseEntity<Clientes> update(@PathVariable Integer id, @RequestBody Clientes clientes) {
+        clientes.setId(id);  // Asegúrate de que el ID está establecido en el objeto Personal
         return ResponseEntity.ok(clientesService.actualizar(clientes));
     }
 

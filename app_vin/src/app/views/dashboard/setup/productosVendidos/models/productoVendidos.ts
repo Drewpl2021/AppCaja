@@ -1,4 +1,4 @@
-export class Client {
+export class ProductoVendidos {
 
     id?: number;
     nombre_razonSocial?: string;

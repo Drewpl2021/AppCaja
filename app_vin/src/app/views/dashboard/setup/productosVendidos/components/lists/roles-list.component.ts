@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { abcForms } from '../../../../../../../environments/generals';
-import { Client } from '../../models/client';
+import { ProductoVendidos } from '../../models/productoVendidos';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -101,7 +101,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ClientListComponent implements OnInit {
     abcForms: any;
-    @Input() clients: Client[] = [];
+    @Input() clients: ProductoVendidos[] = [];
     @Output() eventNew = new EventEmitter<boolean>();
     @Output() eventEdit = new EventEmitter<number>();
     @Output() eventDelete = new EventEmitter<number>();

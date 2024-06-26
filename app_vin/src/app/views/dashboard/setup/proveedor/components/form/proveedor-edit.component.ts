@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {abcForms} from '../../../../../../../environments/generals';
-import {Client} from '../../models/client';
+import {Proveedor} from '../../models/proveedor';
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
@@ -33,16 +33,20 @@ import {MatDialogRef} from "@angular/material/dialog";
       <!-- Compose form -->
         <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="clientForm">
             <mat-form-field>
-                <mat-label>Nombre o Razon Social</mat-label>
-                <input matInput formControlName="nombre_razonSocial" />
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre" />
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Direccion</mat-label>
                 <input matInput formControlName="direccion" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>DNI/RUC</mat-label>
-                <input matInput formControlName="dni_ruc" />
+                <mat-label>Telefono</mat-label>
+                <input matInput formControlName="telefono" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" />
             </mat-form-field>
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
@@ -57,19 +61,20 @@ import {MatDialogRef} from "@angular/material/dialog";
     </div>
   `
 })
-export class ClientEditComponent implements OnInit {
+export class ProveedorEditComponent implements OnInit {
     clientForm = new FormGroup({
-        nombre_razonSocial: new FormControl('', [Validators.required]),
+        nombre: new FormControl('', [Validators.required]),
         direccion: new FormControl('', [Validators.required]),
-        dni_ruc: new FormControl('', [Validators.required]),
+        telefono: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required]),
     });
   @Input() title: string = '';
-  @Input() client = new Client();
+  @Input() client = new Proveedor();
   abcForms: any;
 
   constructor(
       private formBuilder: FormBuilder,
-      private _matDialog: MatDialogRef<ClientEditComponent>,
+      private _matDialog: MatDialogRef<ProveedorEditComponent>,
   ) {
   }
 

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {abcForms} from '../../../../../../../environments/generals';
-import {Client} from '../../models/client';
+import {ProductoVendidos} from '../../models/productoVendidos';
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
@@ -57,19 +57,19 @@ import {MatDialogRef} from "@angular/material/dialog";
     </div>
   `
 })
-export class ClientEditComponent implements OnInit {
+export class ProductoVendidosEditComponent implements OnInit {
     clientForm = new FormGroup({
         nombre_razonSocial: new FormControl('', [Validators.required]),
         direccion: new FormControl('', [Validators.required]),
         dni_ruc: new FormControl('', [Validators.required]),
     });
   @Input() title: string = '';
-  @Input() client = new Client();
+  @Input() client = new ProductoVendidos();
   abcForms: any;
 
   constructor(
       private formBuilder: FormBuilder,
-      private _matDialog: MatDialogRef<ClientEditComponent>,
+      private _matDialog: MatDialogRef<ProductoVendidosEditComponent>,
   ) {
   }
 

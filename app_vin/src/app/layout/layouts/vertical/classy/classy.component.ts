@@ -155,10 +155,17 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                     },
                     {
                         id: 'SetupProdct',
-                        title: 'Setup producto',
+                        title: 'Setup Factura',
                         type: 'basic',
                         icon: 'heroicons_outline:chart-pie',
-                        link: '/homeScreen/setup/product',
+                        link: '/homeScreen/setup/productoVendidos',
+                    },
+                    {
+                        id: 'SetupProdct',
+                        title: 'Setup Proveedores',
+                        type: 'basic',
+                        icon: 'heroicons_outline:chart-pie',
+                        link: '/homeScreen/setup/proveedor',
                     },
                     {
                         id: 'SetupPersonal',
@@ -169,8 +176,10 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                     },
 
 
+
                 ],
             },
+
 
 
         ];

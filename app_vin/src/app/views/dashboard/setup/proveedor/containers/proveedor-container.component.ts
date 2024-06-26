@@ -1,14 +1,15 @@
-import { Client } from '../models/client';
+import { Proveedor } from '../models/proveedor';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ClientNewComponent } from '../components/form/client-new.component';
+import { ProveedorNewComponent } from '../components/form/proveedor-new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClientEditComponent } from '../components/form/client-edit.component';
+import { ProveedorEditComponent } from '../components/form/proveedor-edit.component';
 import {ConfirmDialogService} from "../../../../../shared/confirm-dialog/confirm-dialog.service";
 import {ClientListComponent} from "../components";
 import {ClientService} from "../../../../../providers/services/setup/client.service";
+import {PersonalService} from "../../../../../providers/services/setup/proveedor.service";
 
 @Component({
     selector: 'app-clients-container',
@@ -17,8 +18,8 @@ import {ClientService} from "../../../../../providers/services/setup/client.serv
         CommonModule,
         RouterOutlet,
         ClientListComponent,
-        ClientNewComponent,
-        ClientEditComponent,
+        ProveedorNewComponent,
+        ProveedorEditComponent,
         FormsModule,
         ReactiveFormsModule,
     ],
@@ -33,13 +34,13 @@ import {ClientService} from "../../../../../providers/services/setup/client.serv
         ></app-clients-list>
     `,
 })
-export class ClientContainerComponent implements OnInit {
+export class ProveedorContainerComponent implements OnInit {
     public error: string = '';
-    public clients: Client[] = [];
-    public client = new Client();
+    public clients: Proveedor[] = [];
+    public client = new Proveedor();
 
     constructor(
-        private _clientService: ClientService,
+        private _clientService: PersonalService,
         private _confirmDialogService:ConfirmDialogService,
         private _matDialog: MatDialog,
     ) {}
@@ -62,7 +63,7 @@ export class ClientContainerComponent implements OnInit {
 
     public eventNew($event: boolean): void {
         if ($event) {
-            const clienteForm = this._matDialog.open(ClientNewComponent);
+            const clienteForm = this._matDialog.open(ProveedorNewComponent);
             clienteForm.componentInstance.title = 'Nuevo Product' || null;
             clienteForm.afterClosed().subscribe((result: any) => {
                 if (result) {
@@ -90,11 +91,11 @@ export class ClientContainerComponent implements OnInit {
             });
     }
 
-    openModalEdit(data: Client) {
+    openModalEdit(data: Proveedor) {
         console.log(data);
         if (data) {
-            const clienteForm = this._matDialog.open(ClientEditComponent);
-            clienteForm.componentInstance.title =`Editar <b>${data.nombre_razonSocial||data.id} </b>`;
+            const clienteForm = this._matDialog.open(ProveedorEditComponent);
+            clienteForm.componentInstance.title =`Editar <b>${data.nombre||data.id} </b>`;
             clienteForm.componentInstance.client = data;
             clienteForm.afterClosed().subscribe((result: any) => {
                 if (result) {

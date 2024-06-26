@@ -44,16 +44,20 @@ import { MatInputModule } from '@angular/material/input';
             <!-- Compose form -->
             <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="clientForm">
                 <mat-form-field>
-                    <mat-label>Nombre o Razon Social</mat-label>
-                    <input matInput formControlName="nombre_razonSocial" />
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="nombre" />
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Direccion</mat-label>
                     <input matInput formControlName="direccion" />
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>DNI/RUC</mat-label>
-                    <input matInput formControlName="dni_ruc" />
+                    <mat-label>Telefono</mat-label>
+                    <input matInput formControlName="telefono" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" />
                 </mat-form-field>
                 <!-- Actions -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
@@ -68,17 +72,18 @@ import { MatInputModule } from '@angular/material/input';
         </div>
     `,
 })
-export class ClientNewComponent implements OnInit {
+export class ProveedorNewComponent implements OnInit {
     @Input() title: string = '';
     abcForms: any;
     clientForm = new FormGroup({
 
-        nombre_razonSocial: new FormControl('', [Validators.required]),
+        nombre: new FormControl('', [Validators.required]),
         direccion: new FormControl('', [Validators.required]),
-        dni_ruc: new FormControl('', [Validators.required]),
+        telefono: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required]),
     });
 
-    constructor(private _matDialog: MatDialogRef<ClientNewComponent>) {}
+    constructor(private _matDialog: MatDialogRef<ProveedorNewComponent>) {}
 
     ngOnInit() {
         this.abcForms = abcForms;

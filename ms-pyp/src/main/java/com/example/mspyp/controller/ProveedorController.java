@@ -26,8 +26,9 @@ public class ProveedorController {
         return ResponseEntity.ok(proveedorService.guardar(proveedor));
     }
 
-    @PutMapping()
-    public ResponseEntity<Proveedor> update(@RequestBody Proveedor proveedor){
+    @PutMapping("/{id}")
+    public ResponseEntity<Proveedor> update(@PathVariable Integer id, @RequestBody Proveedor proveedor){
+        proveedor.setId(id);
         return ResponseEntity.ok(proveedorService.actualizar(proveedor));
     }
 

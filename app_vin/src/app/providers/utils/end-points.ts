@@ -13,6 +13,7 @@ export const END_POINTS = {
     role: 'rol',
       client: 'clientes',
       personal: 'personal',
+      proveedor: 'proveedor',
       product: 'producto',
       category: 'categoria',
     accesRole: 'acceso-rol',

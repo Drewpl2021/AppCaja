@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { abcForms } from '../../../../../../../environments/generals';
-import { Client } from '../../models/client';
+import { Proveedor } from '../../models/proveedor';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,7 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
             <!-- Encabezado principal -->
             <div class="flex justify-between items-center mb-2 bg-slate-300 text-black p-4 rounded">
                 <h2 class="text-2xl font-bold">
-                    Lista de <span class="text-primary">Clientes</span>
+                    Lista de <span class="text-primary">Proveedores</span>
                 </h2>
                 <button mat-flat-button [color]="'primary'" (click)="goNew()">
                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
@@ -31,13 +31,16 @@ import { MatDialog } from '@angular/material/dialog';
                             <tr>
                                 <th class="w-1/6 table-head text-center px-5 border-r">#</th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Nombre o Razon Social
+                                    Nombre
                                 </th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
                                     Dirección
                                 </th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
-                                    DNI/RUC
+                                    Telefono
+                                </th>
+                                <th class="w-2/6 table-header text-center">
+                                    Email
                                 </th>
                                 <th class="w-2/6 table-header text-center">
                                     Acciones
@@ -53,13 +56,16 @@ import { MatDialog } from '@angular/material/dialog';
                                     {{ i }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.nombre_razonSocial }}
+                                    {{ r.nombre }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
                                     {{ r.direccion }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.dni_ruc }}
+                                    {{ r.telefono }}
+                                </td>
+                                <td class="w-2/6 p-2  text-start border-b text-sm">
+                                    {{ r.email }}
                                 </td>
 
 
@@ -101,7 +107,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ClientListComponent implements OnInit {
     abcForms: any;
-    @Input() clients: Client[] = [];
+    @Input() clients: Proveedor[] = [];
     @Output() eventNew = new EventEmitter<boolean>();
     @Output() eventEdit = new EventEmitter<number>();
     @Output() eventDelete = new EventEmitter<number>();
