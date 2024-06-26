@@ -27,8 +27,9 @@ public class ProductosVentidosController {
         return ResponseEntity.ok(productosVendidosService.guardar(productosVendidos ));
     }
 
-    @PutMapping()
-    public ResponseEntity<ProductosVendidos> update(@RequestBody ProductosVendidos productosVendidos ){
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductosVendidos> update(@PathVariable Integer id, @RequestBody ProductosVendidos productosVendidos ){
+        productosVendidos.setId(id);
         return ResponseEntity.ok(productosVendidosService.actualizar(productosVendidos ));
     }
 

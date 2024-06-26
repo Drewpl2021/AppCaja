@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { abcForms } from '../../../../../../../environments/generals';
-import { ProductoVendidos } from '../../models/productoVendidos';
+import { Producto } from '../../models/producto';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,21 +31,20 @@ import { MatDialog } from '@angular/material/dialog';
                             <tr>
                                 <th class="w-1/6 table-head text-center px-5 border-r">#</th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Producto
+                                    Nombre
                                 </th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Serie de boleta
+                                    Descipcion
                                 </th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Cantidad
-                                </th>
-                                <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Total
-                                </th>
-                                <th class="w-2/6 table-header text-center">
                                     Precio Unitario
                                 </th>
-
+                                <th class="w-2/6 table-header text-center px-5 border-r">
+                                    Stock
+                                </th>
+                                <th class="w-2/6 table-header text-center px-5 border-r">
+                                    Proveedor
+                                </th>
                                 <th class="w-2/6 table-header text-center">
                                     Acciones
                                 </th>
@@ -60,21 +59,20 @@ import { MatDialog } from '@angular/material/dialog';
                                     {{ i }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.productoId }}
+                                    {{ r.nombre }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.nombreVen }}
+                                    {{ r.descripcion }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.cantidad }}
+                                    {{ r.precio }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.total }}
+                                    {{ r.stock }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.precioUnitario }}
+                                    {{ r.proveedor }}
                                 </td>
-
 
 
                                 <td class="w-2/6 p-2 text-center border-b text-sm">
@@ -115,7 +113,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ClientListComponent implements OnInit {
     abcForms: any;
-    @Input() clients: ProductoVendidos[] = [];
+    @Input() clients: Producto[] = [];
     @Output() eventNew = new EventEmitter<boolean>();
     @Output() eventEdit = new EventEmitter<number>();
     @Output() eventDelete = new EventEmitter<number>();
@@ -126,7 +124,6 @@ export class ClientListComponent implements OnInit {
     ngOnInit() {
         this.abcForms = abcForms;
     }
-
 
     public goNew(): void {
         this.eventNew.emit(true);

@@ -18,12 +18,12 @@ import { Component, OnInit } from '@angular/core';
     `,
     // styleUrl: './setup.component.scss'
 })
-export class ProductComponent implements OnInit {
+export class ProductoComponent implements OnInit {
     public title: string = '';
     abcForms: any;
     constructor() {}
     ngOnInit() {
-        this.title = 'Cliente';
+        this.title = 'Producto';
         this.abcForms = abcForms;
     }
 }

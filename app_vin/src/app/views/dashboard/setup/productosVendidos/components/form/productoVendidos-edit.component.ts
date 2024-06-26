@@ -34,15 +34,23 @@ import {MatDialogRef} from "@angular/material/dialog";
         <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="clientForm">
             <mat-form-field>
                 <mat-label>Nombre o Razon Social</mat-label>
-                <input matInput formControlName="nombre_razonSocial" />
+                <input matInput formControlName="nombreVen" />
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Direccion</mat-label>
-                <input matInput formControlName="direccion" />
+                <input matInput formControlName="cantidad" />
             </mat-form-field>
             <mat-form-field>
                 <mat-label>DNI/RUC</mat-label>
-                <input matInput formControlName="dni_ruc" />
+                <input matInput formControlName="total" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>DNI/RUC</mat-label>
+                <input matInput formControlName="precioUnitario" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>DNI/RUC</mat-label>
+                <input matInput formControlName="productoId" />
             </mat-form-field>
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
@@ -59,9 +67,11 @@ import {MatDialogRef} from "@angular/material/dialog";
 })
 export class ProductoVendidosEditComponent implements OnInit {
     clientForm = new FormGroup({
-        nombre_razonSocial: new FormControl('', [Validators.required]),
-        direccion: new FormControl('', [Validators.required]),
-        dni_ruc: new FormControl('', [Validators.required]),
+        nombreVen: new FormControl('', [Validators.required]),
+        cantidad: new FormControl('', [Validators.required]),
+        total: new FormControl('', [Validators.required]),
+        precioUnitario: new FormControl('', [Validators.required]),
+        productoId: new FormControl('', [Validators.required]),
     });
   @Input() title: string = '';
   @Input() client = new ProductoVendidos();

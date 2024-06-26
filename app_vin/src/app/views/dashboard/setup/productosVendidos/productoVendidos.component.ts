@@ -23,7 +23,7 @@ export class ProductoVendidosComponent implements OnInit {
     abcForms: any;
     constructor() {}
     ngOnInit() {
-        this.title = 'Cliente';
+        this.title = 'productoVendidos';
         this.abcForms = abcForms;
     }
 }

@@ -162,6 +162,13 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                     },
                     {
                         id: 'SetupProdct',
+                        title: 'Setup Productos',
+                        type: 'basic',
+                        icon: 'heroicons_outline:chart-pie',
+                        link: '/homeScreen/setup/producto',
+                    },
+                    {
+                        id: 'SetupProdct',
                         title: 'Setup Proveedores',
                         type: 'basic',
                         icon: 'heroicons_outline:chart-pie',

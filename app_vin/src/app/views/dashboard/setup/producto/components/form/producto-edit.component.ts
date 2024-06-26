@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {abcForms} from '../../../../../../../environments/generals';
-import {Product} from '../../models/product';
+import {Producto} from '../../models/producto';
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
@@ -33,24 +33,16 @@ import {MatDialogRef} from "@angular/material/dialog";
       <!-- Compose form -->
         <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="clientForm">
             <mat-form-field>
-                <mat-label>Nombre</mat-label>
-                <input matInput formControlName="nombre" />
+                <mat-label>Nombre o Razon Social</mat-label>
+                <input matInput formControlName="nombre_razonSocial" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Apellidos</mat-label>
-                <input matInput formControlName="apellidos" />
+                <mat-label>Direccion</mat-label>
+                <input matInput formControlName="direccion" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>DNI</mat-label>
-                <input matInput formControlName="dni" />
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Telefono</mat-label>
-                <input matInput formControlName="telefono" />
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Correo</mat-label>
-                <input matInput formControlName="correoElectronico" />
+                <mat-label>DNI/RUC</mat-label>
+                <input matInput formControlName="dni_ruc" />
             </mat-form-field>
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
@@ -65,21 +57,21 @@ import {MatDialogRef} from "@angular/material/dialog";
     </div>
   `
 })
-export class ProductEditComponent implements OnInit {
+export class ProductoEditComponent implements OnInit {
     clientForm = new FormGroup({
         nombre: new FormControl('', [Validators.required]),
-        apellidos: new FormControl('', [Validators.required]),
-        dni: new FormControl('', [Validators.required]),
-        telefono: new FormControl('', [Validators.required]),
-        correoElectronico: new FormControl('', [Validators.required]),
+        descripcion: new FormControl('', [Validators.required]),
+        precio: new FormControl('', [Validators.required]),
+        stock: new FormControl('', [Validators.required]),
+        proveedor: new FormControl('', [Validators.required]),
     });
   @Input() title: string = '';
-  @Input() client = new Product();
+  @Input() client = new Producto();
   abcForms: any;
 
   constructor(
       private formBuilder: FormBuilder,
-      private _matDialog: MatDialogRef<ProductEditComponent>,
+      private _matDialog: MatDialogRef<ProductoEditComponent>,
   ) {
   }
 

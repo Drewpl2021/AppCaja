@@ -8,8 +8,9 @@ export default [
         children: [
             {path: 'client', loadChildren: () => import('./client/client.routers')},
             {path: 'personal', loadChildren: () => import('./personal/personal.routers')},
+            {path: 'producto', loadChildren: () => import('./producto/producto.routers')},
             {path: 'proveedor', loadChildren: () => import('./proveedor/proveedor.routers')},
-            {path: 'product', loadChildren: () => import('./product/product.routers')},
+            {path: 'productoVendidos', loadChildren: () => import('./productosVendidos/productoVendidos.routers')},
             {path: 'role', loadChildren: () => import('./roles/roles.routers')},
             {path: 'users', loadChildren: () => import('./user/users-routers')},
             {path: 'user', loadChildren: () => import('./user/users-routers')},
