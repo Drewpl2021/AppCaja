@@ -1,6 +1,7 @@
 package com.example.msfyv.entity;
 
 import com.example.msfyv.dto.ClientesDto;
+import com.example.msfyv.dto.PersonalDto;
 import com.example.msfyv.dto.ProductoDto;
 import com.example.msfyv.feign.ProductoFeign;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -26,6 +27,8 @@ public class Factura {
     private Double total;
     private Integer clienteId;
     private Integer nombreVen;
+    private Integer personalId;
+
 
 
 
@@ -45,4 +48,7 @@ public class Factura {
     private List<ProductosVendidos> productosVendidosList;
     @Transient
     private ClientesDto clientesDto;
+    @Transient
+    private PersonalDto personalDto;
+
 }

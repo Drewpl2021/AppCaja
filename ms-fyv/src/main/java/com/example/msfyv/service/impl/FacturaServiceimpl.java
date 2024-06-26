@@ -1,10 +1,12 @@
 package com.example.msfyv.service.impl;
 
 import com.example.msfyv.dto.ClientesDto;
+import com.example.msfyv.dto.PersonalDto;
 import com.example.msfyv.dto.ProductoDto;
 import com.example.msfyv.entity.Factura;
 import com.example.msfyv.entity.ProductosVendidos;
 import com.example.msfyv.feign.ClientesFeign;
+import com.example.msfyv.feign.PersonalFeign;
 import com.example.msfyv.feign.ProductoFeign;
 import com.example.msfyv.repository.FacturaRepository;
 import com.example.msfyv.repository.ProductosVendidosRepository;
@@ -30,6 +32,8 @@ public class FacturaServiceimpl implements FacturaService {
     private ClientesFeign clientesFeign;
     @Autowired
     private ProductosVendidosRepository productosVendidosRepository;
+    @Autowired
+    private PersonalFeign personalFeign;
 
 
     @Override
@@ -44,6 +48,8 @@ public class FacturaServiceimpl implements FacturaService {
         factura.setSerie("CAJA1");
         // Obtener los detalles del cliente
         ClientesDto cliente = clientesFeign.listById(factura.getClienteId()).getBody();
+        PersonalDto personal = personalFeign.listById(factura.getPersonalId()).getBody();
+
 
 
 
@@ -80,6 +86,8 @@ public class FacturaServiceimpl implements FacturaService {
 
         // Establecer los detalles del cliente en la factura guardada
         savedFactura.setClientesDto(cliente);
+        savedFactura.setPersonalDto(personal);
+
 
         // Almacenar los productos vendidos en la respuesta
         savedFactura.setProductosVendidosList(productosVendidosList);
@@ -105,6 +113,9 @@ public class FacturaServiceimpl implements FacturaService {
             ClientesDto cliente = clientesFeign.listById(factura.getClienteId()).getBody();
             factura.setClientesDto(cliente);
 
+            PersonalDto personal = personalFeign.listById(factura.getPersonalId()).getBody();
+            factura.setPersonalDto(personal);
+
             // Obtener los productos vendidos asociados al nombreVen de la factura
             List<ProductosVendidos> productosVendidosList = productosVendidosRepository.findByNombreVen(factura.getNombreVen());
             factura.setProductosVendidosList(productosVendidosList);
@@ -126,6 +137,7 @@ public class FacturaServiceimpl implements FacturaService {
     List<Factura> facturas = facturaRepository.findAll();
     List<ClientesDto> clientesDtos = new ArrayList<>();
 
+
     for (Factura factura : facturas) {
         ClientesDto clientesDto = clientesFeign.listById(factura.getClienteId()).getBody();
         if (clientesDto != null) {
@@ -135,6 +147,21 @@ public class FacturaServiceimpl implements FacturaService {
 
     return clientesDtos;
 }
+    @Override
+    public List<PersonalDto> listarPersonalDto() {
+        List<Factura> facturas = facturaRepository.findAll();
+        List<PersonalDto> personalDtos = new ArrayList<>();
+
+
+        for (Factura factura : facturas) {
+            PersonalDto personalDto = personalFeign.listById(factura.getPersonalId()).getBody();
+            if (personalDto != null) {
+                personalDtos.add(personalDto);
+            }
+        }
+
+        return personalDtos;
+    }
 
 
 }
