@@ -10,6 +10,8 @@ import {ConfirmDialogService} from "../../../../../shared/confirm-dialog/confirm
 import {ClientListComponent} from "../components";
 import {ClientService} from "../../../../../providers/services/setup/client.service";
 import {ProductoVendidosService} from "../../../../../providers/services/setup/productoVendidos.service";
+import {Factura} from "../models/factura";
+import {FacturaService} from "../../../../../providers/services/setup/factura.service";
 
 @Component({
     selector: 'app-clients-container',
@@ -27,27 +29,35 @@ import {ProductoVendidosService} from "../../../../../providers/services/setup/p
         <app-clients-list
             class="w-full"
             [clients]="clients"
+            [factura]="factura"
             (eventNew)="eventNew($event)"
             (eventEdit)="eventEdit($event)"
 
             (eventDelete)="eventDelete($event)"
         ></app-clients-list>
+
+
     `,
 })
 export class ProductoVendidosContainerComponent implements OnInit {
     public error: string = '';
     public clients: ProductoVendidos[] = [];
+    public factura: Factura[] = [];
     public client = new ProductoVendidos();
 
     constructor(
         private _clientService: ProductoVendidosService,
+        private _facturaService: FacturaService,
         private _confirmDialogService:ConfirmDialogService,
         private _matDialog: MatDialog,
     ) {}
 
     ngOnInit() {
         this.getClients();
+        this.getFactura();
     }
+
+
 
     getClients(): void {
         this._clientService.getAll$().subscribe(
@@ -60,6 +70,18 @@ export class ProductoVendidosContainerComponent implements OnInit {
             }
         );
     }
+    getFactura(): void {
+        this._facturaService.getAll$().subscribe(
+            (response) => {
+                console.log(response);
+                this.factura = response;
+            },
+            (error) => {
+                this.error = error;
+            }
+        );
+    }
+
 
     public eventNew($event: boolean): void {
         if ($event) {
@@ -80,6 +102,7 @@ export class ProductoVendidosContainerComponent implements OnInit {
         }
         });
     }
+
 
     eventEdit(idClient: number): void {
         const listById = this._clientService
@@ -129,5 +152,20 @@ export class ProductoVendidosContainerComponent implements OnInit {
         });
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
 

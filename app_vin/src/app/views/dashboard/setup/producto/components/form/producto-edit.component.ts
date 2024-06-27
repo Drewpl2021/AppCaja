@@ -34,15 +34,23 @@ import {MatDialogRef} from "@angular/material/dialog";
         <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="clientForm">
             <mat-form-field>
                 <mat-label>Nombre o Razon Social</mat-label>
-                <input matInput formControlName="nombre_razonSocial" />
+                <input matInput formControlName="nombre" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Direccion</mat-label>
-                <input matInput formControlName="direccion" />
+                <mat-label>Descripcion</mat-label>
+                <input matInput formControlName="descripcion" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>DNI/RUC</mat-label>
-                <input matInput formControlName="dni_ruc" />
+                <mat-label>Precio Unitario</mat-label>
+                <input matInput formControlName="precio" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Stock</mat-label>
+                <input matInput formControlName="stock" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Proveedor</mat-label>
+                <input matInput formControlName="proveedor" />
             </mat-form-field>
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
@@ -63,7 +71,7 @@ export class ProductoEditComponent implements OnInit {
         descripcion: new FormControl('', [Validators.required]),
         precio: new FormControl('', [Validators.required]),
         stock: new FormControl('', [Validators.required]),
-        //proveedor: new FormControl('', [Validators.required]),
+        proveedor: new FormControl('', [Validators.required]),
     });
   @Input() title: string = '';
   @Input() client = new Producto();

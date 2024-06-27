@@ -12,6 +12,7 @@ export const END_POINTS = {
   setup: {
     role: 'rol',
       client: 'clientes',
+      factura: 'factura',
       personal: 'personal',
       productosVendidos: 'productosVendidos',
       proveedor: 'proveedor',

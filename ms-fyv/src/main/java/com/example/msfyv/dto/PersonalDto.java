@@ -15,6 +15,6 @@ public class PersonalDto {
     private String email;
     private String contraseña;
     private String cargo;
-    private Date fechaAñadido;
+    private Date fechaAniadido;
 
 }

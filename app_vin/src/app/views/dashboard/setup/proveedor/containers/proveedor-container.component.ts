@@ -9,7 +9,7 @@ import { ProveedorEditComponent } from '../components/form/proveedor-edit.compon
 import {ConfirmDialogService} from "../../../../../shared/confirm-dialog/confirm-dialog.service";
 import {ClientListComponent} from "../components";
 import {ClientService} from "../../../../../providers/services/setup/client.service";
-import {PersonalService} from "../../../../../providers/services/setup/proveedor.service";
+import { ProveedorService} from "../../../../../providers/services/setup/proveedor.service";
 
 @Component({
     selector: 'app-clients-container',
@@ -40,7 +40,7 @@ export class ProveedorContainerComponent implements OnInit {
     public client = new Proveedor();
 
     constructor(
-        private _clientService: PersonalService,
+        private _clientService: ProveedorService,
         private _confirmDialogService:ConfirmDialogService,
         private _matDialog: MatDialog,
     ) {}
