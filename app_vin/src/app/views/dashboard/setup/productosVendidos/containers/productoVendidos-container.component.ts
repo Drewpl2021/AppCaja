@@ -12,6 +12,8 @@ import {ClientService} from "../../../../../providers/services/setup/client.serv
 import {ProductoVendidosService} from "../../../../../providers/services/setup/productoVendidos.service";
 import {Factura} from "../models/factura";
 import {FacturaService} from "../../../../../providers/services/setup/factura.service";
+import {Producto} from "../models/producto";
+import {ProductoService} from "../../../../../providers/services/setup/producto.service";
 
 @Component({
     selector: 'app-clients-container',
@@ -30,6 +32,7 @@ import {FacturaService} from "../../../../../providers/services/setup/factura.se
             class="w-full"
             [clients]="clients"
             [factura]="factura"
+            [producto]="producto"
             (eventNew)="eventNew($event)"
             (eventEdit)="eventEdit($event)"
 
@@ -43,11 +46,13 @@ export class ProductoVendidosContainerComponent implements OnInit {
     public error: string = '';
     public clients: ProductoVendidos[] = [];
     public factura: Factura[] = [];
+    public producto: Producto[] = [];
     public client = new ProductoVendidos();
 
     constructor(
         private _clientService: ProductoVendidosService,
         private _facturaService: FacturaService,
+        private _productoService: ProductoService,
         private _confirmDialogService:ConfirmDialogService,
         private _matDialog: MatDialog,
     ) {}
@@ -55,6 +60,7 @@ export class ProductoVendidosContainerComponent implements OnInit {
     ngOnInit() {
         this.getClients();
         this.getFactura();
+        this.getProducto();
     }
 
 
@@ -70,6 +76,19 @@ export class ProductoVendidosContainerComponent implements OnInit {
             }
         );
     }
+
+    getProducto(): void {
+        this._productoService.getAll$().subscribe(
+            (response) => {
+                console.log(response);
+                this.producto = response;
+            },
+            (error) => {
+                this.error = error;
+            }
+        );
+    }
+
     getFactura(): void {
         this._facturaService.getAll$().subscribe(
             (response) => {

@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import {Factura} from "../../models/factura";
+import {Producto} from "../../models/producto";
 
 @Component({
     selector: 'app-clients-list',
@@ -31,12 +32,16 @@ import {Factura} from "../../models/factura";
                         <thead class="bg-primary-600 text-white">
                             <tr>
                                 <th class="w-1/6 table-head text-center px-5 border-r">#</th>
+                                <th class="w-2/6 table-header text-center">
+                                    Serie
+                                </th>
+                                <th class="w-2/6 table-header text-center px-5 border-r">
+                                    Numero de boleta
+                                </th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
                                     Producto
                                 </th>
-                                <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Serie de boleta
-                                </th>
+
                                 <th class="w-2/6 table-header text-center px-5 border-r">
                                     Cantidad
                                 </th>
@@ -46,9 +51,8 @@ import {Factura} from "../../models/factura";
                                 <th class="w-2/6 table-header text-center">
                                     Precio Unitario
                                 </th>
-                                <th class="w-2/6 table-header text-center">
-                                    Serie
-                                </th>
+
+
 
                                 <th class="w-2/6 table-header text-center">
                                     Acciones
@@ -60,11 +64,13 @@ import {Factura} from "../../models/factura";
                             class="bg-white"
                             *ngFor="let r of clients; let i = index;">
                             <tr class="hover:bg-gray-100">
-                                <td class="w-1/6 p-2 text-center border-b">
+                                <td class="w-1/6 p-2 text-center border-b" >
                                     {{ i }}
                                 </td>
-                                <td class="w-2/6 p-2  text-center border-b text-sm">
-                                    {{ r.productoId }}
+                                <td class="w-2/6 p-2 text-center border-b text-sm">
+                                    <ng-container *ngFor="let a of producto">
+                                        <span *ngIf="r.productoId === a.id">{{ a.nombre }}</span>
+                                    </ng-container>
                                 </td>
                                 <td class="w-2/6 p-2  text-center border-b text-sm">
                                     {{ r.nombreVen }}
@@ -81,6 +87,7 @@ import {Factura} from "../../models/factura";
                                 <td class="w-2/6 p-2  text-center border-b text-sm" *ngFor=" let f of factura;">
                                     {{ f.serie }}
                                 </td>
+
 
                                 <td class="w-2/6 p-2 text-center border-b text-sm">
                                     <div class="flex justify-center space-x-3">
@@ -122,6 +129,7 @@ export class ClientListComponent implements OnInit {
     abcForms: any;
     @Input() clients: ProductoVendidos[] = [];
     @Input() factura: Factura[] = [];
+    @Input() producto: Producto[] = [];
     @Output() eventNew = new EventEmitter<boolean>();
     @Output() eventEdit = new EventEmitter<number>();
     @Output() eventDelete = new EventEmitter<number>();
