@@ -14,6 +14,7 @@ import {Factura} from "../models/factura";
 import {FacturaService} from "../../../../../providers/services/setup/factura.service";
 import {Producto} from "../models/producto";
 import {ProductoService} from "../../../../../providers/services/setup/producto.service";
+import {PdfViewerService} from "../../../../../providers/services";
 
 @Component({
     selector: 'app-clients-container',
@@ -55,7 +56,25 @@ export class ProductoVendidosContainerComponent implements OnInit {
         private _productoService: ProductoService,
         private _confirmDialogService:ConfirmDialogService,
         private _matDialog: MatDialog,
+        private pdfViewerService: PdfViewerService,
     ) {}
+
+
+    downloadPdf(id: number) {
+        this.pdfViewerService.downloadPdf(id).subscribe(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'query_results.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    }
+
+
+
+
 
     ngOnInit() {
         this.getClients();

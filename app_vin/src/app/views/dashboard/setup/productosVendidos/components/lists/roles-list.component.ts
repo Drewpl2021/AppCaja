@@ -9,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import {Factura} from "../../models/factura";
 import {Producto} from "../../models/producto";
+import {PdfViewerService} from "../../../../../../providers/services";
+import {PDFGeneratorService} from "../pdf";
 
 @Component({
     selector: 'app-clients-list',
@@ -25,7 +27,12 @@ import {Producto} from "../../models/producto";
                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                     <span class="ml-2">Nuevo Cliente</span>
                 </button>
+
+
+
             </div>
+
+
             <div class="bg-white rounded overflow-hidden shadow-lg">
                 <div class="p-2 overflow-scroll px-0">
                     <table class="w-full table-fixed">
@@ -63,7 +70,7 @@ import {Producto} from "../../models/producto";
                         <tbody
                             class="bg-white"
                             *ngFor="let r of clients; let i = index;">
-                            <tr class="hover:bg-gray-100">
+                            <tr class="hover:bg-gray-100" >
                                 <td class="w-1/6 p-2 text-center border-b" >
                                     {{ i }}
                                 </td>
@@ -101,6 +108,10 @@ import {Producto} from "../../models/producto";
                                             (click)="goAssign(r.id)"
                                             >swap_horiz
                                         </mat-icon>-->
+                                        <button
+                                                  (click)="generatePDF(r.id)">Generar PDF</button>
+
+
                                     </div>
                                 </td>
                             </tr>
@@ -123,7 +134,61 @@ import {Producto} from "../../models/producto";
                 </div>
             </div>
         </div>
+
+
+
+
+
+
+
+
+
+        <div id="pdf-content"  *ngFor="let client of clients">
+            <div [id]="'pdf-content-' + client.id" style="display: none;">
+
+
+                <div style="display:flex;">
+                    <div ><h1>titulo de factura</h1></div>
+
+                    <div></div>
+                </div>
+                <div *ngFor=" let f of factura;">
+                    Fecha de emicion:{{f.fecha_hora}}
+                </div>
+
+
+                <h1>Hola mundo</h1>
+                <p>Este es un parrafo</p>
+
+                <h2>Lista de Productos</h2>
+                <div style="font-size: 50px;" *ngFor="let a of producto">
+                    <span *ngIf="client.productoId === a.id">{{ a.nombre }}</span>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            #pdf-content {
+            font-family: Arial, sans-serif;
+            font-size: 50px;
+
+            }
+
+        #pdf-content h1 {
+            color: #333;
+        }
+
+        #pdf-content p {
+            font-size: 14px;
+            color: #666;
+        }
+            .base {
+                font-size: 50px;
+
+            }
+        </style>
     `,
+
 })
 export class ClientListComponent implements OnInit {
     abcForms: any;
@@ -135,7 +200,12 @@ export class ClientListComponent implements OnInit {
     @Output() eventDelete = new EventEmitter<number>();
     @Output() eventAssign = new EventEmitter<number>();
 
-    constructor(private _matDialog: MatDialog) {}
+
+
+    constructor(private _matDialog: MatDialog,
+                private pdfViewerService: PdfViewerService,
+                private pdfGeneratorService: PDFGeneratorService
+    ) {}
 
     ngOnInit() {
         this.abcForms = abcForms;
@@ -157,5 +227,25 @@ export class ClientListComponent implements OnInit {
     public goAssign(id: number): void {
         this.eventAssign.emit(id);
     }
+
+    // Simula la carga de datos de clients
+
+
+generatePDF(clientId: number): void {
+    const pdfContentId = 'pdf-content-' + clientId;
+    const pdfContent = document.getElementById(pdfContentId) as HTMLElement;
+
+    if (pdfContent) {
+        pdfContent.style.display = 'block';
+
+        setTimeout(() => {
+            this.pdfGeneratorService.generatePDF(pdfContentId);
+            pdfContent.style.display = 'none';
+        }, 500); // Ajustar el retraso si es necesario
+    } else {
+        console.error('PDF content element not found:', pdfContentId);
+
+    }
+}
 }
 
