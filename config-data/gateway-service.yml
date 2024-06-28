@@ -44,7 +44,7 @@ spring:
         - id: ms-pyp
           uri: lb://ms-pyp
           predicates:
-            - Path=/compras/** , /producto/** , /proveedor/**
+            - Path=/compras/** , /producto/** , /proveedor/**, /compradetalla/**
           #filters:
             #- AuthFilter
         - id: ms-fyv-service
@@ -60,5 +60,5 @@ spring:
         - id: ms-inventario-service
           uri: lb://ms-inventario-service
           predicates:
-            - Path=/inventario/** , /detalle/** , /compradetalla/**
+            - Path=/inventario/** , /detalle/** 
 
