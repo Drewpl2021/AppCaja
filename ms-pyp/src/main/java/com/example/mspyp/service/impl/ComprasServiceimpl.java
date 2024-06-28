@@ -1,8 +1,11 @@
 package com.example.mspyp.service.impl;
 
 import com.example.mspyp.entity.Compras;
+import com.example.mspyp.entity.Producto;
 import com.example.mspyp.repository.ComprasRepository;
+import com.example.mspyp.repository.ProductoRepository;
 import com.example.mspyp.service.ComprasService;
+import com.example.mspyp.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +17,10 @@ public class ComprasServiceimpl implements ComprasService {
 
     @Autowired
     private ComprasRepository comprasRepository;
-
+    @Autowired
+    private ProductoServiceimpl productoRepository;
+    @Autowired
+    private ProductoService productoService;
     @Override
     public List<Compras> listar(){
 
@@ -22,8 +28,8 @@ public class ComprasServiceimpl implements ComprasService {
     }
     @Override
     public Compras guardar(Compras compras) {
+    return comprasRepository.save(compras);
 
-        return comprasRepository.save(compras);
     }
     @Override
     public Compras actualizar(Compras compras) {

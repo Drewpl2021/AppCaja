@@ -9,6 +9,4 @@ public class ProductoDto {
     private String descripcion;
     private Double precio;
     private Double stock;
-    private Integer id_proveedor;
-
 }

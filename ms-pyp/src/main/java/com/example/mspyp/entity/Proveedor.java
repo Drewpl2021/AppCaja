@@ -16,6 +16,4 @@ public class Proveedor {
     private String telefono;
     private String email;
 
-    public Proveedor() {
-    }
 }

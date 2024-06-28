@@ -3,22 +3,19 @@ package com.example.mspyp.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Entity
 @Table(name = "compras")
 public class Compras {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String stock;
+    private Date fecha;
+    private String descripcion;
     @ManyToOne
-    @JoinColumn(name = "id_proveedor")
-    private Proveedor proveedor;
-    @ManyToOne
-    @JoinColumn(name = "id_producto")
-    private Producto producto;
+    @JoinColumn(name = "id_compra_detalle")
+    private ComprasDetallada comprasDetallada;
 
-    public Compras() {
-    }
 }

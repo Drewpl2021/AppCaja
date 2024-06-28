@@ -15,10 +15,4 @@ public class Producto {
     private String descripcion;
     private Double precio;
     private Double stock;
-    @ManyToOne
-    @JoinColumn(name = "id_proveedor")
-    private Proveedor proveedor;
-    public Producto() {
-        this.precio = (double) 0;
-    }
 }
