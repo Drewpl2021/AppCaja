@@ -15,6 +15,7 @@ import {FacturaService} from "../../../../../providers/services/setup/factura.se
 import {Producto} from "../models/producto";
 import {ProductoService} from "../../../../../providers/services/setup/producto.service";
 import {PdfViewerService} from "../../../../../providers/services";
+import {NewFacturaComponent} from "../components/form/factura-new.component";
 
 @Component({
     selector: 'app-clients-container',
@@ -27,6 +28,7 @@ import {PdfViewerService} from "../../../../../providers/services";
         ProductoVendidosEditComponent,
         FormsModule,
         ReactiveFormsModule,
+        NewFacturaComponent,
     ],
     template: `
         <app-clients-list
@@ -35,6 +37,7 @@ import {PdfViewerService} from "../../../../../providers/services";
             [factura]="factura"
             [producto]="producto"
             (eventNew)="eventNew($event)"
+            (facturaNew)="NuevaFactura($event)"
             (eventEdit)="eventEdit($event)"
 
             (eventDelete)="eventDelete($event)"
@@ -96,6 +99,7 @@ export class ProductoVendidosContainerComponent implements OnInit {
         );
     }
 
+
     getProducto(): void {
         this._productoService.getAll$().subscribe(
             (response) => {
@@ -132,6 +136,18 @@ export class ProductoVendidosContainerComponent implements OnInit {
             });
         }
     }
+    public NuevaFactura($event: boolean): void {
+        if ($event) {
+            const clienteForm = this._matDialog.open(NewFacturaComponent);
+            clienteForm.componentInstance.title = 'Nuevo Product' || null;
+            clienteForm.afterClosed().subscribe((result: any) => {
+                if (result) {
+                    this.saveClient(result);
+                }
+            });
+        }
+    }
+
 
     saveClient(data: Object): void {
         this._clientService.add$(data).subscribe((response) => {

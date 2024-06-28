@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { abcForms } from '../../../../../../../environments/generals';
 import { ProductoVendidos } from '../../models/productoVendidos';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,8 @@ import {Factura} from "../../models/factura";
 import {Producto} from "../../models/producto";
 import {PdfViewerService} from "../../../../../../providers/services";
 import {PDFGeneratorService} from "../pdf";
+import {ProductoVendidosNewComponent} from "../form/productoVendidos-new.component";
+import {NewFacturaComponent} from "../form/factura-new.component";
 
 @Component({
     selector: 'app-clients-list',
@@ -21,12 +23,13 @@ import {PDFGeneratorService} from "../pdf";
             <!-- Encabezado principal -->
             <div class="flex justify-between items-center mb-2 bg-slate-300 text-black p-4 rounded">
                 <h2 class="text-2xl font-bold">
-                    Lista de <span class="text-primary">Clientes</span>
+                    Lista de <span class="text-primary">Facturas</span>
                 </h2>
-                <button mat-flat-button [color]="'primary'" (click)="goNew()">
+                <button mat-flat-button [color]="'primary'" (click)="NuevaFactura()">
                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                    <span class="ml-2">Nuevo Cliente</span>
+                    <span class="ml-2">Nuevo Factura</span>
                 </button>
+
 
 
 
@@ -197,6 +200,7 @@ export class ClientListComponent implements OnInit {
     @Input() producto: Producto[] = [];
     @Output() eventNew = new EventEmitter<boolean>();
     @Output() eventEdit = new EventEmitter<number>();
+    @Output() facturaNew = new EventEmitter<boolean>();
     @Output() eventDelete = new EventEmitter<number>();
     @Output() eventAssign = new EventEmitter<number>();
 
@@ -204,7 +208,9 @@ export class ClientListComponent implements OnInit {
 
     constructor(private _matDialog: MatDialog,
                 private pdfViewerService: PdfViewerService,
-                private pdfGeneratorService: PDFGeneratorService
+                private pdfGeneratorService: PDFGeneratorService,
+                private router: Router // Inyecta el Router aquí
+
     ) {}
 
     ngOnInit() {
@@ -214,6 +220,10 @@ export class ClientListComponent implements OnInit {
 
     public goNew(): void {
         this.eventNew.emit(true);
+    }
+    public NuevaFactura(): void {
+        this.facturaNew.emit(true);
+
     }
 
     public goEdit(id: number): void {
