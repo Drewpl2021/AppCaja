@@ -12,5 +12,8 @@ public interface InventarioDetalleService {
     public InventarioDetalle actualizar(InventarioDetalle inventarioDetalle);
     public Optional<InventarioDetalle> listarPorId(Integer id);
     public void eliminarPorId(Integer id);
+    double calcularCostoPromedioPonderado();
+    public List<InventarioDetalle> listarEntradas();
+    public List<InventarioDetalle> listarSalidas();
 
 }

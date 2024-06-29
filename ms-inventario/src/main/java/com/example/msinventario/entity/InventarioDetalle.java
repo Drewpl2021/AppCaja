@@ -20,6 +20,8 @@ public class InventarioDetalle {
     private Date fecha;
     private Double entrada;
     private Double salida;
+    private Double costo_total;
+    private Double precio_de_compra;
     private Integer productoId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inventario_id")
@@ -28,7 +30,7 @@ public class InventarioDetalle {
     @Transient
     private ProductoDto productoDto;
 
-    public Double calcularCambioStock() {
-        return entrada - salida;
-    }
+    //public Double calcularCambioStock() {
+        //return entrada - salida;
+    //}
 }

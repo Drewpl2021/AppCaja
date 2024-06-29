@@ -9,7 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/detalle")
@@ -53,5 +56,33 @@ public class InventarioDetalleController {
     @DeleteMapping("/{id}")
     public String deleteById(@PathVariable(required = true) Integer id){ inventarioDetalleService.eliminarPorId(id);
         return "Eliminado Correctamente :3";
+    }
+
+    @GetMapping("/reporte/entradas")
+    public ResponseEntity<List<Map<String, Object>>> reporteEntradas(){
+        List<Map<String, Object>> entradas = inventarioDetalleService.listar().stream()
+                .filter(detalle -> detalle.getEntrada() > 0)
+                .map(detalle -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("fecha", detalle.getFecha());
+                    map.put("entrada", detalle.getEntrada());
+                    return map;
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(entradas);
+    }
+
+    @GetMapping("/reporte/salidas")
+    public ResponseEntity<List<Map<String, Object>>> reporteSalidas(){
+        List<Map<String, Object>> salidas = inventarioDetalleService.listar().stream()
+                .filter(detalle -> detalle.getSalida() > 0)
+                .map(detalle -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("fecha", detalle.getFecha());
+                    map.put("salida", detalle.getSalida());
+                    return map;
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok().body(salidas);
     }
 }

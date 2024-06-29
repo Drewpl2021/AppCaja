@@ -10,8 +10,8 @@ public class Inventario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Double costo;
     private Integer estado ;
+    private String descripcion;
     private Double precio_venta;
     private Double stock;
     private Double stock_minimo;

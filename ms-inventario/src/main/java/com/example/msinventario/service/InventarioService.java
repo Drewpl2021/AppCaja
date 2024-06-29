@@ -15,4 +15,5 @@ public interface InventarioService {
     public void eliminarPorId(Integer id);
     List<Double> getAllStocks();
 
+
 }
