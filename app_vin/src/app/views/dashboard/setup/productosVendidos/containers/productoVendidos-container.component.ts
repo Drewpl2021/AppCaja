@@ -44,6 +44,7 @@ import {NewFacturaComponent} from "../components/form/factura-new.component";
         ></app-clients-list>
 
 
+
     `,
 })
 export class ProductoVendidosContainerComponent implements OnInit {
