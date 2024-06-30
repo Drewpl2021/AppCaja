@@ -13,6 +13,8 @@ import {PdfViewerService} from "../../../../../../providers/services";
 import {PDFGeneratorService} from "../pdf";
 import {ProductoVendidosNewComponent} from "../form/productoVendidos-new.component";
 import {NewFacturaComponent} from "../form/factura-new.component";
+import {Clientes} from "../../models/clientes";
+import {FuseNavigationItem} from "../../../../../../../@fuse/components/navigation";
 
 @Component({
     selector: 'app-clients-list',
@@ -25,10 +27,11 @@ import {NewFacturaComponent} from "../form/factura-new.component";
                 <h2 class="text-2xl font-bold">
                     Lista de <span class="text-primary">Facturas</span>
                 </h2>
-                <button mat-flat-button [color]="'primary'" (click)="NuevaFactura()">
+                <!--<button mat-flat-button [color]="'primary'" (click)="NuevaFactura()">
                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                     <span class="ml-2">Nuevo Factura</span>
-                </button>
+                </button>-->
+
 
 
 
@@ -196,8 +199,10 @@ import {NewFacturaComponent} from "../form/factura-new.component";
 export class ClientListComponent implements OnInit {
     abcForms: any;
     @Input() clients: ProductoVendidos[] = [];
+    navigation: FuseNavigationItem[];
     @Input() factura: Factura[] = [];
     @Input() producto: Producto[] = [];
+    @Input() clientes: Clientes[] = [];
     @Output() eventNew = new EventEmitter<boolean>();
     @Output() eventEdit = new EventEmitter<number>();
     @Output() facturaNew = new EventEmitter<boolean>();
@@ -212,6 +217,8 @@ export class ClientListComponent implements OnInit {
                 private router: Router // Inyecta el Router aquí
 
     ) {}
+
+
 
     ngOnInit() {
         this.abcForms = abcForms;
@@ -229,6 +236,7 @@ export class ClientListComponent implements OnInit {
     public goEdit(id: number): void {
         this.eventEdit.emit(id);
     }
+
 
     public goDelete(id: number): void {
         this.eventDelete.emit(id);

@@ -15,6 +15,7 @@ export default [
           title: 'Clientes'
         }
       },
+
     ],
   },
 ] as Routes;

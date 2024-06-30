@@ -53,7 +53,7 @@ import { MatDialog } from '@angular/material/dialog';
                                     {{ i }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.nombre_razonSocial }}
+                                    {{ r.nombreRazonSocial }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
                                     {{ r.direccion }}

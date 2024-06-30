@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
@@ -35,6 +36,21 @@ public class ClientesController {
     public ResponseEntity<Clientes> listById(@PathVariable(required = true) Integer id){
         return ResponseEntity.ok().body(clientesService.listarPorId(id).get());
     }
+
+    @GetMapping("/nombre/{nombreRazonSocial}")
+    public ResponseEntity<Clientes> buscarPorNombreRazonSocialAproximado(@PathVariable String nombreRazonSocial) {
+        return clientesService.buscarPorNombreRazonSocialAproximado(nombreRazonSocial)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/dni/{dni_ruc}")
+    public ResponseEntity<Clientes> buscarPorDniRuc(@PathVariable Integer dni_ruc) {
+        return clientesService.buscarPorDniRuc(dni_ruc)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
     @DeleteMapping("/{id}")
     public String deleteById(@PathVariable(required = true) Integer id){ clientesService.eliminarPorId(id);

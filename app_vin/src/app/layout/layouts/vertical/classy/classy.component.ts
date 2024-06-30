@@ -155,10 +155,17 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                     },
                     {
                         id: 'SetupProdct',
-                        title: 'Setup Factura',
+                        title: 'Setup Factura ',
                         type: 'basic',
                         icon: 'heroicons_outline:chart-pie',
                         link: '/homeScreen/setup/productoVendidos',
+                    },
+                    {
+                        id: 'SetupProdct',
+                        title: 'Setup Factura new',
+                        type: 'basic',
+                        icon: 'heroicons_outline:chart-pie',
+                        link: '/homeScreen/setup/generarFactura',
                     },
                     {
                         id: 'SetupProdct',
@@ -167,6 +174,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                         icon: 'heroicons_outline:chart-pie',
                         link: '/homeScreen/setup/producto',
                     },
+
                     {
                         id: 'SetupProdct',
                         title: 'Setup Proveedores',

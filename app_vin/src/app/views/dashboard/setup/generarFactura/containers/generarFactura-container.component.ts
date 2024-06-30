@@ -37,12 +37,13 @@ import {ClientEditComponent} from "../../client/components/form/client-edit.comp
     template: `
         <app-clients-list
             class="w-full"
-            [clients]="vendidos"
+            [clients]="clients"
             [factura]="factura"
             [producto]="producto"
+            [clientes]="clientes"
 
             (eventNew)="eventNew($event)"
-            (facturaNew)="NuevaFactura($event)"
+
             (eventEdit)="eventEdit($event)"
 
             (eventDelete)="eventDelete($event)"
@@ -53,9 +54,9 @@ import {ClientEditComponent} from "../../client/components/form/client-edit.comp
 
     `,
 })
-export class ProductoVendidosContainerComponent implements OnInit {
+export class GenerarFacturaContainerComponent implements OnInit {
     public error: string = '';
-    public vendidos: ProductoVendidos[] = [];
+    public clients: ProductoVendidos[] = [];
     public factura: Factura[] = [];
     public clientes: Clientes[] = [];
     public producto: Producto[] = [];
@@ -100,7 +101,7 @@ export class ProductoVendidosContainerComponent implements OnInit {
         this._vendidosService.getAll$().subscribe(
             (response) => {
                 console.log(response);
-                this.vendidos = response;
+                this.clients = response;
             },
             (error) => {
                 this.error = error;
@@ -157,16 +158,16 @@ export class ProductoVendidosContainerComponent implements OnInit {
             });
         }
     }
-    public NuevaFactura($event: boolean): void {
-        if ($event) {
-            const clienteForm = this._matDialog.open(NewFacturaComponent);
-            clienteForm.afterClosed().subscribe((result: any) => {
-                if (result) {
-                    this.saveClient(result);
-                }
-            });
-        }
-    }
+    //public NuevaFactura($event: boolean): void {
+    //    if ($event) {
+    //        const clienteForm = this._matDialog.open(NewFacturaComponent);
+    //        clienteForm.afterClosed().subscribe((result: any) => {
+    //            if (result) {
+    //                this.saveClient(result);
+    //            }
+    //        });
+    //    }
+    //}
 
 
     saveClient(data: Object): void {
@@ -219,7 +220,7 @@ export class ProductoVendidosContainerComponent implements OnInit {
             }
         ).then(() => {
             this._vendidosService.delete$(idClient).subscribe((response) => {
-                this.vendidos = response;
+                this.clients = response;
             });
             this.getClients();
         }).catch(() => {

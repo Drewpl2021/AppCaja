@@ -15,6 +15,10 @@ public interface ClientesService {
 
     public Optional<Clientes> listarPorId(Integer id);
 
+    public Optional<Clientes> buscarPorNombreRazonSocialAproximado(String nombreRazonSocial);
+
+    public Optional<Clientes> buscarPorDniRuc(Integer dni_ruc);
+
     public void eliminarPorId(Integer id);
 
 }

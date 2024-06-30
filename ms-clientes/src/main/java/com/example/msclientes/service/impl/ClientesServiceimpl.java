@@ -33,11 +33,27 @@ public class ClientesServiceimpl implements ClientesService {
         return clientesRepository.save(clientes);
     }
 
+
+
     @Override
     public Optional<Clientes> listarPorId(Integer id){
 
         return clientesRepository.findById(id);
     }
+
+    @Override
+    public Optional<Clientes> buscarPorNombreRazonSocialAproximado(String nombreRazonSocial){
+
+        return clientesRepository.buscarPorNombreRazonSocialAproximado(nombreRazonSocial);
+    }
+
+    @Override
+    public Optional<Clientes> buscarPorDniRuc(Integer dni_ruc){
+
+        return clientesRepository.buscarPorDniRuc(dni_ruc);
+    }
+
+
 
     @Override
     public void eliminarPorId(Integer id) {

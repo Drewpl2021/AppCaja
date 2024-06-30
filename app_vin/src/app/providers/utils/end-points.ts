@@ -18,6 +18,7 @@ export const END_POINTS = {
       proveedor: 'proveedor',
       producto: 'producto',
       productoVendidos: 'productoVendidos',
+      generarFactura: 'generarFactura',
       category: 'categoria',
     accesRole: 'acceso-rol',
     person: 'persona',

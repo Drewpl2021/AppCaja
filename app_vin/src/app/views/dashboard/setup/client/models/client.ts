@@ -1,7 +1,7 @@
 export class Client {
 
     id?: number;
-    nombre_razonSocial?: string;
+    nombreRazonSocial?: string;
     direccion?: string;
     dni_ruc?: string;
 }
