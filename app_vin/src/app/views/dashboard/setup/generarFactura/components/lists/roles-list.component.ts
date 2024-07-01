@@ -89,51 +89,55 @@ import {FormsModule} from "@angular/forms";
                             </div>
                         </div>
                     </div>
-                    <button mat-flat-button [color]="'primary'" (click)="goNew()">
+                    <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="goNew()">
                         <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                         <span class="ml-2">Nuevo Factura</span>
                     </button>
-
-                    <table>
-                        <thead>
+                        <br><br>
+                    <table class="w-full table-fixed">
+                        <thead class=" text-white" style="background-color: lightseagreen">
                         <tr>
-                            <th>Cantidad</th>
-                            <th>Producto</th>
-                            <th>Precio Unitario</th>
-                            <th>IGV</th>
-                            <th>Total</th>
+                            <th class="w-1/6 table-head text-center px-5 border-r">#</th>
+                            <th class="w-2/6 table-header text-center px-5 border-r">Cantidad</th>
+                            <th class="w-2/6 table-header text-center px-5 border-r">Producto</th>
+                            <th class="w-2/6 table-header text-center px-5 border-r">Precio Unitario</th>
+                            <th class="w-2/6 table-header text-center">Total</th>
+                            <th class="w-2/6 table-header text-center">Acciones</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>Producto 1</td>
-                            <td>2</td>
-                            <td>$10.00</td>
-                            <td>$10.00</td>
-                            <td>$20.00</td>
-                        </tr>
-                        <tr>
-                            <td>Producto 2</td>
-                            <td>1</td>
-                            <td>$15.00</td>
-                            <td>$10.00</td>
-                            <td>$15.00</td>
-                        </tr>
-                        <tr>
-                            <td>Producto 3</td>
-                            <td>3</td>
-                            <td>$7.50</td>
-                            <td>$10.00</td>
-                            <td>$22.50</td>
+                        <tbody class="bg-white" *ngFor="let r of getFilteredClients(); let i = index">
+                        <tr class="hover:bg-gray-100">
+                            <td class="w-1/6 p-2 text-center border-b">{{ i }}</td>
+                            <td class="w-2/6 p-2 text-start border-b text-sm">{{ r.cantidad }}</td>
+                            <td class="w-2/6 p-2 text-start border-b text-sm">{{ getProductoNombre(r.productoId) }} </td>
+                            <td class="w-2/6 p-2 text-start border-b text-sm">{{ r.precioUnitario }} </td>
+                            <td class="w-2/6 p-2 text-start border-b text-sm">{{ r.total }}</td>
+                            <td class="w-2/6 p-2 text-center border-b text-sm">
+                                <div class="flex justify-center space-x-3">
+                                    <mat-icon class="text-amber-400 hover:text-amber-500 cursor-pointer" (click)="goEdit(r.id)">edit</mat-icon>
+                                    <mat-icon class="text-rose-500 hover:text-rose-600 cursor-pointer" (click)="goDelete(r.id)">delete_sweep</mat-icon>
+                                </div>
+                            </td>
                         </tr>
                         </tbody>
                         <tfoot>
                         <tr>
+                            <td colspan="4" class="total">Sub. Total</td>
+                            <td>{{ getSubTotal() | number: '1.2-2' }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="total">IGV</td>
+                            <td>{{ getIGV() | number: '1.2-2' }}</td>
+                        </tr>
+                        <tr>
                             <td colspan="4" class="total">Total</td>
-                            <td>$57.50</td>
+                            <td>{{ getTotalSum() | number: '1.2-2' }}</td>
                         </tr>
                         </tfoot>
+
+
                     </table>
+
 
                     <div class="footer">
                         <p>Gracias por su compra</p>
@@ -207,7 +211,7 @@ export class ClientListComponent implements OnInit {
     navigation: FuseNavigationItem[];
     tipoDocumento: string = 'boleta';
     selectedClient: any = {};
-    siguienteNumero: number;
+    siguienteNumero: number ;
     @Input() clients: ProductoVendidos[] = [];
     @Input() factura: Factura[] = [];
     @Input() producto: Producto[] = [];
@@ -218,7 +222,7 @@ export class ClientListComponent implements OnInit {
     @Output() eventDelete = new EventEmitter<number>();
     @Output() eventAssign = new EventEmitter<number>();
     fechaHoy: string;
-
+    showMenu: boolean = false;
 
     constructor(private _matDialog: MatDialog,
                 private pdfViewerService: PdfViewerService,
@@ -227,11 +231,42 @@ export class ClientListComponent implements OnInit {
 
     ) {}
 
+
+
+    ngOnInit() {
+        this.abcForms = abcForms;
+        const hoy = new Date();
+        this.fechaHoy = `${hoy.getDate().toString().padStart(2, '0')}/${(hoy.getMonth() + 1).toString().padStart(2, '0')}/${hoy.getFullYear()}`;
+        this.siguienteNumero = this.getNextNumero()  ;
+    }
+
+    getProductoNombre(id: number): string {
+        const producto = this.producto.find(p => p.id === id);
+        return producto ? producto.nombre : 'Producto no encontrado';
+    }
+
+
+    getFilteredClients() {
+        const nextNumero = this.getNextNumero();
+        return this.clients.filter(client => Number(client.nombreVen) === nextNumero);
+    }
+
+
     getNextNumero(): number {
         const numeros = this.factura.map(f => Number(f.nombreVen));
         const maxNumero = Math.max(...numeros);
         return maxNumero + 1;
-        return 0;
+
+    }
+    getSubTotal(): number {
+        return this.getTotalSum() / 1.18;
+    }
+    getIGV(): number {
+        return this.getTotalSum() - this.getSubTotal();
+    }
+
+    getTotalSum(): number {
+        return this.getFilteredClients().reduce((sum, client) => sum + Number(client.total), 0);
     }
 
     getSerie(): string {
@@ -244,17 +279,14 @@ export class ClientListComponent implements OnInit {
 
 
 
-    ngOnInit() {
-        this.abcForms = abcForms;
-        const hoy = new Date();
-        this.fechaHoy = `${hoy.getDate().toString().padStart(2, '0')}/${(hoy.getMonth() + 1).toString().padStart(2, '0')}/${hoy.getFullYear()}`;
-    }
-
 
     public goNew(): void {
         this.eventNew.emit(true);
         console.log('Número siguiente:', this.siguienteNumero);
+
+
     }
+
     public NuevaFactura(): void {
         this.facturaNew.emit(true);
 
@@ -276,21 +308,27 @@ export class ClientListComponent implements OnInit {
     // Simula la carga de datos de clients
 
 
-generatePDF(clientId: number): void {
-    const pdfContentId = 'pdf-content-' + clientId;
-    const pdfContent = document.getElementById(pdfContentId) as HTMLElement;
+    generatePDF(clientId: number): void {
+        const pdfContentId = 'pdf-content-' + clientId;
+        const pdfContent = document.getElementById(pdfContentId) as HTMLElement;
 
-    if (pdfContent) {
-        pdfContent.style.display = 'block';
+        if (pdfContent) {
+            pdfContent.style.display = 'block';
 
-        setTimeout(() => {
-            this.pdfGeneratorService.generatePDF(pdfContentId);
-            pdfContent.style.display = 'none';
-        }, 500); // Ajustar el retraso si es necesario
-    } else {
-        console.error('PDF content element not found:', pdfContentId);
+            setTimeout(() => {
+                this.pdfGeneratorService.generatePDF(pdfContentId);
+                pdfContent.style.display = 'none';
+            }, 500); // Ajustar el retraso si es necesario
+        } else {
+            console.error('PDF content element not found:', pdfContentId);
 
+        }
     }
-}
+
+
+
+
+
+
 }
 

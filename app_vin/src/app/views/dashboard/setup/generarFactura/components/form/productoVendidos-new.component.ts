@@ -6,7 +6,6 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-
 import { abcForms } from '../../../../../../../environments/generals';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,9 +13,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Factura } from "../../models/factura";
+import {CommonModule, NgForOf} from "@angular/common";
 
 @Component({
-    selector: 'app-clients-new',
+    selector: 'app-factura-new',
     standalone: true,
     imports: [
         FormsModule,
@@ -26,6 +27,9 @@ import { MatInputModule } from '@angular/material/input';
         MatSlideToggleModule,
         MatFormFieldModule,
         MatInputModule,
+        NgForOf,
+        CommonModule, // Incluye CommonModule aquí
+
     ],
     template: `
         <div class="flex flex-col max-w-240 md:min-w-160 max-h-screen -m-6">
@@ -38,6 +42,11 @@ import { MatInputModule } from '@angular/material/input';
                         [svgIcon]="'heroicons_outline:x-mark'"
                     ></mat-icon>
                 </button>
+            </div>
+            <div  style="flex: 1; font-size: 17px; text-align: left;">
+                <div *ngFor="let r of factura">
+                    <strong>N° de Comprobante:</strong> {{ getNextNumero() }}<br>
+                </div>
             </div>
 
 
@@ -55,20 +64,15 @@ import { MatInputModule } from '@angular/material/input';
                     <mat-label>Precio unitario</mat-label>
                     <input matInput formControlName="precioUnitario" />
                 </mat-form-field>
-
                 <mat-form-field>
-                    <mat-label>Total</mat-label>
-                    <input matInput formControlName="total" />
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>nombreVner</mat-label>
+                    <mat-label>Nombre</mat-label>
                     <input matInput formControlName="nombreVen" />
                 </mat-form-field>
                 <!-- Actions -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
                     <div class="flex space-x-2 items-center mt-4 sm:mt-0 ml-auto">
-                        <button mat-stroked-button [color]="'warn'" (click)="cancelForm()">Cancelar</button>
-                        <button mat-stroked-button [color]="'primary'" (click)="saveForm()">
+                        <button mat-stroked-button color="warn" (click)="cancelForm()">Cancelar</button>
+                        <button mat-stroked-button color="primary" (click)="saveForm()">
                             Guardar
                         </button>
                     </div>
@@ -79,18 +83,14 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class ProductoVendidosNewComponent implements OnInit {
     @Input() title: string = '';
+    @Input() factura: Factura[] = [];
     abcForms: any;
     clientForm = new FormGroup({
-
         nombreVen: new FormControl('', [Validators.required]),
         cantidad: new FormControl('', [Validators.required]),
-        total: new FormControl('', [Validators.required]),
         precioUnitario: new FormControl('', [Validators.required]),
         productoId: new FormControl('', [Validators.required]),
     });
-    factura = [
-        // Tu lista de facturas con los campos existentes
-    ];
 
     constructor(private _matDialog: MatDialogRef<ProductoVendidosNewComponent>) {}
 
@@ -104,12 +104,18 @@ export class ProductoVendidosNewComponent implements OnInit {
         }
     }
 
-    public cancelForm(): void {
-        this._matDialog.close('');
-    }
     getNextNumero(): number {
-        const numeros = this.factura.map(f => Number(f.nombreVen));
+        if (this.factura.length === 0) {
+            return 1; // Retorna 1 si la lista de facturas está vacía
+        }
+        const numeros = this.factura.map(f => Number(f.nombreVen) || 0);
         const maxNumero = Math.max(...numeros);
         return maxNumero + 1;
     }
+
+    public cancelForm(): void {
+        this._matDialog.close('');
+    }
+
+
 }

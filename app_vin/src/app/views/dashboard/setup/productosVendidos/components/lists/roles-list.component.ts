@@ -48,9 +48,7 @@ import {FuseNavigationItem} from "../../../../../../../@fuse/components/navigati
                                 <th class="w-2/6 table-header text-center">
                                     Serie
                                 </th>
-                                <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Numero de boleta
-                                </th>
+
                                 <th class="w-2/6 table-header text-center px-5 border-r">
                                     Producto
                                 </th>
@@ -96,9 +94,6 @@ import {FuseNavigationItem} from "../../../../../../../@fuse/components/navigati
                                 </td>
                                 <td class="w-2/6 p-2  text-center border-b text-sm" >
                                     {{ r.precioUnitario }}
-                                </td>
-                                <td class="w-2/6 p-2  text-center border-b text-sm" *ngFor=" let f of factura;">
-                                    {{ f.serie }}
                                 </td>
 
 

@@ -8,6 +8,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDialogRef} from "@angular/material/dialog";
+import {Factura} from "../../models/factura";
 
 @Component({
   selector: 'app-client-edit',
@@ -30,28 +31,32 @@ import {MatDialogRef} from "@angular/material/dialog";
         </button>
       </div>
 
+
+
       <!-- Compose form -->
         <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="clientForm">
             <mat-form-field>
-                <mat-label>Nombre o Razon Social</mat-label>
+                <mat-label>Serie</mat-label>
                 <input matInput formControlName="nombreVen" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Direccion</mat-label>
+                <mat-label>Cantidad</mat-label>
                 <input matInput formControlName="cantidad" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>DNI/RUC</mat-label>
+                <mat-label>Total</mat-label>
                 <input matInput formControlName="total" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>DNI/RUC</mat-label>
+                <mat-label>Precio Unitario</mat-label>
                 <input matInput formControlName="precioUnitario" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>DNI/RUC</mat-label>
+                <mat-label>Producto</mat-label>
                 <input matInput formControlName="productoId" />
             </mat-form-field>
+
+
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
                 <div class="flex space-x-2 items-center mt-4 sm:mt-0 ml-auto">
@@ -74,6 +79,7 @@ export class ProductoVendidosEditComponent implements OnInit {
         productoId: new FormControl('', [Validators.required]),
     });
   @Input() title: string = '';
+  @Input() factura: Factura[] = [];
   @Input() client = new ProductoVendidos();
   abcForms: any;
 
@@ -93,6 +99,12 @@ export class ProductoVendidosEditComponent implements OnInit {
         console.log("llenado: ",this.clientForm.value);
     }
   }
+    getNextNumero(): number {
+        const numeros = this.factura.map(f => Number(f.nombreVen));
+        const maxNumero = Math.max(...numeros);
+        return maxNumero + 1;
+
+    }
 
   public saveForm(): void {
     if (this.clientForm.valid) {

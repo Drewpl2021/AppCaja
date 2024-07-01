@@ -52,6 +52,8 @@ import {ClientEditComponent} from "../../client/components/form/client-edit.comp
 
 
 
+
+
     `,
 })
 export class GenerarFacturaContainerComponent implements OnInit {
@@ -71,6 +73,8 @@ export class GenerarFacturaContainerComponent implements OnInit {
         private _matDialog: MatDialog,
         private pdfViewerService: PdfViewerService,
     ) {}
+
+
 
 
     downloadPdf(id: number) {
@@ -225,6 +229,8 @@ export class GenerarFacturaContainerComponent implements OnInit {
             this.getClients();
         }).catch(() => {
         });
+
+
 
     }
 
