@@ -13,10 +13,9 @@ public interface ClientesFeign {
     @GetMapping("/{id}")
     @CircuitBreaker(name = "clientesListarPorIdCB", fallbackMethod = "fallBackClientes")
     public ResponseEntity<ClientesDto> listById(@PathVariable(required = true) Integer id);
-    default ResponseEntity<ClientesDto> fallBackClientes(Integer id, Exception e) {
-        ClientesDto cliente = new ClientesDto();
-        cliente.setNombre("Nombre no disponible"); // Puedes establecer el nombre que desees aquí
-        return ResponseEntity.ok(cliente);
+    default ResponseEntity<ClientesDto>fallBackClientes(Integer id, Exception e) {
+
+        return  ResponseEntity.ok(new ClientesDto());
     }
 
 }

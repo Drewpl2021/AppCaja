@@ -6,8 +6,8 @@ import lombok.Data;
 public class ClientesDto {
 
     private Integer id;
-    private String nombre;
-    private String apellidos;
-    private String dni;
+    private String nombre_razonSocial;
+    private String direccion;
+    private String dni_ruc;
 
 }

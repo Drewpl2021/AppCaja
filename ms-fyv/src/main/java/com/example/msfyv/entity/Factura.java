@@ -1,6 +1,7 @@
 package com.example.msfyv.entity;
 
 import com.example.msfyv.dto.ClientesDto;
+import com.example.msfyv.dto.PersonalDto;
 import com.example.msfyv.dto.ProductoDto;
 import com.example.msfyv.feign.ProductoFeign;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -20,21 +21,34 @@ public class Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Date fecha_hora;
-    private Double cantidad;
-    private Double precioUnitario;
     private Double igv;
+    private Double subTotal;
+    private String serie;
     private Double total;
-    private Integer productoId;
     private Integer clienteId;
+    private Integer nombreVen;
+    private Integer personalId;
+
+
+
+
+
+
+
 
     public Factura() {
-        this.cantidad = 0.0;
-        this.igv = 0.0;
-        this.precioUnitario = 0.0;
-    }
+
+}
+
+
+
+
 
     @Transient
-    private ProductoDto productoDto;
+    private List<ProductosVendidos> productosVendidosList;
     @Transient
     private ClientesDto clientesDto;
+    @Transient
+    private PersonalDto personalDto;
+
 }

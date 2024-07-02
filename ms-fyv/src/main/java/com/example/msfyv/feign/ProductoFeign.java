@@ -11,17 +11,18 @@ public interface ProductoFeign {
     @GetMapping("/{id}")
     @CircuitBreaker(name = "productoListarPorIdCB", fallbackMethod = "fallBackProducto")
     public ResponseEntity<ProductoDto> listById(@PathVariable(required = true) Integer id);
+
+    @GetMapping("/{id}/precio")
+    @CircuitBreaker(name = "productoPrecioCB", fallbackMethod = "fallBackPrecio")
+    public ResponseEntity<Double> getPrecio(@PathVariable(required = true) Integer id);
+
+
     default ResponseEntity<ProductoDto>fallBackProducto(Integer id, Exception e) {
-        ProductoDto productoDto = new ProductoDto();
-        productoDto.setId(9000000);
-        return  ResponseEntity.ok(productoDto);
+
+        return  ResponseEntity.ok(new ProductoDto());
     }
-    //@GetMapping("/{id}/precio")
-    //@CircuitBreaker(name = "productoPrecioCB", fallbackMethod = "fallBackPrecio")
-    //public ResponseEntity<Double> getPrecio(@PathVariable(required = true) Integer id);
 
-
-    //default ResponseEntity<Double> fallBackPrecio(Integer id, Exception e) {
-    //return ResponseEntity.ok(0.0);
-    //}
+    default ResponseEntity<Double> fallBackPrecio(Integer id, Exception e) {
+    return ResponseEntity.ok(0.0);
+    }
 }

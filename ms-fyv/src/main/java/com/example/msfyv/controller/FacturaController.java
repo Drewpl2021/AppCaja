@@ -1,12 +1,9 @@
 package com.example.msfyv.controller;
 
 import com.example.msfyv.entity.Factura;
-import com.example.msfyv.feign.ProductoFeign;
 import com.example.msfyv.service.FacturaService;
 import com.example.msfyv.util.PdfUtils;
-import com.example.msfyv.util.UserExcelExporter;
 import com.itextpdf.text.DocumentException;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,10 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,15 +31,9 @@ public class FacturaController {
     }
 
     @PostMapping()
-    public ResponseEntity<Factura> save(@RequestBody Factura factura){
-        if (factura.getClienteId() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        // Llamar al servicio para guardar el pedido
-        Factura nuevafactura = facturaService.guardar(factura);
-
-        // Devolver el pedido guardado en la respuesta
-        return ResponseEntity.ok(facturaService.guardar(factura));
+    public ResponseEntity<Factura> save(@RequestBody Factura factura) {
+        Factura nuevaFactura = facturaService.guardar(factura);
+        return ResponseEntity.ok(nuevaFactura);
     }
 
     @PutMapping()
@@ -53,8 +42,13 @@ public class FacturaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Factura> listById(@PathVariable(required = true) Double id){
-        return ResponseEntity.ok().body(facturaService.listarPorId(id).get());
+    public ResponseEntity<Factura> listById(@PathVariable(required = true) Double id) {
+        Optional<Factura> facturaOpt = facturaService.listarPorId(id);
+        if (facturaOpt.isPresent()) {
+            return ResponseEntity.ok(facturaOpt.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -76,7 +70,9 @@ public class FacturaController {
         headers.setContentLength(pdfStream.size());
         return new ResponseEntity<>(pdfStream.toByteArray(), headers, HttpStatus.OK);
     }
-    @GetMapping("/excel")
+
+
+    /*@GetMapping("/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -91,5 +87,6 @@ public class FacturaController {
         UserExcelExporter excelExporter = new UserExcelExporter(facturas);
 
         excelExporter.export(response);
-    }
+    }*/
+
 }

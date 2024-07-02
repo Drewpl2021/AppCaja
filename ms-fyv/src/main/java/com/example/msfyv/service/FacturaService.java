@@ -1,5 +1,7 @@
 package com.example.msfyv.service;
 
+import com.example.msfyv.dto.ClientesDto;
+import com.example.msfyv.dto.PersonalDto;
 import com.example.msfyv.entity.Factura;
 
 import java.util.List;
@@ -17,5 +19,8 @@ public interface FacturaService {
 
     public void eliminarPorId(Double id);
 
+    List<ClientesDto> listarClientesDto();
+
+    List<PersonalDto> listarPersonalDto();
 
 }

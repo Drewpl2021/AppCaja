@@ -59,10 +59,10 @@ public class PdfUtils {
             document.add(new Paragraph("  ", boldFont));
             document.add(table);
             document.add(new Paragraph("          "+factura.getId()   +
-                    "                                                    "+factura.getProductoId()+
+                    "                                                    "+//factura.getProductosVendidos()+
                     "                        "+"NIU"+
-                    "              "+factura.getCantidad()+
-                    "                  "+factura.getPrecioUnitario()+
+                    "              "+//factura.getCantidad()+
+                    "                  "+//factura.getPrecioUnitario()+
                     "                 "+factura.getIgv()+
                     "              "+factura.getTotal(), largeFont));
             document.add(new Paragraph("  ", boldFont));
