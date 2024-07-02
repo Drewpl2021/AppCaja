@@ -16,10 +16,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class InventarioDetalleServiceImpl implements InventarioDetalleService {
@@ -108,5 +113,12 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
             .filter(detalle -> detalle.getSalida() > 0)
             .collect(Collectors.toList());
     }
-
+    @Override
+    public double calcularCostoTotalUltimosMeses(int meses) {
+        LocalDateTime fechaLimite = LocalDateTime.now().minus(meses, ChronoUnit.MONTHS);
+        return inventarioDetalleRepository.findAll().stream()
+                .filter(detalle -> detalle.getFecha().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().isAfter(fechaLimite))
+                .mapToDouble(InventarioDetalle::getCosto_total)
+                .sum();
+    }
 }

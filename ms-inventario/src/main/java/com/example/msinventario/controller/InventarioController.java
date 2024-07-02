@@ -61,4 +61,6 @@ public class InventarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Inventario " + id + " no encontrado");
         }
     }
+
+
 }

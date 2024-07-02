@@ -16,4 +16,7 @@ public interface InventarioDetalleService {
     public List<InventarioDetalle> listarEntradas();
     public List<InventarioDetalle> listarSalidas();
 
+    // ...
+    double calcularCostoTotalUltimosMeses(int meses);
 }
+

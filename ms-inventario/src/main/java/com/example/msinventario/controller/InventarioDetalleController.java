@@ -85,4 +85,9 @@ public class InventarioDetalleController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok().body(salidas);
     }
+    @GetMapping("/reporte/costo-meses/{meses}")
+    public ResponseEntity<Double> reporteCostoTotalUltimosMeses(@PathVariable int meses){
+        double costoTotal = inventarioDetalleService.calcularCostoTotalUltimosMeses(meses);
+        return ResponseEntity.ok().body(costoTotal);
+    }
 }

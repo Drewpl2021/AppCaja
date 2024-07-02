@@ -25,6 +25,7 @@ export const END_POINTS = {
     jerarquia: "gerarquia",
     menu:"menu",
     users: 'auth/user',
+
     access:'acceso',
     access_parent:'acceso-padres',
   },
