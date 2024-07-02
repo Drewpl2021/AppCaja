@@ -15,5 +15,6 @@ public interface AuthUserService {
 
     public TokenDto validate(String token);
     List<AuthUser> getAllUsers();
+
 }
 

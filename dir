@@ -1,0 +1,374 @@
+[1mdiff --git a/.idea/compiler.xml b/.idea/compiler.xml[m
+[1mindex 2eb4d18..899c9e9 100644[m
+[1m--- a/.idea/compiler.xml[m
+[1m+++ b/.idea/compiler.xml[m
+[36m@@ -9,24 +9,20 @@[m
+         <outputRelativeToContentRoot value="true" />[m
+         <module name="ms-config-server" />[m
+         <module name="ms-gateway-server" />[m
+[31m-        <module name="auth-service" />[m
+         <module name="ms-fyv" />[m
+         <module name="ms-personal" />[m
+         <module name="ms-pyp" />[m
+         <module name="ms-clientes" />[m
+         <module name="ms-registry-server" />[m
+[31m-        <module name="ms-inventario" />[m
+       </profile>[m
+     </annotationProcessing>[m
+   </component>[m
+   <component name="JavacSettings">[m
+     <option name="ADDITIONAL_OPTIONS_OVERRIDE">[m
+[31m-      <module name="auth-service" options="-parameters" />[m
+       <module name="ms-clientes" options="-parameters" />[m
+       <module name="ms-config-server" options="-parameters" />[m
+       <module name="ms-fyv" options="-parameters" />[m
+       <module name="ms-gateway-server" options="-parameters" />[m
+[31m-      <module name="ms-inventario" options="-parameters" />[m
+       <module name="ms-personal" options="-parameters" />[m
+       <module name="ms-pyp" options="-parameters" />[m
+       <module name="ms-registry-server" options="-parameters" />[m
+[1mdiff --git a/.idea/encodings.xml b/.idea/encodings.xml[m
+[1mindex ae316fb..0208b9b 100644[m
+[1m--- a/.idea/encodings.xml[m
+[1m+++ b/.idea/encodings.xml[m
+[36m@@ -1,12 +1,10 @@[m
+ <?xml version="1.0" encoding="UTF-8"?>[m
+ <project version="4">[m
+   <component name="Encoding">[m
+[31m-    <file url="file://$PROJECT_DIR$/ms-auth/src/main/java" charset="UTF-8" />[m
+     <file url="file://$PROJECT_DIR$/ms-clientes/src/main/java" charset="UTF-8" />[m
+     <file url="file://$PROJECT_DIR$/ms-config-server/src/main/java" charset="UTF-8" />[m
+     <file url="file://$PROJECT_DIR$/ms-fyv/src/main/java" charset="UTF-8" />[m
+     <file url="file://$PROJECT_DIR$/ms-gateway-server/src/main/java" charset="UTF-8" />[m
+[31m-    <file url="file://$PROJECT_DIR$/ms-inventario/src/main/java" charset="UTF-8" />[m
+     <file url="file://$PROJECT_DIR$/ms-personal/src/main/java" charset="UTF-8" />[m
+     <file url="file://$PROJECT_DIR$/ms-pyp/src/main/java" charset="UTF-8" />[m
+     <file url="file://$PROJECT_DIR$/ms-registry-server/src/main/java" charset="UTF-8" />[m
+[1mdiff --git a/.idea/misc.xml b/.idea/misc.xml[m
+[1mindex 6b73f7e..b328990 100644[m
+[1m--- a/.idea/misc.xml[m
+[1m+++ b/.idea/misc.xml[m
+[36m@@ -11,12 +11,10 @@[m
+         <option value="$PROJECT_DIR$/ms-config-server/pom.xml" />[m
+         <option value="$PROJECT_DIR$/ms-registry-server/pom.xml" />[m
+         <option value="$PROJECT_DIR$/ms-gateway-server/pom.xml" />[m
+[31m-        <option value="$PROJECT_DIR$/ms-auth/pom.xml" />[m
+[31m-        <option value="$PROJECT_DIR$/ms-inventario/pom.xml" />[m
+       </list>[m
+     </option>[m
+   </component>[m
+[31m-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">[m
+[32m+[m[32m  <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">[m
+     <output url="file://$PROJECT_DIR$/out" />[m
+   </component>[m
+ </project>[m
+\ No newline at end of file[m
+[1mdiff --git a/app_vin/.editorconfig b/app_vin/.editorconfig[m
+[1mdeleted file mode 100644[m
+[1mindex 0792692..0000000[m
+[1m--- a/app_vin/.editorconfig[m
+[1m+++ /dev/null[m
+[36m@@ -1,16 +0,0 @@[m
+[31m-# Editor configuration, see https://editorconfig.org[m
+[31m-root = true[m
+[31m-[m
+[31m-[*][m
+[31m-charset = utf-8[m
+[31m-indent_style = space[m
+[31m-indent_size = 4[m
+[31m-insert_final_newline = true[m
+[31m-trim_trailing_whitespace = true[m
+[31m-[m
+[31m-[*.ts][m
+[31m-quote_type = single[m
+[31m-[m
+[31m-[*.md][m
+[31m-max_line_length = off[m
+[31m-trim_trailing_whitespace = false[m
+[1mdiff --git a/app_vin/.eslintrc.json b/app_vin/.eslintrc.json[m
+[1mdeleted file mode 100644[m
+[1mindex a2718c1..0000000[m
+[1m--- a/app_vin/.eslintrc.json[m
+[1m+++ /dev/null[m
+[36m@@ -1,95 +0,0 @@[m
+[31m-{[m
+[31m-    "root": true,[m
+[31m-    "env": {[m
+[31m-        "es6": true[m
+[31m-    },[m
+[31m-    "parserOptions": {[m
+[31m-        "ecmaVersion": 2018[m
+[31m-    },[m
+[31m-    "ignorePatterns": [[m
+[31m-        "projects/**/*"[m
+[31m-    ],[m
+[31m-    "overrides": [[m
+[31m-        {[m
+[31m-            "files": [[m
+[31m-                "*.ts"[m
+[31m-            ],[m
+[31m-            "parserOptions": {[m
+[31m-                "project": [[m
+[31m-                    "tsconfig.json"[m
+[31m-                ],[m
+[31m-                "createDefaultProgram": true[m
+[31m-            },[m
+[31m-            "extends": [[m
+[31m-                "plugin:@angular-eslint/ng-cli-compat",[m
+[31m-                "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",[m
+[31m-                "plugin:@angular-eslint/template/process-inline-templates"[m
+[31m-            ],[m
+[31m-            "rules": {[m
+[31m-                "@angular-eslint/component-selector": [[m
+[31m-                    "error",[m
+[31m-                    {[m
+[31m-                        "type": "element",[m
+[31m-                        "prefix": "",[m
+[31m-                        "style": "kebab-case"[m
+[31m-                    }[m
+[31m-                ],[m
+[31m-                "@angular-eslint/directive-selector": [[m
+[31m-                    "error",[m
+[31m-                    {[m
+[31m-                        "type": "attribute",[m
+[31m-                        "prefix": "",[m
+[31m-                        "style": "camelCase"[m
+[31m-                    }[m
+[31m-                ],[m
+[31m-                "@typescript-eslint/dot-notation": "off",[m
+[31m-                "@typescript-eslint/explicit-function-return-type": "error",[m
+[31m-                "@typescript-eslint/explicit-member-accessibility": [[m
+[31m-                    "off",[m
+[31m-                    {[m
+[31m-                        "accessibility": "explicit"[m
+[31m-                    }[m
+[31m-                ],[m
+[31m-                "@typescript-eslint/no-inferrable-types": "off",[m
+[31m-                "arrow-parens": [[m
+[31m-                    "error",[m
+[31m-                    "as-needed",[m
+[31m-                    {[m
+[31m-                        "requireForBlockBody": true[m
+[31m-                    }[m
+[31m-                ],[m
+[31m-                "brace-style": [[m
+[31m-                    "off",[m
+[31m-                    "off"[m
+[31m-                ],[m
+[31m-                "import/order": "off",[m
+[31m-                "max-len": [[m
+[31m-                    "error",[m
+[31m-                    {[m
+[31m-                        "ignorePattern": "^import |^export | implements",[m
+[31m-                        "code": 180[m
+[31m-                    }[m
+[31m-                ],[m
+[31m-                "no-underscore-dangle": "off",[m
+[31m-                "object-shorthand": "off",[m
+[31m-                "quote-props": [[m
+[31m-                    "error",[m
+[31m-                    "consistent"[m
+[31m-                ],[m
+[31m-                "quotes": [[m
+[31m-                    "error",[m
+[31m-                    "single"[m
+[31m-                ][m
+[31m-            }[m
+[31m-        },[m
+[31m-        {[m
+[31m-            "files": [[m
+[31m-                "*.html"[m
+[31m-            ],[m
+[31m-            "extends": [[m
+[31m-                "plugin:@angular-eslint/template/recommended"[m
+[31m-            ],[m
+[31m-            "rules": {}[m
+[31m-        }[m
+[31m-    ][m
+[31m-}[m
+[1mdiff --git a/app_vin/.gitignore b/app_vin/.gitignore[m
+[1mdeleted file mode 100644[m
+[1mindex 105c00f..0000000[m
+[1m--- a/app_vin/.gitignore[m
+[1m+++ /dev/null[m
+[36m@@ -1,46 +0,0 @@[m
+[31m-# See http://help.github.com/ignore-files/ for more about ignoring files.[m
+[31m-[m
+[31m-# compiled output[m
+[31m-/dist[m
+[31m-/tmp[m
+[31m-/out-tsc[m
+[31m-# Only exists if Bazel was run[m
+[31m-/bazel-out[m
+[31m-[m
+[31m-# dependencies[m
+[31m-/node_modules[m
+[31m-[m
+[31m-# profiling files[m
+[31m-chrome-profiler-events*.json[m
+[31m-[m
+[31m-# IDEs and editors[m
+[31m-/.idea[m
+[31m-.project[m
+[31m-.classpath[m
+[31m-.c9/[m
+[31m-*.launch[m
+[31m-.settings/[m
+[31m-*.sublime-workspace[m
+[31m-[m
+[31m-# IDE - VSCode[m
+[31m-.vscode/*[m
+[31m-!.vscode/settings.json[m
+[31m-!.vscode/tasks.json[m
+[31m-!.vscode/launch.json[m
+[31m-!.vscode/extensions.json[m
+[31m-.history/*[m
+[31m-[m
+[31m-# misc[m
+[31m-/.angular/cache[m
+[31m-/.sass-cache[m
+[31m-/connect.lock[m
+[31m-/coverage[m
+[31m-/libpeerconnection.log[m
+[31m-npm-debug.log[m
+[31m-yarn-error.log[m
+[31m-testem.log[m
+[31m-/typings[m
+[31m-[m
+[31m-# System Files[m
+[31m-.DS_Store[m
+[31m-Thumbs.db[m
+[1mdiff --git a/app_vin/.npmrc b/app_vin/.npmrc[m
+[1mdeleted file mode 100644[m
+[1mindex 521a9f7..0000000[m
+[1m--- a/app_vin/.npmrc[m
+[1m+++ /dev/null[m
+[36m@@ -1 +0,0 @@[m
+[31m-legacy-peer-deps=true[m
+[1mdiff --git a/app_vin/.nvmrc b/app_vin/.nvmrc[m
+[1mdeleted file mode 100644[m
+[1mindex 209e3ef..0000000[m
+[1m--- a/app_vin/.nvmrc[m
+[1m+++ /dev/null[m
+[36m@@ -1 +0,0 @@[m
+[31m-20[m
+[1mdiff --git a/app_vin/.vscode/settings.json b/app_vin/.vscode/settings.json[m
+[1mdeleted file mode 100644[m
+[1mindex 7a73a41..0000000[m
+[1m--- a/app_vin/.vscode/settings.json[m
+[1m+++ /dev/null[m
+[36m@@ -1,2 +0,0 @@[m
+[31m-{[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/app_vin/CREDITS b/app_vin/CREDITS[m
+[1mdeleted file mode 100644[m
+[1mindex 6fef4f1..0000000[m
+[1m--- a/app_vin/CREDITS[m
+[1m+++ /dev/null[m
+[36m@@ -1,72 +0,0 @@[m
+[31m-// -----------------------------------------------------------------------------------------------------[m
+[31m-// @ 3rd party credits[m
+[31m-// -----------------------------------------------------------------------------------------------------[m
+[31m-[m
+[31m-// Flags[m
+[31m-https://github.com/Yummygum/flagpack-core[m
+[31m-[m
+[31m-// Icons[m
+[31m-Material - https://material.io/tools/icons[m
+[31m-Feather - https://feathericons.com/[m
+[31m-Heroicons - https://github.com/refactoringui/heroicons[m
+[31m-Iconsmind - https://iconsmind.com/[m
+[31m-[m
+[31m-// Avatars[m
+[31m-https://uifaces.co[m
+[31m-[m
+[31m-// 404, 500 & Maintenance[m
+[31m-https://undraw.co[m
+[31m-[m
+[31m-// Mail app[m
+[31m-Photo by Riccardo Chiarini on Unsplash - https://unsplash.com/photos/2VDa8bnLM8c[m
+[31m-Photo by Johannes Plenio on Unsplash - https://unsplash.com/photos/RwHv7LgeC7s[m
+[31m-Photo by Jamie Davies on Unsplash - https://unsplash.com/photos/Hao52Fu9-F8[m
+[31m-Photo by Christian Joudrey on Unsplash - https://unsplash.com/photos/mWRR1xj95hg[m
+[31m-[m
+[31m-// Profile page[m
+[31m-Photo by Alex Knight on Unsplash - https://unsplash.com/photos/DpPutJwgyW8[m
+[31m-[m
+[31m-// Cards[m
+[31m-Photo by Kym Ellis on Unsplash - https://unsplash.com/photos/RPT3AjdXlZc[m
+[31m-Photo by Patrick Hendry on Unsplash - https://unsplash.com/photos/Qgxk3PQsMiI[m
+[31m-Photo by Hailey Kean on Unsplash - https://unsplash.com/photos/QxjsOlFNr_4[m
+[31m-Photo by Nathan Anderson on Unsplash - https://unsplash.com/photos/mG8ShlWrMDI[m
+[31m-Photo by Adrian Infernus on Unsplash - https://unsplash.com/photos/5apewqWk978[m
+[31m-Photo by freestocks.org on Unsplash - https://unsplash.com/photos/c73TZ2sIU38[m
+[31m-Photo by Tim Marshall on Unsplash - https://unsplash.com/photos/PKSCrmZdvwA[m
+[31m-Photo by Daniel Koponyas on Unsplash - https://unsplash.com/photos/rbiLY6ZwvXQ[m
+[31m-Photo by John Westrock on Unsplash - https://unsplash.com/photos/LCesauDseu8[m
+[31m-Photo by Gabriel Sollmann on Unsplash - https://unsplash.com/photos/kFWj9y-tJB4[m
+[31m-Photo by Kevin Wolf on Unsplash - https://unsplash.com/photos/BJyjgEdNTPs[m
+[31m-Photo by Luca Bravo on Unsplash - https://unsplash.com/photos/hFzIoD0F_i8[m
+[31m-Photo by Ian Baldwin on Unsplash - https://unsplash.com/photos/Dlj-SxxTlQ0[m
+[31m-Photo by Ben Kolde on Unsplash - https://unsplash.com/photos/KRTFIBOfcFw[m
+[31m-Photo by Chad Peltola on Unsplash - https://unsplash.com/photos/BTvQ2ET_iKc[m
+[31m-Photo by rocknwool on Unsplash - https://unsplash.com/photos/r56oO1V5oms[m
+[31m-Photo by Vita Vilcina on Unsplash - https://unsplash.com/photos/KtOid0FLjqU[m
+[31m-Photo by Jia Ye on Unsplash - https://unsplash.com/photos/y8ZnQqgohLk[m
+[31m-Photo by Parker Whitson on Unsplash - https://unsplash.com/photos/OlTYIqTjmVM[m
+[31m-Photo by Dorian Hurst on Unsplash - https://unsplash.com/photos/a9uWPQlIbYc[m
+[31m-Photo by Everaldo Coelho on Unsplash - https://unsplash.com/photos/KPaSCpklCZw[m
+[31m-Photo by eberhard grossgasteiger on Unsplash - https://unsplash.com/photos/fh2JefbNlII[m
+[31m-Photo by Orlova Maria on Unsplash - https://unsplash.com/photos/p8y4dWEMGMU[m
+[31m-Photo by Jake Blucker on Unsplash - https://unsplash.com/photos/tMzCrBkM99Y[m
+[31m-Photo by Jerry Zhang on Unsplash - https://unsplash.com/photos/oIBcow6n36s[m
+[31m-Photo by John Cobb on Unsplash - https://unsplash.com/photos/IE_sifhay7o[m
+[31m-Photo by Dan Gold on Unsplash - https://unsplash.com/photos/mDlhOIfGxNI[m
+[31m-Photo by Ana Toma on Unsplash - https://unsplash.com/photos/XsGwe6gYg0c[m
+[31m-Photo by Andrea on Unsplash - https://unsplash.com/photos/1AWY0N960Sk[m
+[31m-Photo by Aswin on Unsplash - https://unsplash.com/photos/_roUcFWstas[m
+[31m-Photo by Justin Kauffman on Unsplash - https://unsplash.com/photos/aWG_dqyhI0A[m
+[31m-Photo by Barna Bartis on Unsplash - https://unsplash.com/photos/VVoBQqWrvkc[m
+[31m-Photo by Kyle Hinkson on Unsplash - https://unsplash.com/photos/3439EnvnAGo[m
+[31m-Photo by Spencer Watson on Unsplash - https://unsplash.com/photos/5TBf16GnHKg[m
+[31m-Photo by adrian on Unsplash - https://unsplash.com/photos/1wrzvwoK8A4[m
+[31m-Photo by Christopher Rusev on Unsplash - https://unsplash.com/photos/7gKWgCRixf0[m
+[31m-Photo by Stephen Leonardi on Unsplash - https://unsplash.com/photos/MDmwQVgDHHM[m
+[31m-Photo by Dwinanda Nurhanif Mujito on Unsplash - https://unsplash.com/photos/pKT5Mg16w_w[m
+[31m-Photo by Humphrey Muleba on Unsplash - https://unsplash.com/photos/Zuvf5mxT5fs[m
+[31m-Photo by adrian on Unsplash - https://unsplash.com/photos/PNRxLFPMyJY[m
+[31m-Photo by Dahee Son on Unsplash - https://unsplash.com/photos/tV06QVJXVxU[m
+[31m-Photo by Zachary Kyra-Derksen on Unsplash - https://unsplash.com/photos/vkqS7vLQUtg[m
+[31m-Photo by Rodrigo Soares on Unsplash - https://unsplash.com/photos/8BFWBUkSqQo[m
+[1mdiff --git a/app_vin/LICENSE.md b/app_vin/LICENSE.md[m
+[1mdeleted file mode 100644[m
+[1mindex d4f17d1..0000000[m
+[1m--- a/app_vin/LICENSE.md[m
+[1m+++ /dev/null[m
+[36m@@ -1,6 +0,0 @@[m
+[31m-Envato Standard License[m
+[31m-[m
+[31m-Copyright (c) Sercan Yemen <sercanyemen@gmail.com>[m
+[31m-[m
+[31m-This project is protected by Envato's Standard License. For more information,[m
+[31m-check the official license page at [https://themeforest.net/licenses/standard](https://themeforest.net/licenses/standard)[m
+[1mdiff --git a/app_vin/README.md b/app_vin/README.md[m
+[1mdeleted file mode 100644[m
+[1mindex db23e04..0000000[m
+[1m--- a/app_vin/README.md[m
+[1m+++ /dev/null[m
+[36m@@ -1,27 +0,0 @@[m
+[31m-# Fuse - Admin template and Starter project for Angular[m
+[31m-[m
+[31m-This project was generated with [Angular CLI](https://github.com/angular/angular-cli)[m
+[31m-[m
+[31m-## Development server[m
+[31m-[m
+[31m-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.[m
+[31m-[m
+[31m-## Code scaffolding[m
+[31m-[m
+[31m-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.[m
+[31m-[m
+[31m-## Build[m
+[31m-[m
+[31m-Run `ng
