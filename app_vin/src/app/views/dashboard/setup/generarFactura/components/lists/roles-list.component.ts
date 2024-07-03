@@ -24,6 +24,8 @@ import {ToastrService} from "ngx-toastr";
 import {FacturaService} from "../../../../../../providers/services/setup/factura.service";
 import {WhatsAppService} from "../../../../../../providers/services/setup/WhatsAppService.service";
 import {HttpClient, HttpEventType} from "@angular/common/http";
+import {jsPDF} from "jspdf";
+import html2canvas from "html2canvas";
 
 @Component({
     selector: 'app-clients-list',
@@ -125,6 +127,7 @@ import {HttpClient, HttpEventType} from "@angular/common/http";
                             <div style="flex: 1; font-size: 17px;">
                                 <strong>Dirección:</strong> {{ selectedClient?.direccion || '' }}
                             </div>
+
                         </div>
                     </div>
                     <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="goNew()">
@@ -137,7 +140,8 @@ import {HttpClient, HttpEventType} from "@angular/common/http";
                         <tr>
                             <th class="w-1/6 table-head text-center px-5 border-r">#</th>
                             <th class="w-2/6 table-header text-center px-5 border-r">Cantidad</th>
-                            <th class="w-2/6 table-header text-center px-5 border-r">Producto</th>
+                            <th class="w-2/6 table-header text-center px-5 border-r">Unidad de Medida</th>
+                            <th class="w-2/6 table-header text-center px-5 border-r">Descripción</th>
                             <th class="w-2/6 table-header text-center px-5 border-r">Precio Unitario</th>
                             <th class="w-2/6 table-header text-center">Total</th>
                             <th class="w-2/6 table-header text-center">Acciones</th>
@@ -147,6 +151,7 @@ import {HttpClient, HttpEventType} from "@angular/common/http";
                         <tr class="hover:bg-gray-100">
                             <td class="w-1/6 p-2 text-center border-b">{{ i }}</td>
                             <td class="w-2/6 p-2 text-start border-b text-sm">{{ r.cantidad }}</td>
+                            <td class="w-2/6 p-2 text-start border-b text-sm">{{ getProductoUni(r.productoId) }} </td>
                             <td class="w-2/6 p-2 text-start border-b text-sm">{{ getProductoNombre(r.productoId) }} </td>
                             <td class="w-2/6 p-2 text-start border-b text-sm">{{ r.precioUnitario }} </td>
                             <td class="w-2/6 p-2 text-start border-b text-sm">{{ r.total }}</td>
@@ -160,15 +165,15 @@ import {HttpClient, HttpEventType} from "@angular/common/http";
                         </tbody>
                         <tfoot>
                         <tr>
-                            <td colspan="4" class="total">Sub. Total</td>
+                            <td colspan="5" class="total">Sub. Total</td>
                             <td>{{ getSubTotal() | number: '1.2-2' }}</td>
                         </tr>
                         <tr>
-                            <td colspan="4" class="total">IGV</td>
+                            <td colspan="5" class="total">IGV</td>
                             <td>{{ getIGV() | number: '1.2-2' }}</td>
                         </tr>
                         <tr>
-                            <td colspan="4" class="total">Total</td>
+                            <td colspan="5" class="total">Total</td>
                             <td>{{ getTotalSum() | number: '1.2-2' }}</td>
                         </tr>
                         </tfoot>
@@ -181,24 +186,27 @@ import {HttpClient, HttpEventType} from "@angular/common/http";
                         <p>Gracias por su compra</p>
                     </div>
                     <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="productoform"  >
-                    <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="Guardar()"> Generar Factura </button></form>
+                        <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="Guardar()"> Generar Factura </button>
+                    </form>
                 </div>
 
             </div>
 
         </div>
-        </div>
 
+
+        </div>
 
 
 
 
         <style>
             .main {
-                width: 900px;
-                height: 820px;
+                width: 1000px;
+                height: 800px;
 
             }
+
 
             .body {
                 font-family: Arial, sans-serif;
@@ -209,7 +217,7 @@ import {HttpClient, HttpEventType} from "@angular/common/http";
             }
 
             .invoice {
-                max-width: 800px;
+                max-width: 1000px;
                 margin: auto;
                 padding: 20px;
                 border: 1px solid #eee;
@@ -294,26 +302,14 @@ export class ClientListComponent implements OnInit {
 
     productoform = new FormGroup({
         nombreVen: new FormControl('', [Validators.required]),
-        serie: new FormControl('', [Validators.required]),
-        clienteId: new FormControl('', [Validators.required]),
+        serie: new FormControl('CAJA', [Validators.required]),
+        clienteId: new FormControl('1', [Validators.required]),
         personalId: new FormControl('1', [Validators.required]),
 
     });
 
 
-    public Guardar(): void {
-        if (this.productoform.valid) { // Si el formulario es válido
-            const data = this.productoform.value;
-            this.saveClient(data);
-            this.productoform.reset(); // resetea el formulario
-        } else {
-            this.toastr.warning('Rellene todos los campos por favor', 'Alerta', {
-                timeOut: 5000, // Duración en milisegundos
-                progressBar: true,
-                closeButton: true
-            });
-        }
-    }
+
 
 saveClient(data: Object): void {
     this.facturaService.add$(data).subscribe((response) => {
@@ -366,7 +362,11 @@ saveClient(data: Object): void {
 
     getProductoNombre(id: number): string {
         const producto = this.producto.find(p => p.id === id);
-        return producto ? producto.nombre : 'Producto no encontrado';
+        return producto ? producto.descripcion : 'Producto no encontrado';
+    }
+    getProductoUni(id: number): string {
+        const producto = this.producto.find(p => p.id === id);
+        return producto ? producto.unidades_medida : 'Producto no encontrado';
     }
 
 
@@ -463,6 +463,206 @@ saveClient(data: Object): void {
                 timeOut: 5000, // Duración en milisegundos
                 progressBar: true,
                 closeButton: true,
+            });
+        }
+    }
+    Guardar() {
+        if (this.productoform.valid) { // Si el formulario es válido
+            const data = this.productoform.value;
+            this.saveClient(data);
+            this.productoform.reset(); // resetea el formulario
+
+            // Crear una instancia de jsPDF
+            const doc = new jsPDF();
+
+            // Construir el contenido HTML dinámicamente
+            const htmlContent = `
+
+            <body>
+            <br><br><br>
+    <div class="container" style="font-size: 12px">
+        <div class="header">
+            <div class="left">
+                <strong>CABANA SULCA CRISTIAN</strong><br>
+                CARRETERA PANAMERICANA KM 265 AREQUIPA - JULIACA<br>
+                CABANILLAS - SAN ROMAN - PUNO<br>
+                <p>______________________________________________________________________________________________________</p><br>
+                Fecha de Emisión <strong style="color: white">ab.</strong>: <strong>27/06/2024</strong><br>
+                Señor(es) <strong style="color: white">ABreteeee</strong>: MUNICIPALIDAD PROVINCIAL DE LAMPA<br>
+                RUC <strong style="color: white">ABreteeeeeeee</strong>: 2016563515<br>
+                Tipo de Moneda <strong style="color: white">abre</strong>: SOLES<br>
+                Observación <strong style="color: white">fsasfas.</strong>: <br>
+            </div>
+            <div class="right text-center" style="border: 2px solid black; height: 70px">
+                <strong>BOLETA DE VENTA ELECTRONICA<br>
+                RUC: 10754860486<br>
+                ${data.serie} - ${data.nombreVen}</strong><br>
+            </div>
+        </div>
+        <div class="content">
+            <table>
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Unidad Medida</th>
+                    <th>Descripción</th>
+                    <th>Valor Unitario(*)</th>
+                    <th>Descuento(*)</th>
+                    <th>Importe de Venta(**)</th>
+
+                </tr>
+                <tr>
+                    <td>16.47</td>
+                    <td>US GALON (3,7843 L)</td>
+                    <td>GASOHOL REGULAR</td>
+                    <td>14.41</td>
+                    <td>0.00</td>
+                    <td>280.052586</td>
+
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>Otros Cargos :</td>
+                    <td>S/ 0.00</td>
+                </tr>
+                <tr>
+                    <td>Otros Tributos :</td>
+                    <td>S/ 0.00</td>
+                </tr>
+
+                <tr>
+                    <td>Importe Total :</td>
+                    <td>S/ 280.05</td><br><br>
+                </tr>
+                <tr>
+                   <td><strong style="color: white">ABreteeee</strong></td>
+                </tr>
+            </table>
+        </div>
+        <div class="footer">
+            <div class="left">
+                <strong>SON: DOSCIENTOS OCHENTA Y 05/100 SOLES</strong><br><br>
+                <table>
+                    <tr>
+                        <td>Op. Gravada :</td>
+                        <td>S/ 237.33</td>
+                    </tr>
+                    <tr>
+                        <td>Op. Exonerada :</td>
+                        <td>S/ 0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Op. Inafecta :</td>
+                        <td>S/ 0.00</td>
+                    </tr>
+                    <tr>
+                        <td>ISC :</td>
+                        <td>S/ 0.00</td>
+                    </tr>
+                    <tr>
+                        <td>IGV :</td>
+                        <td>S/ 42.72</td>
+                    </tr>
+                    <tr>
+                        <td>ICBPER :</td>
+                        <td>S/ 0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Otros Cargos :</td>
+                        <td>S/ 0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Otros Tributos :</td>
+                        <td>S/ 0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Monto de Redondeo :</td>
+                        <td>S/ 0.00</td>
+                    </tr>
+                    <tr>
+                        <td>Importe Total :</td>
+                        <td>S/ 280.05</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="right">
+                <p>Esta es una representación impresa de la Boleta de Venta Electrónica, generada en el Sistema de la SUNAT. El Emisor Electrónico puede verificarla utilizando su clave SOL, el Adquirente o Usuario puede consultar su validez en SUNAT Virtual: <a href="http://www.sunat.gob.pe" target="_blank">www.sunat.gob.pe</a>, en Opciones en Clave SOL/ Consulta de Validez del CPE.</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+ <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+        }
+        .container {
+            border: 1px solid black;
+            padding: 10px;
+            width: 700px;
+            margin: auto;
+        }
+        .header, .footer, .content {
+            width: 100%;
+        }
+        .header .left, .header .right, .footer .left, .footer .right {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .header .left {
+            width: 60%;
+        }
+        .header .right {
+            width: 35%;
+            text-align: right;
+        }
+        .content {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .content th, .content td {
+            border: none;
+            padding: 5px;
+            text-align: left;
+        }
+        .footer .left {
+            width: 60%;
+        }
+        .footer .right {
+            width: 35%;
+            text-align: right;
+        }
+        .total {
+            font-weight: bold;
+        }
+    </style>
+
+      `;
+
+            // Agregar el contenido HTML al PDF
+            doc.html(htmlContent, {
+                callback: function (doc) {
+                    doc.save('factura.pdf');
+                },
+                x: 10,
+                y: 10,
+                html2canvas: {
+                    scale: 0.27 // Ajusta este valor según sea necesario
+                }
+            });
+        } else {
+            this.toastr.warning('Rellene todos los campos por favor', 'Alerta', {
+                timeOut: 5000, // Duración en milisegundos
+                progressBar: true,
+                closeButton: true
             });
         }
     }

@@ -15,6 +15,8 @@ public class Producto {
     private String descripcion;
     private Double precio;
     private String stock;
+    @Enumerated(EnumType.STRING)
+    private Unidades unidades_medida;
     @ManyToOne
     @JoinColumn(name = "id_proveedor")
     private Proveedor proveedor;
@@ -25,5 +27,10 @@ public class Producto {
 
     public Producto() {
         this.precio = (double) 0;
+    }
+
+    public enum Unidades {
+        GALON,
+        UNID,
     }
 }
