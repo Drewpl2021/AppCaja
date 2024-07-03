@@ -6,8 +6,12 @@ import { Injectable } from '@angular/core';
 export class WhatsAppService {
     constructor() {}
 
-    generateWhatsAppLink(phoneNumber: string, message: string): string {
-        const encodedMessage = encodeURIComponent(message);
-        return `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    generateWhatsAppLink(phoneNumber: string): string {
+        const message = encodeURIComponent('¡Hola!\n' +
+            'Queríamos informarte que tu factura ya está lista. ¡Gracias por tu compra! Esperamos verte pronto.\n' +
+            '\n' +
+            'Saludos cordiales,\n' +
+            'Grifo Incapacarita.');
+        return `https://wa.me/${phoneNumber}?text=${message}`;
     }
 }

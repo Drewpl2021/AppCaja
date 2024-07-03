@@ -23,30 +23,58 @@ import {ProductoService} from "../../../../../../providers/services/setup/produc
 import {ToastrService} from "ngx-toastr";
 import {FacturaService} from "../../../../../../providers/services/setup/factura.service";
 import {WhatsAppService} from "../../../../../../providers/services/setup/WhatsAppService.service";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpEventType} from "@angular/common/http";
 
 @Component({
     selector: 'app-clients-list',
     imports: [CommonModule, RouterOutlet, MatButtonModule, MatIconModule, FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
     standalone: true,
     template: `
+        <div   class="" style="display: flex">
+             <div>
+            <div style="flex: 1; font-size: 17px; text-align: left;">
+                <strong style="font-size: 25px;">Tipo de Documento:</strong>
+                <div style="margin-top: 10px;">
+                    <label style="margin-right: 15px; cursor: pointer;">
+                        <input type="radio" name="tipoDocumento" value="boleta" [(ngModel)]="tipoDocumento" (change)="onTipoDocumentoChange()" /> Boleta
+                    </label>
+                    <label style="margin-right: 15px; cursor: pointer;">
+                        <input type="radio" name="tipoDocumento" value="factura" [(ngModel)]="tipoDocumento" (change)="onTipoDocumentoChange()" /> Factura
+                    </label>
+                </div>
+            </div><br>
+            <br>
+            <div style="flex: 1; font-size: 17px; text-align: left;">
+                <strong style="font-size: 25px;">Enviar por WhatsApp:</strong><br><br>
+                <div class="input-group mb-3"  >
+                    <span  class="input-group-text" id="basic-addon1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
+  <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
+</svg>
+                    </span>
+                    <input type="text" class="form-control"[(ngModel)]="phoneNumber" placeholder="Numero de teléfono" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class=" btn btn-secondary ">
+                    <button  (click)="openWhatsAppChat()">Abrir chat de WhatsApp</button>
+                </div>
+            </div><br><br>
+                 <div style="flex: 1; font-size: 17px; text-align: left;">
+                     <strong style="font-size: 25px;">Añadir Cliente:</strong>
 
-        <div style="flex: 1; font-size: 17px; text-align: left;">
-            <strong>Tipo de Documento:</strong>
-            <div style="margin-top: 10px;">
-                <label style="margin-right: 15px; cursor: pointer;">
-                    <input type="radio" name="tipoDocumento" value="boleta" [(ngModel)]="tipoDocumento" (change)="onTipoDocumentoChange()" /> Boleta
-                </label>
-                <label style="margin-right: 15px; cursor: pointer;">
-                    <input type="radio" name="tipoDocumento" value="factura" [(ngModel)]="tipoDocumento" (change)="onTipoDocumentoChange()" /> Factura
-                </label>
-            </div>
-        </div>
+                 </div>
+                 <div (click)="goNewCliente()" style="margin-top: 10px;" class="btn btn-secondary d-flex align-items-center justify-content-center w-48">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person-plus me-2" viewBox="0 0 16 16">
+                         <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                         <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
+                     </svg>
+                     <span>Nuevo Cliente</span>
+                 </div>
+
+             </div>
 
 
 
-
-        <div class="main " style="margin-left: 330px">
+        <div class="main " style="margin-left: 180px; ">
             <div class="body" >
                 <div class="invoice" style="background-color: white;">
                     <div class="header" style="display: flex;">
@@ -101,7 +129,7 @@ import {HttpClient} from "@angular/common/http";
                     </div>
                     <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="goNew()">
                         <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                        <span class="ml-2">Nuevo Factura</span>
+                        <span class="ml-2">Añadir Productos</span>
                     </button>
                         <br><br>
                     <table class="w-full table-fixed">
@@ -156,13 +184,10 @@ import {HttpClient} from "@angular/common/http";
 
                     <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="Guardar()" > Generar Factura </button></form>
                 </div>
-                <div>
-                    <input type="file" (change)="onFileSelected($event)" />
-                    <input type="text" [(ngModel)]="phoneNumber" placeholder="Phone Number" />
-                    <button (click)="uploadFile()">Upload and Send to WhatsApp</button>
-                </div>
 
             </div>
+
+        </div>
         </div>
 
 
@@ -243,6 +268,7 @@ export class ClientListComponent implements OnInit {
     @Input() producto: Producto[] = [];
     @Input() clientes: Clientes[] = [];
     @Output() eventNew = new EventEmitter<boolean>();
+    @Output() eventNewCliente = new EventEmitter<boolean>();
     @Output() eventEdit = new EventEmitter<number>();
     @Output() facturaNew = new EventEmitter<boolean>();
     @Output() eventDelete = new EventEmitter<number>();
@@ -379,9 +405,13 @@ saveClient(data: Object): void {
 
 
 
-
+    //Aqui estan los servicios de editar/Eliminar
     public goNew(): void {
         this.eventNew.emit(true);
+
+    }
+    public goNewCliente(): void {
+        this.eventNewCliente.emit(true);
 
     }
 
@@ -422,37 +452,19 @@ saveClient(data: Object): void {
 
         }
     }
-
-    onFileSelected(event: any): void {
-        const fileInput: HTMLInputElement = event.target;
-        if (fileInput.files && fileInput.files.length > 0) {
-            this.file = fileInput.files[0];
-        }
-    }
-
-    uploadFile(): void {
-        if (this.file && this.phoneNumber) {
-            const formData: FormData = new FormData();
-            formData.append('file', this.file, this.file.name);
-
-            const uploadUrl = 'http://localhost:8080/upload';
-
-            this.http.post<{ url: string }>(uploadUrl, formData).subscribe(
-                (response) => {
-                    const fileUrl = response.url;
-                    const message = `Here is the file you requested: ${fileUrl}`;
-                    const whatsappLink = this.whatsappService.generateWhatsAppLink(this.phoneNumber, message);
-                    window.open(whatsappLink, '_blank');
-                },
-                (error) => {
-                    console.error('File upload failed:', error);
-                }
+    openWhatsAppChat(): void {
+        if (this.phoneNumber) {
+            const whatsappLink = this.whatsappService.generateWhatsAppLink(
+                this.phoneNumber
             );
+            window.open(whatsappLink, '_blank');
+            this.phoneNumber = ''; // Resetea el campo de entrada
+        } else {
+            this.toastr.warning('Ingrese el Numero de Teléfono', 'Alerta', {
+                timeOut: 5000, // Duración en milisegundos
+                progressBar: true,
+                closeButton: true,
+            });
         }
     }
-
-
-
-
 }
-

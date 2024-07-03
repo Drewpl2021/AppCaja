@@ -17,9 +17,9 @@ import {ProductoService} from "../../../../../providers/services/setup/producto.
 import {PdfViewerService} from "../../../../../providers/services";
 import {NewFacturaComponent} from "../components/form/factura-new.component";
 import {Clientes} from "../models/clientes";
-import {ClientNewComponent} from "../../client/components/form/client-new.component";
-import {Client} from "../../client/models/client";
-import {ClientEditComponent} from "../../client/components/form/client-edit.component";
+
+import { ClipboardModule } from 'ngx-clipboard';
+import {ClientNewComponent} from "../components/form/client-new.component";
 
 @Component({
     selector: 'app-clients-container',
@@ -43,9 +43,8 @@ import {ClientEditComponent} from "../../client/components/form/client-edit.comp
             [clientes]="clientes"
 
             (eventNew)="eventNew($event)"
-
+            (eventNewCliente)="eventNewCliente($event)"
             (eventEdit)="eventEdit($event)"
-
             (eventDelete)="eventDelete($event)"
         ></app-clients-list>
 
@@ -150,6 +149,24 @@ export class GenerarFacturaContainerComponent implements OnInit {
         );
     }
 
+    public eventNewCliente($event: boolean): void {
+        if ($event) {
+            const clienteForm = this._matDialog.open(ClientNewComponent);
+            clienteForm.componentInstance.title = 'Nuevo Product' || null;
+            clienteForm.afterClosed().subscribe((result: any) => {
+                if (result) {
+                    this.guardarClient(result);
+                }
+            });
+        }
+    }
+    guardarClient(data: Object): void {
+        this._clientesService.add$(data).subscribe((response) => {
+            if (response) {
+                this.getnombre()
+            }
+        });
+    }
 
     public eventNew($event: boolean): void {
         if ($event) {
