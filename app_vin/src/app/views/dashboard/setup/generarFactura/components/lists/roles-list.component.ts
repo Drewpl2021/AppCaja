@@ -22,6 +22,8 @@ import {MatInputModule} from "@angular/material/input";
 import {ProductoService} from "../../../../../../providers/services/setup/producto.service";
 import {ToastrService} from "ngx-toastr";
 import {FacturaService} from "../../../../../../providers/services/setup/factura.service";
+import {WhatsAppService} from "../../../../../../providers/services/setup/WhatsAppService.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'app-clients-list',
@@ -154,6 +156,11 @@ import {FacturaService} from "../../../../../../providers/services/setup/factura
 
                     <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="Guardar()" > Generar Factura </button></form>
                 </div>
+                <div>
+                    <input type="file" (change)="onFileSelected($event)" />
+                    <input type="text" [(ngModel)]="phoneNumber" placeholder="Phone Number" />
+                    <button (click)="uploadFile()">Upload and Send to WhatsApp</button>
+                </div>
 
             </div>
         </div>
@@ -242,6 +249,8 @@ export class ClientListComponent implements OnInit {
     @Output() eventAssign = new EventEmitter<number>();
     fechaHoy: string;
     showMenu: boolean = false;
+    phoneNumber: string = '';
+    file: File | null = null;
 
     constructor(private _matDialog: MatDialog,
                 private pdfViewerService: PdfViewerService,
@@ -251,6 +260,8 @@ export class ClientListComponent implements OnInit {
                 private _productoService: ProductoService,
                 private facturaService: FacturaService,
                 private toastr: ToastrService,
+                private http: HttpClient,
+                private whatsappService: WhatsAppService,
 
     ) {}
 
@@ -412,7 +423,33 @@ saveClient(data: Object): void {
         }
     }
 
+    onFileSelected(event: any): void {
+        const fileInput: HTMLInputElement = event.target;
+        if (fileInput.files && fileInput.files.length > 0) {
+            this.file = fileInput.files[0];
+        }
+    }
 
+    uploadFile(): void {
+        if (this.file && this.phoneNumber) {
+            const formData: FormData = new FormData();
+            formData.append('file', this.file, this.file.name);
+
+            const uploadUrl = 'http://localhost:8080/upload';
+
+            this.http.post<{ url: string }>(uploadUrl, formData).subscribe(
+                (response) => {
+                    const fileUrl = response.url;
+                    const message = `Here is the file you requested: ${fileUrl}`;
+                    const whatsappLink = this.whatsappService.generateWhatsAppLink(this.phoneNumber, message);
+                    window.open(whatsappLink, '_blank');
+                },
+                (error) => {
+                    console.error('File upload failed:', error);
+                }
+            );
+        }
+    }
 
 
 

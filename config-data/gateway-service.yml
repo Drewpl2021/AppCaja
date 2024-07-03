@@ -50,7 +50,7 @@ spring:
         - id: ms-fyv
           uri: lb://ms-fyv
           predicates:
-            - Path=/factura/** , /productosVendidos/**, /registroVentas/**
+            - Path=/factura/** , /productosVendidos/**, /registroVentas/** , /upload/** ,
         - id: ms-auth-service
           uri: lb://ms-auth-service
           predicates:
