@@ -407,7 +407,6 @@ saveClient(data: Object): void {
     //Aqui estan los servicios de editar/Eliminar
     public goNew(): void {
         this.eventNew.emit({ pan: this.pan, success: true });
-        console.log('El número más alto es:', this.pan);
     }
 
     public goNewCliente(): void {

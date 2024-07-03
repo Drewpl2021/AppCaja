@@ -170,12 +170,14 @@ export class GenerarFacturaContainerComponent implements OnInit {
 
     public eventNew(event: { pan: number, success: boolean }): void {
         if (event.success) {
-            console.log('Enviando pan:', event.pan); // Log para verificar
             const clienteForm = this._matDialog.open(ProductoVendidosNewComponent, {
                 data: { pan: event.pan }
             });
             clienteForm.componentInstance.pan = event.pan; // Asegúrate de pasar el dato correctamente
             clienteForm.componentInstance.title = 'Nuevo Producto' || null;
+            clienteForm.componentInstance.factura = this.factura;
+            clienteForm.componentInstance.producto = this.producto;
+
             clienteForm.afterClosed().subscribe((result: any) => {
                 if (result) {
                     this.saveClient(result);
