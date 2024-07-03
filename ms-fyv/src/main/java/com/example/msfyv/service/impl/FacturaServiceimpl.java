@@ -45,7 +45,6 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Override
     public Factura guardar(Factura factura) {
-        factura.setSerie("");
         // Obtener los detalles del cliente
         ClientesDto cliente = clientesFeign.listById(factura.getClienteId()).getBody();
         PersonalDto personal = personalFeign.listById(factura.getPersonalId()).getBody();
@@ -56,28 +55,25 @@ public class FacturaServiceimpl implements FacturaService {
         // Obtener los productos vendidos asociados al nombreVen de la factura
         List<ProductosVendidos> productosVendidosList = productosVendidosRepository.findByNombreVen(factura.getNombreVen());
 
-        double subtotal = 0.0;
+        double total = 0.0;
         for (ProductosVendidos producto : productosVendidosList) {
             if (producto.getPrecioUnitario() != null && producto.getCantidad() != null) {
-                subtotal += producto.getPrecioUnitario() * producto.getCantidad();
+                total += producto.getPrecioUnitario() * producto.getCantidad();
             } else {
                 // Manejar el caso cuando precioUnitario o cantidad es null
                 throw new IllegalArgumentException("El precio unitario y la cantidad no pueden ser nulos");
             }
         }
-        subtotal = Math.round(subtotal * 100.0) / 100.0;
-        factura.setSubTotal(subtotal);
-
-        // Calcular el igv
-        double igv = subtotal * 0.18; // Suponiendo que el IGV es el 18% del subtotal
-        igv = Math.round(igv * 100.0) / 100.0;
-        factura.setIgv(igv);
-
-        // Calcular el total
-        double total = subtotal + igv;
         total = Math.round(total * 100.0) / 100.0;
         factura.setTotal(total);
-
+        // Calcular el subtotal dividiendo el total por 1.18
+        double subtotal = total / 1.18;
+        subtotal = Math.round(subtotal * 100.0) / 100.0;
+        // Calcular el IGV como la diferencia entre el total y el subtotal
+        double igv = total - subtotal;
+        factura.setSubTotal(subtotal);
+        igv = Math.round(igv * 100.0) / 100.0;
+        factura.setIgv(igv);
         // Establecer la fecha y hora actuales
         factura.setFecha_hora(new Date());
 

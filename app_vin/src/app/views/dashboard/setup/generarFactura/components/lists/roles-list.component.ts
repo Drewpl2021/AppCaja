@@ -33,13 +33,14 @@ import {FacturaService} from "../../../../../../providers/services/setup/factura
             <strong>Tipo de Documento:</strong>
             <div style="margin-top: 10px;">
                 <label style="margin-right: 15px; cursor: pointer;">
-                    <input type="radio" name="tipoDocumento" value="boleta" [(ngModel)]="tipoDocumento" /> Boleta
+                    <input type="radio" name="tipoDocumento" value="boleta" [(ngModel)]="tipoDocumento" (change)="onTipoDocumentoChange()" /> Boleta
                 </label>
                 <label style="margin-right: 15px; cursor: pointer;">
-                    <input type="radio" name="tipoDocumento" value="factura" [(ngModel)]="tipoDocumento" /> Factura
+                    <input type="radio" name="tipoDocumento" value="factura" [(ngModel)]="tipoDocumento" (change)="onTipoDocumentoChange()" /> Factura
                 </label>
             </div>
         </div>
+
 
 
 
@@ -150,6 +151,7 @@ import {FacturaService} from "../../../../../../providers/services/setup/factura
                         <p>Gracias por su compra</p>
                     </div>
                     <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="productoform"  >
+
                     <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="Guardar()" > Generar Factura </button></form>
                 </div>
 
@@ -228,7 +230,7 @@ export class ClientListComponent implements OnInit {
     selectedClient: any = {};
     siguienteNumero: number ;
     pan: number;
-
+    serie: string;
     @Input() clients: ProductoVendidos[] = [];
     @Input() factura: Factura[] = [];
     @Input() producto: Producto[] = [];
@@ -256,18 +258,24 @@ export class ClientListComponent implements OnInit {
 
     productoform = new FormGroup({
         nombreVen: new FormControl('', [Validators.required]),
-        serie: new FormControl('hola', [Validators.required]),
+        serie: new FormControl('', [Validators.required]),
         clienteId: new FormControl('', [Validators.required]),
         personalId: new FormControl('1', [Validators.required]),
 
     });
 
 
-   public Guardar(): void {
-    if (this.productoform.valid) { // Si el formulario es válido
-        const data = this.productoform.value;
-        this.saveClient(data);
-        this.productoform.reset(); // resetea el formulario
+    public Guardar(): void {
+        if (this.productoform.valid) { // Si el formulario es válido
+            const data = this.productoform.value;
+            this.saveClient(data);
+            this.productoform.reset(); // resetea el formulario
+        } else {
+            this.toastr.warning('Rellene todos los campos por favor', 'Alerta', {
+                timeOut: 5000, // Duración en milisegundos
+                progressBar: true,
+                closeButton: true
+            });
         }
     }
 
@@ -275,7 +283,11 @@ saveClient(data: Object): void {
     this.facturaService.add$(data).subscribe((response) => {
         if (response) {
             this.getClientes();
-            this.toastr.success('Guardado exitosamente'); // muestra el mensaje de éxito
+            this.toastr.success('Guardado exitosamente',"",{
+                timeOut: 5000, // Duración en milisegundos
+                progressBar: true,
+                closeButton: true
+            }); // muestra el mensaje de éxito
         }
     });
 }
@@ -302,6 +314,11 @@ saveClient(data: Object): void {
         this.pan = this.getNextNumero();
         this.productoform.controls['nombreVen'].setValue(this.pan.toString()); // Convierte pan a string
 
+
+    }
+    onTipoDocumentoChange(): void {
+        const serie = this.getSerie();
+        this.productoform.controls['serie'].setValue(serie); // Actualiza el campo "serie"
     }
     ngOnChanges(changes: SimpleChanges) {
         if (changes.factura) {
