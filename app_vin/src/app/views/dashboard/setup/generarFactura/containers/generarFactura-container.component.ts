@@ -162,6 +162,14 @@ export class GenerarFacturaContainerComponent implements OnInit {
             });
         }
     }
+
+    saveClient(data: Object): void {
+        this._vendidosService.add$(data).subscribe((response) => {
+        if (response) {
+            this.getClients()
+        }
+        });
+    }
     //public NuevaFactura($event: boolean): void {
     //    if ($event) {
     //        const clienteForm = this._matDialog.open(NewFacturaComponent);
@@ -172,15 +180,6 @@ export class GenerarFacturaContainerComponent implements OnInit {
     //        });
     //    }
     //}
-
-
-    saveClient(data: Object): void {
-        this._vendidosService.add$(data).subscribe((response) => {
-        if (response) {
-            this.getClients()
-        }
-        });
-    }
 
 
     eventEdit(idClient: number): void {

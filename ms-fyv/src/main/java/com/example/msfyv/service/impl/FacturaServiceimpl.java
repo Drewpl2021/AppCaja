@@ -45,7 +45,7 @@ public class FacturaServiceimpl implements FacturaService {
 
     @Override
     public Factura guardar(Factura factura) {
-        factura.setSerie("CAJA1");
+        factura.setSerie("");
         // Obtener los detalles del cliente
         ClientesDto cliente = clientesFeign.listById(factura.getClienteId()).getBody();
         PersonalDto personal = personalFeign.listById(factura.getPersonalId()).getBody();

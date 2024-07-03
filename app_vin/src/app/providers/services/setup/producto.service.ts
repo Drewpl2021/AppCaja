@@ -8,6 +8,4 @@ export class ProductoService extends EntityDataService<any> {
     constructor(protected override httpClient: HttpClient) {
         super(httpClient, END_POINTS.setup.producto);
     }
-
-
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
 
 import { abcForms } from '../../../../../../../environments/generals';
 import { ProductoVendidos } from '../../models/productoVendidos';
@@ -15,11 +15,17 @@ import {ProductoVendidosNewComponent} from "../form/productoVendidos-new.compone
 import {NewFacturaComponent} from "../form/factura-new.component";
 import {Clientes} from "../../models/clientes";
 import {FuseNavigationItem} from "../../../../../../../@fuse/components/navigation";
-import {FormsModule} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators} from "@angular/forms";
+import {ClientService} from "../../../../../../providers/services/setup/client.service";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {ProductoService} from "../../../../../../providers/services/setup/producto.service";
+import {ToastrService} from "ngx-toastr";
+import {FacturaService} from "../../../../../../providers/services/setup/factura.service";
 
 @Component({
     selector: 'app-clients-list',
-    imports: [CommonModule, RouterOutlet, MatButtonModule, MatIconModule, FormsModule],
+    imports: [CommonModule, RouterOutlet, MatButtonModule, MatIconModule, FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
     standalone: true,
     template: `
 
@@ -59,18 +65,19 @@ import {FormsModule} from "@angular/forms";
                         <div style="display: flex; ">
 
 
-                            <div style="flex: 1; font-size: 17px;">
-                                <strong>Nombre: </strong>
-                                <select (change)="onSelectChange($event.target.value)">
-                                    <option *ngFor="let r of clientes" [value]="r.id">
-                                        {{ r.nombreRazonSocial }}
-                                    </option>
-                                </select>
-                            </div>
+                                    <div style="flex: 1; font-size: 17px;" >
+                                        <strong>Nombre: </strong>
+                                        <select (change)="onSelectChange($event.target.value)">
+                                            <option *ngFor="let r of clientes" [value]="r.id">
+                                                {{ r.nombreRazonSocial }}
+                                            </option>
+                                        </select>
+                                    </div>
 
-                            <div  style="flex: 1; font-size: 17px; text-align: left;">
-                                <strong>N° de Comprobante:</strong> {{ getSerie() }} - {{ getNextNumero() }}
-                            </div>
+                                    <div  style="flex: 1; font-size: 17px; text-align: left;">
+                                        <strong>N° de Comprobante:</strong> {{ getSerie() }} - {{ getNextNumero() }}
+                                    </div>
+
                         </div>
 
                         <div style="display: flex; margin-top: -15px">
@@ -142,9 +149,15 @@ import {FormsModule} from "@angular/forms";
                     <div class="footer">
                         <p>Gracias por su compra</p>
                     </div>
+                    <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="productoform"  >
+                    <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="Guardar()" > Generar Factura </button></form>
                 </div>
+
             </div>
         </div>
+
+
+
 
 
         <style>
@@ -203,15 +216,19 @@ import {FormsModule} from "@angular/forms";
                 font-weight: bold;
             }
         </style>
+
     `,
 
 })
 export class ClientListComponent implements OnInit {
     abcForms: any;
+    public error: string = '';
     navigation: FuseNavigationItem[];
     tipoDocumento: string = 'boleta';
     selectedClient: any = {};
     siguienteNumero: number ;
+    pan: number;
+
     @Input() clients: ProductoVendidos[] = [];
     @Input() factura: Factura[] = [];
     @Input() producto: Producto[] = [];
@@ -227,9 +244,54 @@ export class ClientListComponent implements OnInit {
     constructor(private _matDialog: MatDialog,
                 private pdfViewerService: PdfViewerService,
                 private pdfGeneratorService: PDFGeneratorService,
-                private router: Router // Inyecta el Router aquí
+                private router: Router, // Inyecta el Router aquí
+                private clienteService: ClientService,
+                private _productoService: ProductoService,
+                private facturaService: FacturaService,
+                private toastr: ToastrService,
 
     ) {}
+
+
+
+    productoform = new FormGroup({
+        nombreVen: new FormControl('', [Validators.required]),
+        serie: new FormControl('hola', [Validators.required]),
+        clienteId: new FormControl('', [Validators.required]),
+        personalId: new FormControl('1', [Validators.required]),
+
+    });
+
+
+   public Guardar(): void {
+    if (this.productoform.valid) { // Si el formulario es válido
+        const data = this.productoform.value;
+        this.saveClient(data);
+        this.productoform.reset(); // resetea el formulario
+        }
+    }
+
+saveClient(data: Object): void {
+    this.facturaService.add$(data).subscribe((response) => {
+        if (response) {
+            this.getClientes();
+            this.toastr.success('Guardado exitosamente'); // muestra el mensaje de éxito
+        }
+    });
+}
+
+    getClientes(): void {
+        this.facturaService.getAll$().subscribe(
+            (response) => {
+                console.log(response);
+                this.factura = response;
+            },
+            (error) => {
+                this.error = error;
+            }
+        );
+    }
+
 
 
 
@@ -237,7 +299,16 @@ export class ClientListComponent implements OnInit {
         this.abcForms = abcForms;
         const hoy = new Date();
         this.fechaHoy = `${hoy.getDate().toString().padStart(2, '0')}/${(hoy.getMonth() + 1).toString().padStart(2, '0')}/${hoy.getFullYear()}`;
-        this.siguienteNumero = this.getNextNumero()  ;
+        this.pan = this.getNextNumero();
+        this.productoform.controls['nombreVen'].setValue(this.pan.toString()); // Convierte pan a string
+
+    }
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.factura) {
+            this.pan = this.getNextNumero();
+            this.productoform.controls['nombreVen'].setValue(this.pan.toString()); // Convierte pan a string
+            console.log('El número más alto es:', this.pan - 1); // Muestra el número más alto en la consola
+        }
     }
 
     getProductoNombre(id: number): string {
@@ -255,8 +326,8 @@ export class ClientListComponent implements OnInit {
     getNextNumero(): number {
         const numeros = this.factura.map(f => Number(f.nombreVen));
         const maxNumero = Math.max(...numeros);
-        return maxNumero + 1;
-
+        const pan = maxNumero + 1;
+        return pan ;
     }
     getSubTotal(): number {
         return this.getTotalSum() / 1.18;
@@ -272,9 +343,10 @@ export class ClientListComponent implements OnInit {
     getSerie(): string {
         return this.tipoDocumento === 'boleta' ? 'BAJA' : 'FAJA';
     }
-    onSelectChange(id: string) {
+    onSelectChange(id: string): void {
         const selectedId = Number(id);
         this.selectedClient = this.clientes.find(cliente => cliente.id === selectedId);
+        this.productoform.controls['clienteId'].setValue(id); // Pasa el id como string
     }
 
 
@@ -282,8 +354,6 @@ export class ClientListComponent implements OnInit {
 
     public goNew(): void {
         this.eventNew.emit(true);
-        console.log('Número siguiente:', this.siguienteNumero);
-
 
     }
 
