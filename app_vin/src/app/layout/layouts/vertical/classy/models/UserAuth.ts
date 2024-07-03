@@ -1,7 +1,4 @@
 export class UserAuth {
-    id: number;
-    password: string;
+    id?: number;
     userName: string;
-    avatar?: string;
-    status?: string;
 }

@@ -94,7 +94,7 @@ export class ClientContainerComponent implements OnInit {
         console.log(data);
         if (data) {
             const clienteForm = this._matDialog.open(ClientEditComponent);
-            clienteForm.componentInstance.title =`Editar <b>${data.nombre||data.id} </b>`;
+            clienteForm.componentInstance.title =`Editar <b>${data.nombreRazonSocial||data.id} </b>`;
             clienteForm.componentInstance.client = data;
             clienteForm.afterClosed().subscribe((result: any) => {
                 if (result) {

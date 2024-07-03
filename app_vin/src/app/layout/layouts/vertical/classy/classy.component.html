@@ -42,9 +42,7 @@
                 <div class="w-full whitespace-nowrap text-ellipsis overflow-hidden text-center leading-normal font-medium">
                     {{userAuth.userName}}
                 </div>
-                <!--<div class="w-full mt-0.5 whitespace-nowrap text-ellipsis overflow-hidden text-center text-md leading-normal font-medium text-secondary">
-                    {{user.email}}
-                </div>-->
+
             </div>
         </div>
     </ng-container>
@@ -98,6 +96,26 @@
     </div>-->
 
 </div>
+<nav *ngFor="let item of navigation">
+    <ng-container *ngIf="item.type === 'group'">
+        <div>{{ item.title }}</div>
+        <ul>
+            <li *ngFor="let child of item.children">
+                <ng-container *ngIf="child.type === 'basic'">
+                    <a [routerLink]="child.link">
+                        <i [ngClass]="child.icon"></i> {{ child.title }}
+                    </a>
+                </ng-container>
+                <ng-container *ngIf="child.type === 'button'">
+                    <button (click)="child.onClick()">
+                        <i [ngClass]="child.icon"></i> {{ child.title }}
+                    </button>
+                </ng-container>
+            </li>
+        </ul>
+    </ng-container>
+</nav>
+
 
 <!-- Quick chat -->
 <quick-chat #quickChat="quickChat"></quick-chat>

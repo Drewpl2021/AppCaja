@@ -12,7 +12,13 @@ export const END_POINTS = {
   setup: {
     role: 'rol',
       client: 'clientes',
-      product: 'producto',
+      factura: 'factura',
+      personal: 'personal',
+      productosVendidos: 'productosVendidos',
+      proveedor: 'proveedor',
+      producto: 'producto',
+      productoVendidos: 'productoVendidos',
+      generarFactura: 'generarFactura',
       category: 'categoria',
     accesRole: 'acceso-rol',
     person: 'persona',
@@ -25,7 +31,6 @@ export const END_POINTS = {
     jerarquia: "gerarquia",
     menu:"menu",
     users: 'auth/user',
-
     access:'acceso',
     access_parent:'acceso-padres',
   },

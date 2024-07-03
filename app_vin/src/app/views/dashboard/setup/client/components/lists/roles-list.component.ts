@@ -31,21 +31,13 @@ import { MatDialog } from '@angular/material/dialog';
                             <tr>
                                 <th class="w-1/6 table-head text-center px-5 border-r">#</th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Nombre
+                                    Nombre o Razon Social
                                 </th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Apellidos
+                                    Dirección
                                 </th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Correo Electronico
-                                </th>
-
-                                <th class="w-2/6 table-header text-center px-5 border-r">
-                                    DNI
-                                </th>
-
-                                <th class="w-1/6 table-header text-center border-r">
-                                    Teléfono
+                                    DNI/RUC
                                 </th>
                                 <th class="w-2/6 table-header text-center">
                                     Acciones
@@ -61,19 +53,13 @@ import { MatDialog } from '@angular/material/dialog';
                                     {{ i }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.nombre }}
+                                    {{ r.nombreRazonSocial }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.apellidos }}
+                                    {{ r.direccion }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.correoElectronico }}
-                                </td>
-                                <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.dni }}
-                                </td>
-                                <td class="w-2/6 p-2  text-start border-b text-sm">
-                                    {{ r.telefono }}
+                                    {{ r.dni_ruc }}
                                 </td>
 
 

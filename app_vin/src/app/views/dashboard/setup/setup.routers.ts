@@ -7,7 +7,11 @@ export default [
         component: SetupComponent,
         children: [
             {path: 'client', loadChildren: () => import('./client/client.routers')},
-            {path: 'product', loadChildren: () => import('./product/product.routers')},
+            {path: 'personal', loadChildren: () => import('./personal/personal.routers')},
+            {path: 'producto', loadChildren: () => import('./producto/producto.routers')},
+            {path: 'proveedor', loadChildren: () => import('./proveedor/proveedor.routers')},
+            {path: 'productoVendidos', loadChildren: () => import('./productosVendidos/productoVendidos.routers')},
+            {path: 'generarFactura', loadChildren: () => import('./generarFactura/generarFactura.routers')},
             {path: 'role', loadChildren: () => import('./roles/roles.routers')},
             {path: 'users', loadChildren: () => import('./user/users-routers')},
             {path: 'user', loadChildren: () => import('./user/users-routers')},

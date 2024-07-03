@@ -13,7 +13,7 @@ import {
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { Navigation } from 'app/core/navigation/navigation.types';
-//import { UserAuthService } from 'app/core/user/user.service';
+import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 //import {LanguagesComponent} from 'app/layout/common/languages/languages.component';
 import { MessagesComponent } from 'app/layout/common/messages/messages.component';
@@ -25,9 +25,8 @@ import { UserComponent } from 'app/layout/common/user/user.component';
 import { Subject, map, takeUntil } from 'rxjs';
 import { MenuService } from '../../../../providers/services/setup/menu.service';
 import { MenuAcceso } from './menu_accesos';
-import {UsersService} from "../../../../providers/services/setup/users.service";
 import {UserAuthService} from "../../../../providers/services/setup/userAuth.service";
-import {UserAuth} from "./models/UserAuth";
+import {UserAuth} from "./models/userAuth";
 
 @Component({
     selector: 'classy-layout',
@@ -35,27 +34,28 @@ import {UserAuth} from "./models/UserAuth";
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
-        FuseLoadingBarComponent,
-        FuseVerticalNavigationComponent,
-        NotificationsComponent,
-        UserComponent,
-        NgIf,
-        MatIconModule,
-        MatButtonModule,
-        FuseFullscreenComponent,
-        SearchComponent,
-        ShortcutsComponent,
-        MessagesComponent,
-        RouterOutlet,
-        QuickChatComponent,
+            FuseLoadingBarComponent,
+            FuseVerticalNavigationComponent,
+            NotificationsComponent,
+            UserComponent,
+            NgIf,
+            MatIconModule,
+            FuseFullscreenComponent,
+            MatButtonModule,
+            SearchComponent,
+            ShortcutsComponent,
+            MessagesComponent,
+            RouterOutlet,
+            QuickChatComponent,
     ],
 })
 export class ClassyLayoutComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
-    navigation: FuseNavigationItem[];
     public  userAuth: UserAuth;
     public userAuths: UserAuth[]=[];
+    navigation: FuseNavigationItem[];
     menu: MenuAcceso[];
+
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     private;
@@ -145,7 +145,6 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                 // Aquí puedes manejar el error, como mostrar un mensaje al usuario
             }
         });
-        //this.showmenu();
         this.navigation = [
             {
                 id: 'example',
@@ -170,19 +169,51 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                     },
                     {
                         id: 'SetupProdct',
-                        title: 'Setup producto',
+                        title: 'Setup Factura ',
                         type: 'basic',
                         icon: 'heroicons_outline:chart-pie',
-                        link: '/homeScreen/setup/product',
+                        link: '/homeScreen/setup/productoVendidos',
                     },
+                    {
+                        id: 'SetupProdct',
+                        title: 'Setup Factura new',
+                        type: 'basic',
+                        icon: 'heroicons_outline:chart-pie',
+                        link: '/homeScreen/setup/generarFactura',
+                    },
+                    {
+                        id: 'SetupProdct',
+                        title: 'Setup Productos',
+                        type: 'basic',
+                        icon: 'heroicons_outline:chart-pie',
+                        link: '/homeScreen/setup/producto',
+                    },
+
+                    {
+                        id: 'SetupProdct',
+                        title: 'Setup Proveedores',
+                        type: 'basic',
+                        icon: 'heroicons_outline:chart-pie',
+                        link: '/homeScreen/setup/proveedor',
+                    },
+                    {
+                        id: 'SetupPersonal',
+                        title: 'Setup Personal',
+                        type: 'basic',
+                        icon: 'heroicons_outline:chart-pie',
+                        link: '/homeScreen/setup/personal',
+                    },
+
+
 
                 ],
             },
 
 
+
         ];
         this.user = {
-            id: "1",
+            id: 'cfaad35d-07a3-4447-a6c3-d8c3d54fd5df',
             name: 'Brian Hughes',
             email: 'hughes.brian@company.com',
             avatar: 'assets/images/avatars/brian-hughes.jpg',

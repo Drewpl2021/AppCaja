@@ -7,6 +7,5 @@ import {Observable} from 'rxjs';
 export class UserAuthService extends EntityDataService<any> {
     constructor(protected override httpClient: HttpClient) {
         super(httpClient, END_POINTS.setup.users);
-
     }
 }
