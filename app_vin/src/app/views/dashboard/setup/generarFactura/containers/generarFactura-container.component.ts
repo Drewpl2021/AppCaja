@@ -168,10 +168,14 @@ export class GenerarFacturaContainerComponent implements OnInit {
         });
     }
 
-    public eventNew($event: boolean): void {
-        if ($event) {
-            const clienteForm = this._matDialog.open(ProductoVendidosNewComponent);
-            clienteForm.componentInstance.title = 'Nuevo Product' || null;
+    public eventNew(event: { pan: number, success: boolean }): void {
+        if (event.success) {
+            console.log('Enviando pan:', event.pan); // Log para verificar
+            const clienteForm = this._matDialog.open(ProductoVendidosNewComponent, {
+                data: { pan: event.pan }
+            });
+            clienteForm.componentInstance.pan = event.pan; // Asegúrate de pasar el dato correctamente
+            clienteForm.componentInstance.title = 'Nuevo Producto' || null;
             clienteForm.afterClosed().subscribe((result: any) => {
                 if (result) {
                     this.saveClient(result);
@@ -179,6 +183,7 @@ export class GenerarFacturaContainerComponent implements OnInit {
             });
         }
     }
+
 
     saveClient(data: Object): void {
         this._vendidosService.add$(data).subscribe((response) => {

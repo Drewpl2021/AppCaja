@@ -64,10 +64,7 @@ import {CommonModule, NgForOf} from "@angular/common";
                     <mat-label>Precio unitario</mat-label>
                     <input matInput formControlName="precioUnitario" />
                 </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Nombre</mat-label>
-                    <input matInput formControlName="nombreVen" />
-                </mat-form-field>
+
                 <!-- Actions -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
                     <div class="flex space-x-2 items-center mt-4 sm:mt-0 ml-auto">
@@ -84,6 +81,7 @@ import {CommonModule, NgForOf} from "@angular/common";
 export class ProductoVendidosNewComponent implements OnInit {
     @Input() title: string = '';
     @Input() factura: Factura[] = [];
+    @Input() pan: number;
     abcForms: any;
     clientForm = new FormGroup({
         nombreVen: new FormControl('', [Validators.required]),
@@ -92,10 +90,17 @@ export class ProductoVendidosNewComponent implements OnInit {
         productoId: new FormControl('', [Validators.required]),
     });
 
-    constructor(private _matDialog: MatDialogRef<ProductoVendidosNewComponent>) {}
+    constructor(private _matDialog: MatDialogRef<ProductoVendidosNewComponent>,) {
+}
+
+
 
     ngOnInit() {
         this.abcForms = abcForms;
+        console.log('Dato de pan recibido:', this.pan);
+        if (this.pan) {
+            this.clientForm.controls['nombreVen'].setValue(this.pan.toString());
+        }
     }
 
     public saveForm(): void {

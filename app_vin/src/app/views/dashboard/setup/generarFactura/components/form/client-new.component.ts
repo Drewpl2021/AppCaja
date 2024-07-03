@@ -30,7 +30,7 @@ import { MatInputModule } from '@angular/material/input';
     template: `
         <div class="flex flex-col max-w-240 md:min-w-160 max-h-screen -m-6">
             <!-- Header -->
-            <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+            <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8  text-on-primary" style="background-color: lightseagreen; color: white">
                 <div class="text-lg font-medium">{{ title }}</div>
                 <button mat-icon-button (click)="cancelForm()" [tabIndex]="-1">
                     <mat-icon

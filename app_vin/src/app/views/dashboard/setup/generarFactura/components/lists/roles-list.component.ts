@@ -181,8 +181,7 @@ import {HttpClient, HttpEventType} from "@angular/common/http";
                         <p>Gracias por su compra</p>
                     </div>
                     <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="productoform"  >
-
-                    <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="Guardar()" > Generar Factura </button></form>
+                    <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="Guardar()"> Generar Factura </button></form>
                 </div>
 
             </div>
@@ -267,7 +266,7 @@ export class ClientListComponent implements OnInit {
     @Input() factura: Factura[] = [];
     @Input() producto: Producto[] = [];
     @Input() clientes: Clientes[] = [];
-    @Output() eventNew = new EventEmitter<boolean>();
+    @Output() eventNew = new EventEmitter<{ pan: number, success: boolean }>();
     @Output() eventNewCliente = new EventEmitter<boolean>();
     @Output() eventEdit = new EventEmitter<number>();
     @Output() facturaNew = new EventEmitter<boolean>();
@@ -407,9 +406,10 @@ saveClient(data: Object): void {
 
     //Aqui estan los servicios de editar/Eliminar
     public goNew(): void {
-        this.eventNew.emit(true);
-
+        this.eventNew.emit({ pan: this.pan, success: true });
+        console.log('El número más alto es:', this.pan);
     }
+
     public goNewCliente(): void {
         this.eventNewCliente.emit(true);
 
