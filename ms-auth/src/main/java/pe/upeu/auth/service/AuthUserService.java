@@ -4,6 +4,8 @@ import pe.upeu.auth.dto.AuthUserDto;
 import pe.upeu.auth.entity.AuthUser;
 import pe.upeu.auth.entity.TokenDto;
 
+import java.util.List;
+
 public interface AuthUserService {
     public AuthUser save(AuthUserDto authUserDto);
 
@@ -11,4 +13,5 @@ public interface AuthUserService {
 
     public TokenDto validate(String token);
 
+    List<AuthUser> getAllUsers();
 }

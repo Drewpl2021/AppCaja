@@ -11,6 +11,8 @@ export default [
             {path: 'producto', loadChildren: () => import('./producto/producto.routers')},
             {path: 'facturasEmitidas', loadChildren: () => import('./facturasEmitidas/facturasEmitidas.routers')},
             {path: 'proveedor', loadChildren: () => import('./proveedor/proveedor.routers')},
+            {path: 'inventario', loadChildren: () => import('./inventario/inventario.routers')},
+            {path: 'detalle', loadChildren: () => import('./inventarioDetalle/inventariodetalle.routers')},
             {path: 'productoVendidos', loadChildren: () => import('./productosVendidos/productoVendidos.routers')},
             {path: 'generarFactura', loadChildren: () => import('./generarFactura/generarFactura.routers')},
             {path: 'role', loadChildren: () => import('./roles/roles.routers')},

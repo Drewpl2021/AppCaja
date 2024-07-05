@@ -55,6 +55,8 @@ spring:
           uri: lb://ms-inventario-service
           predicates:
             - Path=/inventario/** , /detalle/**
+          filters:
+            - AuthFilter
         - id: ms-auth-service
           uri: lb://ms-auth-service
           predicates:

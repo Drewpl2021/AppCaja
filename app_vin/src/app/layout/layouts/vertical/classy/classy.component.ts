@@ -25,6 +25,8 @@ import { UserComponent } from 'app/layout/common/user/user.component';
 import { Subject, map, takeUntil } from 'rxjs';
 import { MenuService } from '../../../../providers/services/setup/menu.service';
 import { MenuAcceso } from './menu_accesos';
+import {UserAuthService} from "../../../../providers/services/setup/userAuth.service";
+import {UserAuth} from "./models/UserAuth";
 
 @Component({
     selector: 'classy-layout',
@@ -51,6 +53,8 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     navigation: FuseNavigationItem[];
     menu: MenuAcceso[];
+    public  userAuth: UserAuth;
+    public userAuths: UserAuth[]=[];
 
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -66,7 +70,8 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         // private _userService: UserService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,
-        private _menuService: MenuService
+        private _menuService: MenuService,
+        private _userService: UserAuthService,
     ) {}
 
     // -----------------------------------------------------------------------------------------------------
@@ -129,8 +134,20 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
             ],
         },
     ];
+
     ngOnInit(): void {
         //this.showmenu();
+        this._userService.getAll$().subscribe({
+            next: (data) => {
+                this.userAuths = data;
+                this.userAuth= this.userAuths[1];
+                console.log(this.user); // Opcional: Mostrar los datos del usuario en la consola para verificar
+            },
+            error: (error) => {
+                console.error('Error fetching user: ', error);
+                // Aquí puedes manejar el error, como mostrar un mensaje al usuario
+            }
+        });
         this.navigation = [
             {
                 id: 'example',
@@ -188,6 +205,20 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                         type: 'basic',
                         icon: 'heroicons_outline:chart-pie',
                         link: '/homeScreen/setup/personal',
+                    },
+                    {
+                        id: 'SetupPersonal',
+                        title: 'Gestionar Inventario',
+                        type: 'basic',
+                        icon: 'heroicons_outline:chart-pie',
+                        link: '/homeScreen/setup/inventario',
+                    },
+                    {
+                        id: 'SetupPersonal',
+                        title: 'Gestionar Detalle Inventario',
+                        type: 'basic',
+                        icon: 'heroicons_outline:chart-pie',
+                        link: '/homeScreen/setup/detalle',
                     },
 
 
