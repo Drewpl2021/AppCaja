@@ -140,7 +140,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         this._userService.getAll$().subscribe({
             next: (data) => {
                 this.userAuths = data;
-                this.userAuth= this.userAuths[1];
+                this.userAuth= this.userAuths[3];
                 console.log(this.user); // Opcional: Mostrar los datos del usuario en la consola para verificar
             },
             error: (error) => {

@@ -31,26 +31,28 @@ spring:
           uri: lb://ms-personal
           predicates:
             - Path=/personal/**
-          #filters:
-            #- AuthFilter
+          filters:
+            - AuthFilter
 
         - id: clientes-service
           uri: lb://clientes-service
           predicates:
             - Path=/clientes/**
-          #filters:
-            #- AuthFilter
+          filters:
+            - AuthFilter
 
         - id: ms-pyp
           uri: lb://ms-pyp
           predicates:
             - Path=/compras/** , /producto/** , /proveedor/**
-          #filters:
-            #- AuthFilter
+          filters:
+            - AuthFilter
         - id: ms-fyv
           uri: lb://ms-fyv
           predicates:
             - Path=/factura/** , /productosVendidos/**, /registroVentas/**
+          filters:
+            - AuthFilter
         - id: ms-inventario-service
           uri: lb://ms-inventario-service
           predicates:
