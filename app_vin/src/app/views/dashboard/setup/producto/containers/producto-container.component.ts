@@ -10,6 +10,9 @@ import {ConfirmDialogService} from "../../../../../shared/confirm-dialog/confirm
 import {ClientListComponent} from "../components";
 import {ClientService} from "../../../../../providers/services/setup/client.service";
 import {ProductoService} from "../../../../../providers/services/setup/producto.service";
+import {ProductoVendidosNewComponent} from "../../generarFactura/components/form/productoVendidos-new.component";
+import {ProveedorService} from "../../../../../providers/services/setup/proveedor.service";
+import {Proveedor} from "../models/proveedor";
 
 @Component({
     selector: 'app-clients-container',
@@ -27,6 +30,7 @@ import {ProductoService} from "../../../../../providers/services/setup/producto.
         <app-clients-list
             class="w-full"
             [clients]="clients"
+            [proveedor]="proveedor"
             (eventNew)="eventNew($event)"
             (eventEdit)="eventEdit($event)"
 
@@ -37,16 +41,20 @@ import {ProductoService} from "../../../../../providers/services/setup/producto.
 export class ProductoContainerComponent implements OnInit {
     public error: string = '';
     public clients: Producto[] = [];
+    public proveedor: Proveedor[] = [];
     public client = new Producto();
 
     constructor(
         private _clientService: ProductoService,
+        private _proveedor: ProveedorService,
         private _confirmDialogService: ConfirmDialogService,
         private _matDialog: MatDialog,
     ) {}
 
     ngOnInit() {
         this.getClients();
+        this.getProveedor();
+        console.log('Datos de proveedores Enviados:', this.proveedor);
     }
 
     getClients(): void {
@@ -54,6 +62,18 @@ export class ProductoContainerComponent implements OnInit {
             (response) => {
                 console.log(response);
                 this.clients = response;
+            },
+            (error) => {
+                this.error = error;
+            }
+        );
+    }
+
+    getProveedor(): void {
+        this._proveedor.getAll$().subscribe(
+            (response) => {
+                console.log(response);
+                this.proveedor = response;
             },
             (error) => {
                 this.error = error;
@@ -99,7 +119,9 @@ export class ProductoContainerComponent implements OnInit {
                 this.openModalEdit(this.client);
                 listById.unsubscribe();
             });
+
     }
+
 
     openModalEdit(data: Producto) {
         console.log(data);
@@ -107,11 +129,13 @@ export class ProductoContainerComponent implements OnInit {
             const clienteForm = this._matDialog.open(ProductoEditComponent);
             clienteForm.componentInstance.title =`Editar <b>${data.nombre || data.id} </b>`;
             clienteForm.componentInstance.client = data;
+            clienteForm.componentInstance.proveedor = this.proveedor;
             clienteForm.afterClosed().subscribe((result: any) => {
                 if (result) {
                     this.editClient(data.id, result);
                 }
             });
+            console.log('Datos de proveedores enviados:', this.proveedor);
         }
     }
 

@@ -105,6 +105,7 @@ export class PersonalContainerComponent implements OnInit {
     }
 
     editClient( idPersonal: number,data: Object) {
+        console.log(data);
         this._personalService.update$(idPersonal,data).subscribe((response) => {
             if (response) {
                 this.getClients()

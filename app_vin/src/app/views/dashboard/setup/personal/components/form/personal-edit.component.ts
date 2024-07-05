@@ -20,7 +20,7 @@ import {MatDialogRef} from "@angular/material/dialog";
   template: `
     <div class="flex flex-col max-w-240 md:min-w-160 max-h-screen -m-6">
       <!-- Header -->
-      <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+      <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 " style="background-color: lightseagreen; color: white">
         <div class="text-lg font-medium" [innerHTML]="title"></div>
         <button mat-icon-button (click)="cancelForm()" [tabIndex]="-1">
           <mat-icon
@@ -52,6 +52,13 @@ import {MatDialogRef} from "@angular/material/dialog";
                 <mat-label>Correo</mat-label>
                 <input matInput formControlName="email" />
             </mat-form-field>
+            <div>
+                <label >Cargo</label>
+                <select class="form-select" aria-label="Default select example"  formControlName="cargo">
+                    <option value="GERENTE">GERENTE</option>
+                    <option value="EMPLEADO">EMPLEADO</option>
+                </select>
+            </div><br>
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
                 <div class="flex space-x-2 items-center mt-4 sm:mt-0 ml-auto">
@@ -72,6 +79,7 @@ export class PersonalEditComponent implements OnInit {
         dni: new FormControl('', [Validators.required]),
         telefono: new FormControl('', [Validators.required]),
         email: new FormControl('', [Validators.required]),
+        cargo: new FormControl('', [Validators.required]),
 
     });
   @Input() title: string = '';
@@ -95,6 +103,7 @@ export class PersonalEditComponent implements OnInit {
   }
 
   public saveForm(): void {
+      console.log("saveForm: ",this.clientForm.value);
     if (this.clientForm.valid) {
       this._matDialog.close(this.clientForm.value);
     }

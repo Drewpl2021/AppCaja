@@ -30,8 +30,8 @@ import { MatInputModule } from '@angular/material/input';
     template: `
         <div class="flex flex-col max-w-240 md:min-w-160 max-h-screen -m-6">
             <!-- Header -->
-            <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
-                <div class="text-lg font-medium">{{ title }}</div>
+            <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 " style="background-color: lightseagreen; color: white">
+                <div class="text-lg font-medium">Agregar Personal</div>
                 <button mat-icon-button (click)="cancelForm()" [tabIndex]="-1">
                     <mat-icon
                         class="text-current"
@@ -52,16 +52,24 @@ import { MatInputModule } from '@angular/material/input';
                     <input matInput formControlName="apellidos" />
                 </mat-form-field>
                 <mat-form-field>
+                    <mat-label>Correo</mat-label>
+                    <input matInput formControlName="email" />
+                </mat-form-field>
+                <mat-form-field>
                     <mat-label>DNI</mat-label>
                     <input matInput formControlName="dni" />
                 </mat-form-field>
+                <div>
+                    <label >Cargo </label>
+                    <select class="form-select" aria-label="Default select example"  formControlName="cargo">
+                        <option value="" disabled selected>Seleccione un Cargo</option>
+                        <option value="GERENTE">GERENTE</option>
+                        <option value="EMPLEADO">EMPLEADO</option>
+                    </select>
+                </div><br>
                 <mat-form-field>
                     <mat-label>Telefono</mat-label>
                     <input matInput formControlName="telefono" />
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>Correo</mat-label>
-                    <input matInput formControlName="correoElectronico" />
                 </mat-form-field>
                 <!-- Actions -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
@@ -85,7 +93,8 @@ export class PersonalNewComponent implements OnInit {
         apellidos: new FormControl('', [Validators.required]),
         dni: new FormControl('', [Validators.required]),
         telefono: new FormControl('', [Validators.required]),
-        correoElectronico: new FormControl('', [Validators.required]),
+        cargo: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required]),
     });
 
     constructor(private _matDialog: MatDialogRef<PersonalNewComponent>) {}
