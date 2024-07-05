@@ -44,16 +44,32 @@ import { MatInputModule } from '@angular/material/input';
             <!-- Compose form -->
             <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="clientForm">
                 <mat-form-field>
-                    <mat-label>Nombre o Razon Social</mat-label>
-                    <input matInput formControlName="nombreRazonSocial" />
+                    <mat-label>Estado</mat-label>
+                    <input matInput formControlName="estado" />
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>Direccion</mat-label>
-                    <input matInput formControlName="direccion" />
+                    <mat-label>Descripcions</mat-label>
+                    <input matInput formControlName="descripcion" />
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>DNI/RUC</mat-label>
-                    <input matInput formControlName="dni_ruc" />
+                    <mat-label>Precio Venta</mat-label>
+                    <input matInput formControlName="precio_venta" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Stock</mat-label>
+                    <input matInput formControlName="stock" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Stock Minimo</mat-label>
+                    <input matInput formControlName="stock_minimo" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Stock Maximo</mat-label>
+                    <input matInput formControlName="stock_maximo" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Producto</mat-label>
+                    <input matInput formControlName="productoId" />
                 </mat-form-field>
                 <!-- Actions -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
@@ -68,16 +84,20 @@ import { MatInputModule } from '@angular/material/input';
         </div>
     `,
 })
-export class ClientNewComponent implements OnInit {
+export class InventariodetalleNewComponent implements OnInit {
     @Input() title: string = '';
     abcForms: any;
     clientForm = new FormGroup({
-        nombreRazonSocial: new FormControl('', [Validators.required]),
-        direccion: new FormControl('', [Validators.required]),
-        dni_ruc: new FormControl('', [Validators.required]),
+        estado: new FormControl('', [Validators.required]),
+        descripcion: new FormControl('', [Validators.required]),
+        precio_venta: new FormControl('', [Validators.required]),
+        stock: new FormControl('', [Validators.required]),
+        stock_minimo: new FormControl('', [Validators.required]),
+        stock_maximo: new FormControl('', [Validators.required]),
+        productoId: new FormControl('', [Validators.required]),
     });
 
-    constructor(private _matDialog: MatDialogRef<ClientNewComponent>) {}
+    constructor(private _matDialog: MatDialogRef<InventariodetalleNewComponent>) {}
 
     ngOnInit() {
         this.abcForms = abcForms;

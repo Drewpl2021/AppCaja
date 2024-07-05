@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output , ViewChild} from '@angular/core';
 
 import { abcForms } from '../../../../../../../environments/generals';
 import { Personal} from '../../models/personal';
@@ -7,10 +7,20 @@ import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import {NgApexchartsModule} from "ng-apexcharts";
+import {
+    ChartComponent,
+    ApexAxisChartSeries,
+    ApexChart,
+    ApexXAxis,
+    ApexTitleSubtitle
+} from "ng-apexcharts";
+
+
 
 @Component({
     selector: 'app-personal-list',
-    imports: [CommonModule, RouterOutlet, MatButtonModule, MatIconModule],
+    imports: [CommonModule, RouterOutlet, MatButtonModule, MatIconModule, ],
     standalone: true,
     template: `
         <div class="w-full mx-auto p-6 bg-white rounded overflow-hidden shadow-lg">
@@ -59,7 +69,6 @@ import { MatDialog } from '@angular/material/dialog';
                                 </th>
                             </tr>
                         </thead>
-
                         <tbody
                             class="bg-white"
                             *ngFor="let r of personal; let i = index">
@@ -107,6 +116,7 @@ import { MatDialog } from '@angular/material/dialog';
                             </tr>
                         </tbody>
                     </table>
+
                     <!--<div class="px-5 py-2 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                         <span class="text-xs xs:text-sm text-gray-900">
                             Showing 1 to 4 of 50 Entries
@@ -126,6 +136,7 @@ import { MatDialog } from '@angular/material/dialog';
         </div>
     `,
 })
+
 export class ClientListComponent implements OnInit {
     abcForms: any;
     @Input() personal: Personal[] = [];
@@ -134,7 +145,10 @@ export class ClientListComponent implements OnInit {
     @Output() eventDelete = new EventEmitter<number>();
     @Output() eventAssign = new EventEmitter<number>();
 
-    constructor(private _matDialog: MatDialog) {}
+
+    constructor(private _matDialog: MatDialog) {
+
+    }
 
     ngOnInit() {
         this.abcForms = abcForms;

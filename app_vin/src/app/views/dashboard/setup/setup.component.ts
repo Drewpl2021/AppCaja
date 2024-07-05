@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {RouterOutlet} from "@angular/router";
 import {abcForms} from "../../../../environments/generals";
 
+
 @Component({
   selector: 'app-setup',
   standalone: true,

@@ -29,7 +29,9 @@ public class InventarioDetalle {
     private Inventario inventario;
     @Transient
     private ProductoDto productoDto;
-
+    public InventarioDetalle() {
+        this.fecha = new Date();
+    }
     //public Double calcularCambioStock() {
         //return entrada - salida;
     //}

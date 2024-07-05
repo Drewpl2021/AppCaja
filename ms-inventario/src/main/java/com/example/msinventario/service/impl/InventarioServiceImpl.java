@@ -68,6 +68,4 @@ public class InventarioServiceImpl implements InventarioService {
                                .map(Inventario::getStock)
                                .collect(Collectors.toList());
     }
-
-
 }

@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,33 +44,31 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
     @Override
     @Transactional
     public InventarioDetalle guardar(InventarioDetalle inventarioDetalle) {
-    // Verificar que el objeto Inventario asociado con InventarioDetalle no sea nulo
-    if (inventarioDetalle.getInventario() == null) {
-        throw new RuntimeException("InventarioDetalle no contiene un Inventario");
-    }
-    // Verificar que el objeto Producto asociado con InventarioDetalle no sea nulo
-    Inventario inventario = inventarioService.listarPorId(inventarioDetalle.getInventario().getId())
-            .orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
-    double cambioStock = inventarioDetalle.getEntrada() - inventarioDetalle.getSalida();
-    // Verificar que el stock no sea menor al stock mínimo permitido
-    double nuevoStock = inventario.getStock() + cambioStock;
-    if (nuevoStock > inventario.getStock_maximo()) {
-        throw new IllegalArgumentException("El stock no puede ser mayor al stock máximo permitido");
-    }
-    // Verificar que el stock no sea mayor al stock máximo permitido
-    if (nuevoStock < inventario.getStock_minimo()) {
-        throw new IllegalArgumentException("El stock no puede ser menor al stock mínimo permitido");
-    }
+        if (inventarioDetalle.getInventario() == null) {
+            throw new RuntimeException("InventarioDetalle no contiene un Inventario");
+        }
 
-    inventario.setStock(nuevoStock);
-    // Guardar el inventario actualizado
-    inventarioService.guardar(inventario);
-    inventarioDetalle = inventarioDetalleRepository.save(inventarioDetalle);
+        Inventario inventario = inventarioService.listarPorId(inventarioDetalle.getInventario().getId())
+                .orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
 
-    // Calcular el costo total
-    inventarioDetalle.setCosto_total(inventarioDetalle.getPrecio_de_compra() * inventarioDetalle.getEntrada());
+        double cambioStock = inventarioDetalle.getEntrada() - inventarioDetalle.getSalida();
+        double nuevoStock = inventario.getStock() + cambioStock;
 
-    return inventarioDetalle;
+        if (nuevoStock > inventario.getStock_maximo()) {
+            throw new IllegalArgumentException("El stock no puede ser mayor al stock máximo permitido");
+        }
+
+        if (nuevoStock < inventario.getStock_minimo()) {
+            throw new IllegalArgumentException("El stock no puede ser menor al stock mínimo permitido");
+        }
+
+
+        inventario.setStock(nuevoStock);
+        inventarioService.guardar(inventario);
+        inventarioDetalle.setCosto_total(inventarioDetalle.getPrecio_de_compra() * inventarioDetalle.getEntrada());
+        inventarioDetalle.setFecha(new Date());
+
+        return inventarioDetalleRepository.save(inventarioDetalle);
     }
     @Override
     public InventarioDetalle actualizar(InventarioDetalle inventarioDetalle) {
@@ -120,5 +119,11 @@ public class InventarioDetalleServiceImpl implements InventarioDetalleService {
                 .filter(detalle -> detalle.getFecha().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().isAfter(fechaLimite))
                 .mapToDouble(InventarioDetalle::getCosto_total)
                 .sum();
+    }
+    @Override
+    public List<InventarioDetalle> listarPorFecha(Date fecha) {
+        return inventarioDetalleRepository.findAll().stream()
+                .filter(detalle -> detalle.getFecha().equals(fecha))
+                .collect(Collectors.toList());
     }
 }

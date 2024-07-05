@@ -20,6 +20,8 @@ export const END_POINTS = {
       productoVendidos: 'productoVendidos',
       generarFactura: 'generarFactura',
       category: 'categoria',
+      inventario: 'inventario',
+      detalle: 'detalle',
     accesRole: 'acceso-rol',
     person: 'persona',
     institution: 'institucion',

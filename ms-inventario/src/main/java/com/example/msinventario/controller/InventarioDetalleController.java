@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,24 +28,8 @@ public class InventarioDetalleController {
         return ResponseEntity.ok().body(inventarioDetalleService.listar());
     }
     @PostMapping()
-    public ResponseEntity<?> save(@RequestBody InventarioDetalle inventarioDetalle){
-    Inventario inventario = inventarioService.listarPorId(inventarioDetalle.getInventario().getId())
-            .orElseThrow(() -> new RuntimeException("Inventario no encontrado"));
-    double cambioStock = inventarioDetalle.getEntrada() - inventarioDetalle.getSalida();
-
-    double nuevoStock = inventario.getStock() + cambioStock;
-    if (nuevoStock > inventario.getStock_maximo()) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El stock no puede ser mayor al stock máximo permitido");
-    }
-    if (nuevoStock < inventario.getStock_minimo()) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El stock no puede ser menor al stock mínimo permitido");
-    }
-
-    try {
+    public ResponseEntity<InventarioDetalle> save(@RequestBody InventarioDetalle inventarioDetalle){
         return ResponseEntity.ok(inventarioDetalleService.guardar(inventarioDetalle));
-    } catch (IllegalArgumentException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
     }
     @PutMapping()
     public ResponseEntity<InventarioDetalle> update(@RequestBody InventarioDetalle inventarioDetalle){
@@ -89,5 +75,17 @@ public class InventarioDetalleController {
     public ResponseEntity<Double> reporteCostoTotalUltimosMeses(@PathVariable int meses){
         double costoTotal = inventarioDetalleService.calcularCostoTotalUltimosMeses(meses);
         return ResponseEntity.ok().body(costoTotal);
+    }
+    @GetMapping("/reporte/fecha")
+    public ResponseEntity<List<InventarioDetalle>> listarPorFecha(@PathVariable String fecha) {
+        // Convertir la fecha de String a Date o LocalDate
+        // Asumiendo el uso de LocalDate y formato yyyy-MM-dd
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fechaLocalDate = LocalDate.parse(fecha, formatter);
+
+        // Llamar al servicio para obtener los detalles filtrados por fecha
+        List<InventarioDetalle> detalles = inventarioDetalleService.listarPorFecha(java.sql.Date.valueOf(fechaLocalDate));
+
+        return ResponseEntity.ok().body(detalles);
     }
 }

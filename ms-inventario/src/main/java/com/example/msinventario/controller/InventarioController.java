@@ -26,19 +26,14 @@ public class InventarioController {
     public ResponseEntity<Inventario> save(@RequestBody Inventario inventario){
         return ResponseEntity.ok(inventarioService.guardar(inventario));
     }
-    @PutMapping()
-    public ResponseEntity<Inventario> update(@RequestBody Inventario inventario){
-        return ResponseEntity.ok(inventarioService.actualizar(inventario));
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Inventario> update(@PathVariable Integer id, @RequestBody Inventario inventario ){
+    inventario.setId(id);
+    return ResponseEntity.ok(inventarioService.actualizar(inventario));
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<String> listById(@PathVariable(required = true) Integer id){
-        Inventario inventario = inventarioService.listarPorId(id).orElse(null);
-        if (inventario != null) {
-            return ResponseEntity.ok("Este es del inventario " + id + ": " + inventario.toString());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Inventario " + id + " no encontrado");
-        }
-    }
+
     @DeleteMapping("/{id}")
     public String deleteById(@PathVariable(required = true) Integer id){ inventarioService.eliminarPorId(id);
         return "Eliminado Correctamente :3";
@@ -61,6 +56,9 @@ public class InventarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Inventario " + id + " no encontrado");
         }
     }
-
+    @GetMapping("/{id}")
+    public ResponseEntity<Inventario> listById(@PathVariable(required = true) Integer id){
+        return ResponseEntity.ok().body(inventarioService.listarPorId(id).get());
+    }
 
 }

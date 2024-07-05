@@ -32,7 +32,10 @@
                             "crypto-js/hmac-sha256",
                             "crypto-js/enc-base64",
                             "flat",
-                            "quill"
+                            "quill",
+                            "canvg",
+                            "html2canvas",
+                            "raf"
                         ],
                         "assets": [
                             "src/favicon-16x16.png",
@@ -58,7 +61,11 @@
                             "src/styles/tailwind.scss",
                             "node_modules/ngx-toastr/toastr.css"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "node_modules/quill/dist/quill.min.js",
+                            "node_modules/apexcharts/dist/apexcharts.min.js",
+                            "node_modules/crypto-js/crypto-js.js"
+                        ]
                     },
                     "configurations": {
                         "production": {
