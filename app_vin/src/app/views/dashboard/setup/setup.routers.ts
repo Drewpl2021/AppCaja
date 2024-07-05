@@ -9,6 +9,7 @@ export default [
             {path: 'client', loadChildren: () => import('./client/client.routers')},
             {path: 'personal', loadChildren: () => import('./personal/personal.routers')},
             {path: 'producto', loadChildren: () => import('./producto/producto.routers')},
+            {path: 'facturasEmitidas', loadChildren: () => import('./facturasEmitidas/facturasEmitidas.routers')},
             {path: 'proveedor', loadChildren: () => import('./proveedor/proveedor.routers')},
             {path: 'productoVendidos', loadChildren: () => import('./productosVendidos/productoVendidos.routers')},
             {path: 'generarFactura', loadChildren: () => import('./generarFactura/generarFactura.routers')},

@@ -19,6 +19,7 @@ import * as XLSX from 'xlsx';
 import * as XLSXStyle from 'xlsx-style';
 import { saveAs } from 'file-saver';
 import {ToastrService} from "ngx-toastr";
+import {ClientService} from "../../../../../../providers/services/setup/client.service";
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -45,50 +46,44 @@ const EXCEL_EXTENSION = '.xlsx';
                         <tr>
                             <th class="w-1/6 table-head text-center px-5 border-r">#</th>
                             <th class="w-2/6 table-header text-center">
-                                Producto
+                                Cliente
                             </th>
                             <th class="w-2/6 table-header text-center px-5 border-r">
                                 Serie
                             </th>
                             <th class="w-2/6 table-header text-center px-5 border-r">
-                                Cantidad
+                                IGV
+                            </th>
+                            <th class="w-2/6 table-header text-center">
+                                Sub Total
                             </th>
                             <th class="w-2/6 table-header text-center px-5 border-r">
                                 Total
-                            </th>
-                            <th class="w-2/6 table-header text-center">
-                                Precio Unitario
                             </th>
                             <th class="w-2/6 table-header text-center">
                                 Acciones
                             </th>
                         </tr>
                         </thead>
-                        <tbody *ngFor="let r of clients; let i = index;">
+                        <tbody *ngFor="let r of factura; let i = index;">
                         <tr class="hover:bg-gray-100">
                             <td class="w-1/6 p-2 text-center border-b">{{ i + 1 }}</td>
                             <td class="w-2/6 p-2 text-center border-b text-sm">
-                                <ng-container *ngFor="let a of producto">
-                                    <span *ngIf="r.productoId === a.id">{{ a.descripcion }}</span>
+                                <ng-container *ngFor="let a of clientes">
+                                    <span *ngIf="r.clienteId === a.id">{{ a.nombreRazonSocial }}</span>
                                 </ng-container>
                             </td>
-
                             <td class="w-2/6 p-2 text-center border-b text-sm">
-                                <ng-container *ngFor="let f of factura">
-                                    <span *ngIf="r.nombreVen === f.nombreVen">{{ f.serie }}</span>
-                                </ng-container> -
-                                {{ r.nombreVen }}
+                                {{ r.serie }} - {{ r.nombreVen }}
                             </td>
-                            <td class="w-2/6 p-2 text-center border-b text-sm">{{ r.cantidad }}
-                                <ng-container *ngFor="let p of producto">
-                                    <span *ngIf="r.productoId === p.id">{{ p.unidades_medida }}</span>
-                                </ng-container>
+                            <td class="w-2/6 p-2 text-center border-b text-sm">
+                                {{ r.igv }} {{ r.igv === 1 ? 'SOL' : 'SOLES' }}
+                            </td>
+                            <td class="w-2/6 p-2 text-center border-b text-sm">
+                                {{ r.subTotal }} {{ r.subTotal === 1 ? 'SOL' : 'SOLES' }}
                             </td>
                             <td class="w-2/6 p-2 text-center border-b text-sm">
                                 {{ r.total }} {{ r.total === 1 ? 'SOL' : 'SOLES' }}
-                            </td>
-                            <td class="w-2/6 p-2 text-center border-b text-sm">
-                                {{ r.precioUnitario }} {{ r.precioUnitario === 1 ? 'SOL' : 'SOLES' }}
                             </td>
                             <td class="w-2/6 p-2 text-center border-b text-sm">
                                 <div class="flex justify-center space-x-3">
@@ -106,35 +101,6 @@ const EXCEL_EXTENSION = '.xlsx';
 
 
 
-
-
-
-
-
-
-        <div id="pdf-content"  *ngFor="let client of clients">
-            <div [id]="'pdf-content-' + client.id" style="display: none;">
-
-
-                <div style="display:flex;">
-                    <div ><h1>titulo de factura</h1></div>
-
-                    <div></div>
-                </div>
-                <div *ngFor=" let f of factura;">
-                    Fecha de emicion:{{f.fecha_hora}}
-                </div>
-
-
-                <h1>Hola mundo</h1>
-                <p>Este es un parrafo</p>
-
-                <h2>Lista de Productos</h2>
-                <div style="font-size: 50px;" *ngFor="let a of producto">
-                    <span *ngIf="client.productoId === a.id">{{ a.nombre }}</span>
-                </div>
-            </div>
-        </div>
 
         <style>
             #pdf-content {
@@ -178,6 +144,7 @@ export class ClientListComponent implements OnInit {
                 private pdfViewerService: PdfViewerService,
                 private pdfGeneratorService: PDFGeneratorService,
                 private toastr: ToastrService,
+                private clienteService: ClientService,
                 private router: Router // Inyecta el Router aquí
 
     ) {}
@@ -186,6 +153,7 @@ export class ClientListComponent implements OnInit {
 
     ngOnInit() {
         this.abcForms = abcForms;
+        this.getClientes();
     }
 
 
@@ -209,6 +177,18 @@ export class ClientListComponent implements OnInit {
     public goAssign(id: number): void {
         this.eventAssign.emit(id);
     }
+    getClientes(): void {
+        this.clienteService.getAll$().subscribe(
+            (response) => {
+                this.clientes = response;
+            },
+            (error) => {
+                console.error('Error al obtener clientes', error);
+            }
+        );
+    }
+
+
 
     // Simula la carga de datos de clients
 
@@ -239,35 +219,32 @@ export class ClientListComponent implements OnInit {
             const rowData: any = {};
             const cells = row.querySelectorAll('td');
             rowData['#'] = cells[0].textContent;
-            rowData['Producto'] = cells[1].textContent;
+            rowData['Cliente'] = cells[1].textContent;
             rowData['Serie'] = cells[2].textContent;
-            rowData['Cantidad'] = cells[3].textContent;
-            rowData['Total'] = cells[4].textContent;
-            rowData['Precio Unitario'] = cells[5].textContent;
+            rowData['IGV'] = cells[3].textContent;
+            rowData['Sub Total'] = cells[4].textContent;
+            rowData['Total'] = cells[5].textContent;
             dataToExport.push(rowData);
         });
 
-        // Resumen de productos vendidos
-        const summaryData: any[] = [];
-        const productSummary: { [key: number]: number } = {};
+        // Resumen de facturas y boletas
+        let facturasCount = 0;
+        let boletasCount = 0;
+        let totalSum = 0;
 
-        this.clients.forEach(client => {
-            if (productSummary[client.productoId]) {
-                productSummary[client.productoId] += client.cantidad;
-            } else {
-                productSummary[client.productoId] = client.cantidad;
+        this.factura.forEach(fact => {
+            if (fact.serie === 'E001') {
+                facturasCount++;
+            } else if (fact.serie === 'EB01') {
+                boletasCount++;
             }
+            totalSum += Number(fact.total);
+
         });
 
-        for (const productId in productSummary) {
-            const product = this.producto.find(p => p.id === +productId);
-            if (product) {
-                summaryData.push({
-                    'Producto Vendido': product.descripcion,
-                    'Cantidad': productSummary[+productId]
-                });
-            }
-        }
+        const summaryData = [
+            { 'Boletas Emitidas': boletasCount, 'Facturas Emitidas': facturasCount, 'Total (Soles)': totalSum }
+        ];
 
         // Crear hojas de Excel
         const worksheetData: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
@@ -320,4 +297,5 @@ export class ClientListComponent implements OnInit {
         const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
         saveAs(data, `${fileName}_${new Date().getTime()}${EXCEL_EXTENSION}`);
     }
+
 }

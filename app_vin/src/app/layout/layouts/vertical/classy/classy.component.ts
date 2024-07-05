@@ -155,7 +155,14 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                     },
                     {
                         id: 'SetupProdct',
-                        title: 'Generar Factura',
+                        title: 'Gestionar Facturas Emitidas',
+                        type: 'basic',
+                        icon: 'heroicons_outline:document-text',
+                        link: '/homeScreen/setup/facturasEmitidas',
+                    },
+                    {
+                        id: 'SetupProdct',
+                        title: 'Emitir Factura',
                         type: 'basic',
                         icon: 'heroicons_outline:document-plus',
                         link: '/homeScreen/setup/generarFactura',

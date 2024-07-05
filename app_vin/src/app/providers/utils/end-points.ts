@@ -16,6 +16,7 @@ export const END_POINTS = {
       personal: 'personal',
       productosVendidos: 'productosVendidos',
       proveedor: 'proveedor',
+      facturasEmitidas: 'facturasEmitidas',
       producto: 'producto',
       productoVendidos: 'productoVendidos',
       generarFactura: 'generarFactura',
