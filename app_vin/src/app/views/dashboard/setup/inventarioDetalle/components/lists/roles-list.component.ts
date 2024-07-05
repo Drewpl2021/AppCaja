@@ -40,8 +40,8 @@ export type ChartOptions = {
         <div class="w-full mx-auto p-6 bg-white rounded overflow-hidden shadow-lg">
             <!-- Encabezado principal -->
             <div class="flex justify-between items-center mb-2 bg-slate-300 text-black p-4 rounded">
-                <h2 class="text-2xl font-bold">
-                    <span class="text-primary">Detalle De Inventarios</span>
+                <h2 class="font-bold" style="font-size: 30px;">
+                    Detalle De<span style="color: lightseagreen;"> Inventarios</span>
                 </h2>
 
             </div>
@@ -49,7 +49,7 @@ export type ChartOptions = {
             <div  class="bg-white rounded overflow-hidden shadow-lg">
                 <div class="p-2 overflow-scroll px-0">
                     <table class="w-full table-fixed">
-                        <thead class="bg-primary-600 text-white">
+                        <thead class="text-white" style="background-color: lightseagreen; font-size: 15px; height: 40px">
                             <tr>
                                 <th class="w-1/6 table-head text-center px-5 border-r">#</th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
