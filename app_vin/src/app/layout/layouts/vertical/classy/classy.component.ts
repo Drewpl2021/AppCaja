@@ -140,36 +140,29 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
                 link: '/example',
                 children: [
                     {
-                        id: 'SetupRole',
-                        title: 'Setup Role',
-                        type: 'basic',
-                        icon: 'heroicons_outline:chart-pie',
-                        link: '/homeScreen/setup/role',
-                    },
-                    {
                         id: 'SetupClient',
-                        title: 'Setup Cliente',
+                        title: 'Gestionar Cliente',
                         type: 'basic',
                         icon: 'heroicons_outline:chart-pie',
                         link: '/homeScreen/setup/client',
                     },
                     {
                         id: 'SetupProdct',
-                        title: 'Setup Factura ',
+                        title: 'Gestionar Productos Vendidos ',
                         type: 'basic',
                         icon: 'heroicons_outline:chart-pie',
                         link: '/homeScreen/setup/productoVendidos',
                     },
                     {
                         id: 'SetupProdct',
-                        title: 'Setup Factura new',
+                        title: 'Generar Factura',
                         type: 'basic',
-                        icon: 'heroicons_outline:chart-pie',
+                        icon: 'heroicons_outline:document-plus',
                         link: '/homeScreen/setup/generarFactura',
                     },
                     {
                         id: 'SetupProdct',
-                        title: 'Setup Productos',
+                        title: 'Gestionar Productos',
                         type: 'basic',
                         icon: 'heroicons_outline:chart-pie',
                         link: '/homeScreen/setup/producto',
@@ -177,14 +170,14 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
 
                     {
                         id: 'SetupProdct',
-                        title: 'Setup Proveedores',
+                        title: 'Gestionar Proveedores',
                         type: 'basic',
                         icon: 'heroicons_outline:chart-pie',
                         link: '/homeScreen/setup/proveedor',
                     },
                     {
                         id: 'SetupPersonal',
-                        title: 'Setup Personal',
+                        title: 'Gestionar Personal',
                         type: 'basic',
                         icon: 'heroicons_outline:chart-pie',
                         link: '/homeScreen/setup/personal',

@@ -366,6 +366,7 @@
             const producto = this.producto.find(p => p.id === id);
             return producto ? producto.descripcion : 'Producto no encontrado';
         }
+
         getProductoUni(id: number): string {
             const producto = this.producto.find(p => p.id === id);
             return producto ? producto.unidades_medida : 'Producto no encontrado';
@@ -911,11 +912,12 @@
 
                 const htmlContent = tipoDocumento === 'boleta' ? htmlContentBoleta : htmlContentFactura;
 
-                const clientName = this.selectedClient?.nombreRazonSocial || 'cliente';
+                const clientName = this.getSerie() || 'serie';
+                const clientLast = this.pan || 'serie';
 
                 doc.html(htmlContent, {
                     callback: (doc) => {
-                        const fileName = tipoDocumento === 'boleta' ? `Boleta_${clientName}.pdf` : `Factura_${clientName}.pdf`;
+                        const fileName = tipoDocumento === 'boleta' ? `Boleta_${clientName}-${clientLast}.pdf` : `Factura_${clientName}-${clientLast}.pdf`;
                         doc.save(fileName);
                     },
                     x: 10,

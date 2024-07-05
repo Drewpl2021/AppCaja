@@ -73,8 +73,18 @@ export class ProductoContainerComponent implements OnInit {
         }
     }
 
-    saveClient(data: Object): void {
-        this._clientService.add$(data).subscribe((response) => {
+    saveClient(data: any): void {
+        const paramsProveedor : any={};
+        const params : any={};
+        paramsProveedor.id = parseInt(data.proveedor);
+        params.proveedor = paramsProveedor;
+        params.nombre = data.nombre;
+        params.descripcion = data.descripcion;
+        params.precio = data.precio;
+        params.stock = data.stock;
+        params.unidades_medida = data.unidades_medida;
+        console.log(params);
+        this._clientService.add$(params).subscribe((response) => {
             if (response) {
                 this.getClients()
             }
@@ -105,8 +115,18 @@ export class ProductoContainerComponent implements OnInit {
         }
     }
 
-    editClient(idClient: number, data: Object) {
-        this._clientService.update$(idClient, data).subscribe((response) => {
+    editClient(idClient: number, data: any) {
+        const paramsProveedor : any={};
+        const params : any={};
+        paramsProveedor.id = parseInt(data.proveedor);
+        params.proveedor = paramsProveedor;
+        params.nombre = data.nombre;
+        params.descripcion = data.descripcion;
+        params.precio = data.precio;
+        params.stock = data.stock;
+        params.unidades_medida = data.unidades_medida;
+        console.log(params);
+        this._clientService.update$(idClient, params).subscribe((response) => {
             if (response) {
                 this.getClients()
             }

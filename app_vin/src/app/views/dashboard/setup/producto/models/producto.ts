@@ -7,6 +7,5 @@ export class Producto {
     precio?: string;
     stock?: string;
     proveedor?: string;
-
-
+    unidades_medida?: string;
 }

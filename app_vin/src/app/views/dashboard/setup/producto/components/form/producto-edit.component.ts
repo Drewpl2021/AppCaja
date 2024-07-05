@@ -44,6 +44,14 @@ import {MatDialogRef} from "@angular/material/dialog";
                 <mat-label>Precio Unitario</mat-label>
                 <input matInput formControlName="precio" />
             </mat-form-field>
+            <div>
+                <label >Unidades de Medida</label>
+                <select class="form-select" aria-label="Default select example" formControlName="unidades_medida">
+                    <option value="GALON">GALON</option>
+                    <option value="UNID">UNID</option>
+                </select>
+            </div><br>
+
             <mat-form-field>
                 <mat-label>Stock</mat-label>
                 <input matInput formControlName="stock" />
@@ -70,6 +78,7 @@ export class ProductoEditComponent implements OnInit {
         nombre: new FormControl('', [Validators.required]),
         descripcion: new FormControl('', [Validators.required]),
         precio: new FormControl('', [Validators.required]),
+        unidades_medida: new FormControl('', [Validators.required]),
         stock: new FormControl('', [Validators.required]),
         proveedor: new FormControl('', [Validators.required]),
     });

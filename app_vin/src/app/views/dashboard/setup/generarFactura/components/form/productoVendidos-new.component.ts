@@ -52,7 +52,7 @@ import {Producto} from "../../models/producto";
                         (change)="onSelectChange($event.target.value)">
                     <option value="" disabled selected>Seleccione un Producto</option>
                     <option class="custom-option" *ngFor="let r of producto" [value]="r.id">
-                        {{ r.nombre }}
+                        {{ r.descripcion }}
                     </option>
                 </select>
             </div>

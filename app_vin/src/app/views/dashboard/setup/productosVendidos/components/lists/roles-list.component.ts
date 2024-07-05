@@ -15,6 +15,12 @@ import {ProductoVendidosNewComponent} from "../form/productoVendidos-new.compone
 import {NewFacturaComponent} from "../form/factura-new.component";
 import {Clientes} from "../../models/clientes";
 import {FuseNavigationItem} from "../../../../../../../@fuse/components/navigation";
+import * as XLSX from 'xlsx';
+import * as XLSXStyle from 'xlsx-style';
+import { saveAs } from 'file-saver';
+import {ToastrService} from "ngx-toastr";
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
     selector: 'app-clients-list',
@@ -22,119 +28,80 @@ import {FuseNavigationItem} from "../../../../../../../@fuse/components/navigati
     standalone: true,
     template: `
         <div class="w-full mx-auto p-6 bg-white rounded overflow-hidden shadow-lg">
-            <!-- Encabezado principal -->
             <div class="flex justify-between items-center mb-2 bg-slate-300 text-black p-4 rounded">
-                <h2 class="text-2xl font-bold">
-                    Lista de <span class="text-primary">Facturas</span>
+                <h2 class="font-bold" style="font-size: 30px;">
+                    Lista de <span class="" style="color: lightseagreen;">Productos Vendidos</span>
                 </h2>
-                <!--<button mat-flat-button [color]="'primary'" (click)="NuevaFactura()">
-                    <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                    <span class="ml-2">Nuevo Factura</span>
-                </button>-->
-
-
-
-
-
+                <button mat-flat-button style="background-color: lightseagreen; color: white" (click)="exportTableToExcel()">
+                    <mat-icon>download</mat-icon>
+                    <span class="ml-2">Exportar a Excel</span>
+                </button>
             </div>
-
 
             <div class="bg-white rounded overflow-hidden shadow-lg">
                 <div class="p-2 overflow-scroll px-0">
-                    <table class="w-full table-fixed">
-                        <thead class="bg-primary-600 text-white">
-                            <tr>
-                                <th class="w-1/6 table-head text-center px-5 border-r">#</th>
-                                <th class="w-2/6 table-header text-center">
-                                    Serie
-                                </th>
-
-                                <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Producto
-                                </th>
-
-                                <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Cantidad
-                                </th>
-                                <th class="w-2/6 table-header text-center px-5 border-r">
-                                    Total
-                                </th>
-                                <th class="w-2/6 table-header text-center">
-                                    Precio Unitario
-                                </th>
-
-
-
-                                <th class="w-2/6 table-header text-center">
-                                    Acciones
-                                </th>
-                            </tr>
+                    <table id="dataTable" class="w-full table-fixed">
+                        <thead class="text-white" style="background-color: lightseagreen; font-size: 15px; height: 40px">
+                        <tr>
+                            <th class="w-1/6 table-head text-center px-5 border-r">#</th>
+                            <th class="w-2/6 table-header text-center">
+                                Producto
+                            </th>
+                            <th class="w-2/6 table-header text-center px-5 border-r">
+                                Serie
+                            </th>
+                            <th class="w-2/6 table-header text-center px-5 border-r">
+                                Cantidad
+                            </th>
+                            <th class="w-2/6 table-header text-center px-5 border-r">
+                                Total
+                            </th>
+                            <th class="w-2/6 table-header text-center">
+                                Precio Unitario
+                            </th>
+                            <th class="w-2/6 table-header text-center">
+                                Acciones
+                            </th>
+                        </tr>
                         </thead>
-
-                        <tbody
-                            class="bg-white"
-                            *ngFor="let r of clients; let i = index;">
-                            <tr class="hover:bg-gray-100" >
-                                <td class="w-1/6 p-2 text-center border-b" >
-                                    {{ i }}
-                                </td>
-                                <td class="w-2/6 p-2 text-center border-b text-sm">
-                                    <ng-container *ngFor="let a of producto">
-                                        <span *ngIf="r.productoId === a.id">{{ a.nombre }}</span>
-                                    </ng-container>
-                                </td>
-                                <td class="w-2/6 p-2  text-center border-b text-sm">
-                                    {{ r.nombreVen }}
-                                </td>
-                                <td class="w-2/6 p-2  text-center border-b text-sm">
-                                    {{ r.cantidad }}
-                                </td>
-                                <td class="w-2/6 p-2  text-center border-b text-sm">
-                                    {{ r.total }}
-                                </td>
-                                <td class="w-2/6 p-2  text-center border-b text-sm" >
-                                    {{ r.precioUnitario }}
-                                </td>
-
-
-                                <td class="w-2/6 p-2 text-center border-b text-sm">
-                                    <div class="flex justify-center space-x-3">
-                                        <mat-icon class="text-amber-400 hover:text-amber-500 cursor-pointer"
-                                            (click)="goEdit(r.id)">edit</mat-icon>
-
-                                        <mat-icon class="text-rose-500 hover:text-rose-600 cursor-pointer"
-                                            (click)="goDelete(r.id)">delete_sweep</mat-icon>
-                                       <!-- <mat-icon
-                                            class="text-sky-400 hover:text-sky-600 cursor-pointer"
-                                            (click)="goAssign(r.id)"
-                                            >swap_horiz
-                                        </mat-icon>-->
-                                        <button
-                                                  (click)="generatePDF(r.id)">Generar PDF</button>
-
-
-                                    </div>
-                                </td>
-                            </tr>
+                        <tbody *ngFor="let r of clients; let i = index;">
+                        <tr class="hover:bg-gray-100">
+                            <td class="w-1/6 p-2 text-center border-b">{{ i + 1 }}</td>
+                            <td class="w-2/6 p-2 text-center border-b text-sm">
+                                <ng-container *ngFor="let a of producto">
+                                    <span *ngIf="r.productoId === a.id">{{ a.descripcion }}</span>
+                                </ng-container>
+                            </td>
+                            <td class="w-2/6 p-2 text-center border-b text-sm">
+                                <ng-container *ngFor="let f of factura">
+                                    <span *ngIf="r.nombreVen === f.nombreVen">{{ f.serie }}</span>
+                                </ng-container> -
+                                {{ r.nombreVen }}
+                            </td>
+                            <td class="w-2/6 p-2 text-center border-b text-sm">{{ r.cantidad }}
+                                <ng-container *ngFor="let p of producto">
+                                    <span *ngIf="r.productoId === p.id">{{ p.unidades_medida }}</span>
+                                </ng-container>
+                            </td>
+                            <td class="w-2/6 p-2 text-center border-b text-sm">
+                                {{ r.total }} {{ r.total === 1 ? 'SOL' : 'SOLES' }}
+                            </td>
+                            <td class="w-2/6 p-2 text-center border-b text-sm">
+                                {{ r.precioUnitario }} {{ r.precioUnitario === 1 ? 'SOL' : 'SOLES' }}
+                            </td>
+                            <td class="w-2/6 p-2 text-center border-b text-sm">
+                                <div class="flex justify-center space-x-3">
+                                    <mat-icon class="text-amber-400 hover:text-amber-500 cursor-pointer" (click)="goEdit(r.id)">edit</mat-icon>
+                                    <mat-icon class="text-rose-500 hover:text-rose-600 cursor-pointer" (click)="goDelete(r.id)">delete_sweep</mat-icon>
+                                </div>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
-                    <!--<div class="px-5 py-2 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-                        <span class="text-xs xs:text-sm text-gray-900">
-                            Showing 1 to 4 of 50 Entries
-                        </span>
-                        <div class="inline-flex mt-2 xs:mt-0">
-                            <button class="text-sm text-primary-50 transition duration-150 hover:bg-primary-500 bg-primary-600 font-semibold py-2 px-4 rounded-l">
-                                Prev
-                            </button>
-                            &nbsp; &nbsp;
-                            <button class="text-sm text-primary-50 transition duration-150 hover:bg-primary-500 bg-primary-600 font-semibold py-2 px-4 rounded-r">
-                                Next
-                            </button>
-                        </div>
-                    </div>-->
                 </div>
             </div>
         </div>
+
 
 
 
@@ -209,6 +176,7 @@ export class ClientListComponent implements OnInit {
     constructor(private _matDialog: MatDialog,
                 private pdfViewerService: PdfViewerService,
                 private pdfGeneratorService: PDFGeneratorService,
+                private toastr: ToastrService,
                 private router: Router // Inyecta el Router aquí
 
     ) {}
@@ -244,21 +212,111 @@ export class ClientListComponent implements OnInit {
     // Simula la carga de datos de clients
 
 
-generatePDF(clientId: number): void {
-    const pdfContentId = 'pdf-content-' + clientId;
-    const pdfContent = document.getElementById(pdfContentId) as HTMLElement;
+    generatePDF(clientId: number): void {
+        const pdfContentId = 'pdf-content-' + clientId;
+        const pdfContent = document.getElementById(pdfContentId) as HTMLElement;
 
-    if (pdfContent) {
-        pdfContent.style.display = 'block';
+        if (pdfContent) {
+            pdfContent.style.display = 'block';
 
-        setTimeout(() => {
-            this.pdfGeneratorService.generatePDF(pdfContentId);
-            pdfContent.style.display = 'none';
-        }, 500); // Ajustar el retraso si es necesario
-    } else {
-        console.error('PDF content element not found:', pdfContentId);
+            setTimeout(() => {
+                this.pdfGeneratorService.generatePDF(pdfContentId);
+                pdfContent.style.display = 'none';
+            }, 500); // Ajustar el retraso si es necesario
+        } else {
+            console.error('PDF content element not found:', pdfContentId);
 
+        }
+    }
+    // Método para exportar los datos a Excel
+    exportTableToExcel(): void {
+        // Datos de la tabla
+        const dataToExport: any[] = [];
+        const tableRows = document.querySelectorAll('#dataTable tbody tr');
+
+        tableRows.forEach(row => {
+            const rowData: any = {};
+            const cells = row.querySelectorAll('td');
+            rowData['#'] = cells[0].textContent;
+            rowData['Producto'] = cells[1].textContent;
+            rowData['Serie'] = cells[2].textContent;
+            rowData['Cantidad'] = cells[3].textContent;
+            rowData['Total'] = cells[4].textContent;
+            rowData['Precio Unitario'] = cells[5].textContent;
+            dataToExport.push(rowData);
+        });
+
+        // Resumen de productos vendidos
+        const summaryData: any[] = [];
+        const productSummary: { [key: number]: number } = {};
+
+        this.clients.forEach(client => {
+            if (productSummary[client.productoId]) {
+                productSummary[client.productoId] += client.cantidad;
+            } else {
+                productSummary[client.productoId] = client.cantidad;
+            }
+        });
+
+        for (const productId in productSummary) {
+            const product = this.producto.find(p => p.id === +productId);
+            if (product) {
+                summaryData.push({
+                    'Producto Vendido': product.descripcion,
+                    'Cantidad': productSummary[+productId]
+                });
+            }
+        }
+
+        // Crear hojas de Excel
+        const worksheetData: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
+        const worksheetSummary: XLSX.WorkSheet = XLSX.utils.json_to_sheet(summaryData);
+
+        // Aplicar estilos
+        const headerStyle = {
+            fill: {
+                patternType: 'solid',
+                fgColor: { rgb: '6C757D' } // Color de fondo gris #6C757D
+            },
+            font: {
+                color: { rgb: 'FFFFFF' }, // Letra blanca
+                bold: true
+            }
+        };
+
+        // Aplicar estilo a los encabezados de worksheetData
+        const rangeData = XLSX.utils.decode_range(worksheetData['!ref']!);
+        for (let C = rangeData.s.c; C <= rangeData.e.c; ++C) {
+            const cell_address = XLSX.utils.encode_cell({ c: C, r: 0 });
+            if (!worksheetData[cell_address]) continue;
+            if (!worksheetData[cell_address].s) worksheetData[cell_address].s = {};
+            worksheetData[cell_address].s = headerStyle;
+        }
+
+        // Aplicar estilo a los encabezados de worksheetSummary
+        const rangeSummary = XLSX.utils.decode_range(worksheetSummary['!ref']!);
+        for (let C = rangeSummary.s.c; C <= rangeSummary.e.c; ++C) {
+            const cell_address = XLSX.utils.encode_cell({ c: C, r: 0 });
+            if (!worksheetSummary[cell_address]) continue;
+            if (!worksheetSummary[cell_address].s) worksheetSummary[cell_address].s = {};
+            worksheetSummary[cell_address].s = headerStyle;
+        }
+
+        const workbook: XLSX.WorkBook = {
+            Sheets: { 'Datos': worksheetData, 'Resumen': worksheetSummary },
+            SheetNames: ['Datos', 'Resumen']
+        };
+        const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        this.saveAsExcelFile(excelBuffer, 'clients');
+        this.toastr.success('Exportado exitosamente', '', {
+            timeOut: 5000, // Duración en milisegundos
+            progressBar: true,
+            closeButton: true
+        });
+    }
+
+    private saveAsExcelFile(buffer: any, fileName: string): void {
+        const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+        saveAs(data, `${fileName}_${new Date().getTime()}${EXCEL_EXTENSION}`);
     }
 }
-}
-

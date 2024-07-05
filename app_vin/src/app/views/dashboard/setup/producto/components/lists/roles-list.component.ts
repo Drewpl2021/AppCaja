@@ -37,6 +37,9 @@ import { MatDialog } from '@angular/material/dialog';
                                     Descipcion
                                 </th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
+                                    Unidades de Medida
+                                </th>
+                                <th class="w-2/6 table-header text-center px-5 border-r">
                                     Precio Unitario
                                 </th>
                                 <th class="w-2/6 table-header text-center px-5 border-r">
@@ -62,6 +65,9 @@ import { MatDialog } from '@angular/material/dialog';
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
                                     {{ r.descripcion }}
+                                </td>
+                                <td class="w-2/6 p-2  text-start border-b text-sm">
+                                    {{ r.unidades_medida }}
                                 </td>
                                 <td class="w-2/6 p-2  text-start border-b text-sm">
                                     {{ r.precio }}

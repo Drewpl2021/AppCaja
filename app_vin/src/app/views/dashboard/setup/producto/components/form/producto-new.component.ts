@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatSelectModule } from '@angular/material/select';
 import {
     FormControl,
     FormGroup,
@@ -44,16 +45,33 @@ import { MatInputModule } from '@angular/material/input';
             <!-- Compose form -->
             <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="clientForm">
                 <mat-form-field>
-                    <mat-label>Nombre o Razon Social</mat-label>
-                    <input matInput formControlName="nombre_razonSocial" />
+                    <mat-label>Nombre Del Producto</mat-label>
+                    <input matInput formControlName="nombre" />
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>Direccion</mat-label>
-                    <input matInput formControlName="direccion" />
+                    <mat-label>Descripcion</mat-label>
+                    <input matInput formControlName="descripcion" />
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>DNI/RUC</mat-label>
-                    <input matInput formControlName="dni_ruc" />
+                    <mat-label>Precio unitario</mat-label>
+                    <input matInput formControlName="precio" />
+                </mat-form-field>
+                <div>
+                    <label >Unidades de Medida</label>
+                    <select class="form-select" aria-label="Default select example"  formControlName="unidades_medida">
+                        <option value="" disabled selected>Seleccione un Producto</option>
+                        <option value="GALON">GALON</option>
+                        <option value="UNID">UNID</option>
+                    </select>
+                </div><br>
+
+                <mat-form-field>
+                    <mat-label>Stock</mat-label>
+                    <input matInput formControlName="stock" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Proveedor</mat-label>
+                    <input matInput formControlName="proveedor" />
                 </mat-form-field>
                 <!-- Actions -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
@@ -72,10 +90,12 @@ export class ProductoNewComponent implements OnInit {
     @Input() title: string = '';
     abcForms: any;
     clientForm = new FormGroup({
-
-        nombre_razonSocial: new FormControl('', [Validators.required]),
-        direccion: new FormControl('', [Validators.required]),
-        dni_ruc: new FormControl('', [Validators.required]),
+        nombre: new FormControl('', [Validators.required]),
+        descripcion: new FormControl('', [Validators.required]),
+        precio: new FormControl('', [Validators.required]),
+        unidades_medida: new FormControl('', [Validators.required]),
+        stock: new FormControl('', [Validators.required]),
+        proveedor: new FormControl('', [Validators.required]),
     });
 
     constructor(private _matDialog: MatDialogRef<ProductoNewComponent>) {}

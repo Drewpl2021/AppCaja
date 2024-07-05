@@ -20,8 +20,8 @@ import {MatDialogRef} from "@angular/material/dialog";
   template: `
     <div class="flex flex-col max-w-240 md:min-w-160 max-h-screen -m-6">
       <!-- Header -->
-      <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
-        <div class="text-lg font-medium" [innerHTML]="title"></div>
+      <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 text-white" style="background-color: lightseagreen;">
+        <div class="text-lg font-medium" >Editar Ventas</div>
         <button mat-icon-button (click)="cancelForm()" [tabIndex]="-1">
           <mat-icon
               class="text-current"
@@ -33,24 +33,24 @@ import {MatDialogRef} from "@angular/material/dialog";
       <!-- Compose form -->
         <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="clientForm">
             <mat-form-field>
-                <mat-label>Nombre o Razon Social</mat-label>
+                <mat-label>Producto</mat-label>
+                <input matInput formControlName="productoId" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Codigo de Factura</mat-label>
                 <input matInput formControlName="nombreVen" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Direccion</mat-label>
+                <mat-label>Cantidad</mat-label>
                 <input matInput formControlName="cantidad" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>DNI/RUC</mat-label>
-                <input matInput formControlName="total" />
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>DNI/RUC</mat-label>
+                <mat-label>Precio Unitario</mat-label>
                 <input matInput formControlName="precioUnitario" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>DNI/RUC</mat-label>
-                <input matInput formControlName="productoId" />
+                <mat-label>Total</mat-label>
+                <input matInput formControlName="total" />
             </mat-form-field>
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6">
